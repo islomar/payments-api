@@ -19,7 +19,7 @@ public abstract class SpringBootBaseFeatureTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringBootBaseFeatureTest.class);
 
     private final String SERVER_URL = "http://localhost";
-    private final String HELLO_WORLD_ENDPOINT = "/hello-world";
+    private final String ROOT_ENDPOINT = "/";
     private TestRestTemplate restTemplate;
 
     @LocalServerPort
@@ -30,6 +30,6 @@ public abstract class SpringBootBaseFeatureTest {
     }
 
     public ResponseEntity<String> helloWorld() {
-        return restTemplate.getForEntity(SERVER_URL + ":" + port + HELLO_WORLD_ENDPOINT, String.class);
+        return restTemplate.getForEntity(SERVER_URL + ":" + port + ROOT_ENDPOINT, String.class);
     }
 }
