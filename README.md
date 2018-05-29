@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/islomar/payments-api.svg)](https://travis-ci.org/islomar/payments-api)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.islomar.payments%3Apayments-api&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.islomar.payments%3Apayments-api)
 
-[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.islomar.payments%3Apayments-api&metric=alert_status)]
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.islomar.parrotter%3Aparrotter&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.islomar.parrotter%3Aparrotter)
 
 # Payments REST API
 TBD
