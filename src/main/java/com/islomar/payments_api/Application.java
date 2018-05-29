@@ -11,7 +11,7 @@ import java.util.Arrays;
 @SpringBootApplication
 public class Application {
 
-    private final static Logger LOG = LoggerFactory.getLogger(Application.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(Application.class, args);
