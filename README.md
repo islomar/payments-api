@@ -1,2 +1,4 @@
-# payments-api
-Payments REST API
+# Payments REST API
+
+## New things tried:
+* Cucumber
