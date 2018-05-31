@@ -14,8 +14,8 @@ public class HelloWorldStepDefinitions extends SpringBootBaseFeatureTest {
 
     private ResponseEntity<String> response;
 
-    @When("the client calls GET /")
-    public void the_client_calls_GET() {
+    @When("the client calls GET /hello-world")
+    public void the_client_calls_GET_hello_world() {
         this.response = helloWorld();
     }
 

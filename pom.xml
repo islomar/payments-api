@@ -29,6 +29,7 @@
             <version>${spring.boot.version}</version>
         </dependency>
 
+        <!-- this module offers production-ready features, e.g. /health -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
