@@ -30,14 +30,14 @@ The main frameworks, technologies and platforms used have been:
 * **Heroku**: 
     * The GitHub repository is connected to Heroku, as well to TravisCI (for CI).
     * Each time a push is done to the GitHub repository, it builds the application and executes all the tests (at TravisCI). If the tests execution is successful, then the deployment to Heroku is done... et voilà!!! :-)
-* **Papertrail** addon of Heroku to monitor logs.
+* **Papertrail** addon of Heroku to monitor logs. You can configure alerts to be sent to an email, for example, in case an ERROR happens.
 
 
 ## Basic Monitoring Services
 * Based in Micrometer (already included in Spring Boot).
 * Some examples in local environment:
-    * Health:   http://localhost:9001/monitor/health
-    * Info:     http://localhost:9001/monitor/info
+    * Health:   http://localhost:9000/monitor/health
+    * Info:     http://localhost:9000/monitor/info
 * Some examples in Production:
     * Health:   http://payments-api-islomar.herokuapp.com/monitor/health
     * Info:     http://payments-api-islomar.herokuapp.com/monitor/info
@@ -60,6 +60,7 @@ The main frameworks, technologies and platforms used have been:
 
 ## Next steps
 * Authentication and authorization
+* Publish monitoring endpoints on a different port
 * Secure monitoring endpoints: https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints-security
 * HTTPS
 * Serious logging and monitoring: e.g. ELK or Sentry or Prometheus+Grafana, etc.
