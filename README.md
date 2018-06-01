@@ -30,7 +30,11 @@ The main frameworks, technologies and platforms used have been:
 * **Heroku**: 
     * The GitHub repository is connected to Heroku, as well to TravisCI (for CI).
     * Each time a push is done to the GitHub repository, it builds the application and executes all the tests (at TravisCI). If the tests execution is successful, then the deployment to Heroku is done... et voilà!!! :-)
-* **Papertrail** addon of Heroku to monitor logs. You can configure alerts to be sent to an email, for example, in case an ERROR happens.
+
+
+## Logging
+* **Papertrail** addon of Heroku to read, search and monitor logs.
+* Currently, an alert is configured to send to islomar@gmail.com an email in case an ERROR happens.
 
 
 ## Basic Monitoring Services
@@ -52,14 +56,23 @@ The main frameworks, technologies and platforms used have been:
 
 ## New things tried:
 * Cucumber
+* Papertrail logging and basic alerts
 * Micrometer monitoring
 
+
 ## Pending to take a look
+* Validations
+* Swagger
 * https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-monitoring.html
 * 12factor
 
+
+## Principles
+* Decouple the domain from the frameworks. Use of DDD and hexagonal architecture. 
+
+
 ## Next steps
-* Authentication and authorization
+* Authentication and authorization: https://github.com/islomar/payments-api/issues/14
 * Publish monitoring endpoints on a different port
 * Secure monitoring endpoints: https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints-security
 * HTTPS
