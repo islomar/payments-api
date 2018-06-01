@@ -15,12 +15,19 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
 
     private ResponseEntity<String> response;
 
-    @When("the client calls GET /hello-world")
+    @When("^the client calls GET /hello-world")
     public void the_client_calls_GET_hello_world() {
         this.response = helloWorld();
     }
 
-    @Then("the client receives response status code of {int}")
+    @When("^the client calls GET /payments/(\\S+)$")
+    public void the_client_calls_GET_payments(String paymentId) {
+        // Write code here that turns the phrase above into concrete actions
+        this.response = fetchOnePayment(paymentId);
+
+    }
+
+    @Then("^the client receives response status code of (\\d+)$")
     public void the_client_receives_response_status_code_of(int httpStatusCode) {
         assertThat(this.response.getStatusCode(), is(HttpStatus.valueOf(httpStatusCode)));
     }
@@ -30,10 +37,5 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
         assertThat(this.response.getBody(), is(text));
     }
 
-    @When("the client calls GET \\/payments\\/{int}")
-    public void the_client_calls_GET_payments(Integer paymentId) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
 
-    }
 }

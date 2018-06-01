@@ -20,7 +20,7 @@ public abstract class SpringBootBaseFeatureTest {
 
     private final String SERVER_URL = "http://localhost";
     private final String HELLO_WORLD_ENDPOINT = "/hello-world";
-    private final String ROOT_ENDPOINT = "/";
+    private final String ROOT_PAYMENTS_ENDPOINT = "/payments/";
     private TestRestTemplate restTemplate;
 
     @LocalServerPort
@@ -32,5 +32,9 @@ public abstract class SpringBootBaseFeatureTest {
 
     public ResponseEntity<String> helloWorld() {
         return restTemplate.getForEntity(SERVER_URL + ":" + port + HELLO_WORLD_ENDPOINT, String.class);
+    }
+
+    public ResponseEntity<String> fetchOnePayment(String paymentId) {
+        return restTemplate.getForEntity(SERVER_URL + ":" + port + ROOT_PAYMENTS_ENDPOINT + paymentId, String.class);
     }
 }
