@@ -1,5 +1,6 @@
-package com.islomar.payments_api.end2end;
+package com.islomar.payments_api.end2end.steps;
 
+import com.islomar.payments_api.end2end.SpringBootBaseFeatureTest;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
