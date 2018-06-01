@@ -1,6 +1,5 @@
-package com.islomar.payments_api.feature;
+package com.islomar.payments_api.end2end;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
