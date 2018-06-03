@@ -12,8 +12,9 @@
     * `mvn spring-boot:run`, or
     * `mvn clean package && java -jar target/payments-api-1.0.0.jar`
 2. To check that it is up and running, you have two options:
-    * From a web browser, access http://localhost:9000/hello-world, you should see a "Hello world" message
-    * From a terminal, run `curl localhost:9000/hello-world`
+    * From a web browser, access http://localhost:9000
+    * From a terminal, run `curl localhost:9000`
+    * In either case, you should see a "The server is up and running!" message
 
 
 ## How to run the tests locally
@@ -61,6 +62,8 @@ The main frameworks, technologies and platforms used have been:
 
 
 ## Pending to take a look
+* Return Location when creating a resource: https://spring.io/guides/tutorials/bookmarks/
+* https://crunchify.com/hashmap-vs-concurrenthashmap-vs-synchronizedmap-how-a-hashmap-can-be-synchronized-in-java/
 * Validations
 * Swagger
 * https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-monitoring.html
@@ -78,3 +81,11 @@ The main frameworks, technologies and platforms used have been:
 * HTTPS
 * Serious logging and monitoring: e.g. ELK or Sentry or Prometheus+Grafana, etc.
 * Serious production environment: e.g. DigitalOcean, AWS, Google Cloud, etc.
+
+## Comments
+* The response example given is neither HAL nor HATEOAS, but something ad-hoc.
+
+## References
+* https://dzone.com/articles/spring-boot-rest-api-projects-with-code-examples
+* https://medium.com/@salisuwy/building-a-spring-boot-rest-api-a-php-developers-view-part-i-6add2e794646
+* http://www.springboottutorial.com/spring-boot-rest-api-projects-with-code-examples

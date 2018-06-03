@@ -1,4 +1,4 @@
-package com.islomar.payments_api;
+package com.islomar.payments;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 import java.util.Arrays;
 
 @SpringBootApplication
-public class Application {
+class Application {
 
     private static final Logger LOG = LoggerFactory.getLogger(Application.class);
 

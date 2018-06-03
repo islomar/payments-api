@@ -1,8 +1,7 @@
-package com.islomar.payments_api.end2end;
+package com.islomar.payments.end2end;
 
+import com.islomar.payments.api.FetchAllPaymentsResponse;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -16,12 +15,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class SpringBootBaseFeatureTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SpringBootBaseFeatureTest.class);
 
     private final String SERVER_URL = "http://localhost";
-    private final String HELLO_WORLD_ENDPOINT = "/hello-world";
-    private final String ROOT_PAYMENTS_ENDPOINT = "/payments/";
-    private TestRestTemplate restTemplate;
+    private final String VERSION_1_PAYMENTS_PATH = "/v1/payments";
+    private final TestRestTemplate restTemplate;
 
     @LocalServerPort
     protected int port;
@@ -30,11 +27,11 @@ public abstract class SpringBootBaseFeatureTest {
         restTemplate = new TestRestTemplate();
     }
 
-    public ResponseEntity<String> helloWorld() {
-        return restTemplate.getForEntity(SERVER_URL + ":" + port + HELLO_WORLD_ENDPOINT, String.class);
+    public ResponseEntity<FetchAllPaymentsResponse> fetchOnePayment(String paymentId) {
+        return restTemplate.getForEntity(SERVER_URL + ":" + port + VERSION_1_PAYMENTS_PATH + "/" + paymentId, FetchAllPaymentsResponse.class);
     }
 
-    public ResponseEntity<String> fetchOnePayment(String paymentId) {
-        return restTemplate.getForEntity(SERVER_URL + ":" + port + ROOT_PAYMENTS_ENDPOINT + paymentId, String.class);
+    public ResponseEntity<FetchAllPaymentsResponse> fetchAllPayments() {
+        return restTemplate.getForEntity(SERVER_URL + ":" + port + VERSION_1_PAYMENTS_PATH, FetchAllPaymentsResponse.class);
     }
 }

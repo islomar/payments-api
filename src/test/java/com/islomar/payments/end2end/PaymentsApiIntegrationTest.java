@@ -1,4 +1,4 @@
-package com.islomar.payments_api.end2end;
+package com.islomar.payments.end2end;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
