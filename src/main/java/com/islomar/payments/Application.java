@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 import java.util.Arrays;
 
 @SpringBootApplication
-class Application {
+public class Application {
 
     private static final Logger LOG = LoggerFactory.getLogger(Application.class);
 
