@@ -1,6 +1,6 @@
-package com.islomar.payments.api;
+package com.islomar.payments.rest_api;
 
-import com.islomar.payments.core.Payment;
+import com.islomar.payments.core.model.Payment;
 
 import java.net.URL;
 import java.util.Collections;

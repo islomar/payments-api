@@ -1,4 +1,4 @@
-package com.islomar.payments.api;
+package com.islomar.payments.rest_api;
 
 public class CreateOnePaymentResponse {
 

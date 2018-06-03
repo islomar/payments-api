@@ -1,7 +1,7 @@
 package com.islomar.payments.end2end;
 
-import com.islomar.payments.api.CreateOnePaymentResponse;
-import com.islomar.payments.api.FetchAllPaymentsResponse;
+import com.islomar.payments.rest_api.CreateOnePaymentResponse;
+import com.islomar.payments.rest_api.FetchAllPaymentsResponse;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;

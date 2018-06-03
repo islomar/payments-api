@@ -1,10 +1,10 @@
-package com.islomar.payments.api;
+package com.islomar.payments.rest_api;
 
-import com.islomar.payments.core.Payment;
+import com.islomar.payments.core.model.Payment;
+import com.islomar.payments.core.actions.CreateOnePayment;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +17,17 @@ import java.util.Collections;
 
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-public class PaymentsApiController {
+public class PaymentsRestApiController {
+
+    private final CreateOnePayment createOnePayment;
+
+    @Autowired
+    public PaymentsRestApiController(CreateOnePayment createOnePayment) {
+
+        this.createOnePayment = createOnePayment;
+    }
 
     @RequestMapping("/")
     public String index() {

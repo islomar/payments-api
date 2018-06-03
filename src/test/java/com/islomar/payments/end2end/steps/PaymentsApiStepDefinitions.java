@@ -1,8 +1,8 @@
 package com.islomar.payments.end2end.steps;
 
-import com.islomar.payments.api.CreateOnePaymentResponse;
-import com.islomar.payments.api.FetchAllPaymentsResponse;
-import com.islomar.payments.core.Payment;
+import com.islomar.payments.rest_api.CreateOnePaymentResponse;
+import com.islomar.payments.rest_api.FetchAllPaymentsResponse;
+import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.end2end.SpringBootBaseFeatureTest;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
