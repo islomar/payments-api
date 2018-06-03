@@ -1,5 +1,6 @@
 package com.islomar.payments.end2end.steps;
 
+import com.islomar.payments.api.CreateOnePaymentResponse;
 import com.islomar.payments.api.FetchAllPaymentsResponse;
 import com.islomar.payments.core.Payment;
 import com.islomar.payments.end2end.SpringBootBaseFeatureTest;
@@ -25,6 +26,7 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
     private static final String LOCALHOST = "http://localhost";
     private static final String SELF_ATTRIBUTE_KEY = "self";
     private ResponseEntity<FetchAllPaymentsResponse> response;
+    private ResponseEntity<CreateOnePaymentResponse> createResponse;
 
     @Given("^no payments exist$")
     public void noPaymentsExist() {
@@ -40,18 +42,28 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
         this.response = fetchAllPayments();
     }
 
+    @When("^the client calls POST /v1/payments$")
+    public void theClientCallsPOSTVPayments() {
+        this.createResponse = createOnePayment();
+    }
+
     @Then("^no payments are returned$")
     public void noPaymentsAreReturned() {
         List<Payment> data = response.getBody().getData();
         assertThat(data, empty());
     }
 
-    @And("^the client receives response status code of (\\d+)$")
+    @And("^it receives response status code of (\\d+)$")
     public void the_client_receives_response_status_code_of(int httpStatusCodeValue) {
         assertThat(this.response.getStatusCodeValue(), is(httpStatusCodeValue));
     }
 
-    @And("^the client receives response body text \"([^\"]*)\"$")
+    @And("^it receives response status code of (\\d+) 2$")
+    public void the_client_receives_response_status_code_of_2(int httpStatusCodeValue) {
+        assertThat(this.createResponse.getStatusCodeValue(), is(httpStatusCodeValue));
+    }
+
+    @And("^it receives response body text \"([^\"]*)\"$")
     public void theClientReceivesResponseBodyText(String text) {
         assertThat(this.response.getBody(), is(text));
     }

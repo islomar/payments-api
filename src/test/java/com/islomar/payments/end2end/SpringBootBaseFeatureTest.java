@@ -1,5 +1,6 @@
 package com.islomar.payments.end2end;
 
+import com.islomar.payments.api.CreateOnePaymentResponse;
 import com.islomar.payments.api.FetchAllPaymentsResponse;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,5 +34,10 @@ public abstract class SpringBootBaseFeatureTest {
 
     public ResponseEntity<FetchAllPaymentsResponse> fetchAllPayments() {
         return restTemplate.getForEntity(SERVER_URL + ":" + port + VERSION_1_PAYMENTS_PATH, FetchAllPaymentsResponse.class);
+    }
+
+    public ResponseEntity<CreateOnePaymentResponse> createOnePayment() {
+        CreateOnePaymentRequest createOnePaymentRequest = new CreateOnePaymentRequest(null, null, null);
+        return restTemplate.postForEntity(SERVER_URL + ":" + port + VERSION_1_PAYMENTS_PATH, createOnePaymentRequest, CreateOnePaymentResponse.class);
     }
 }
