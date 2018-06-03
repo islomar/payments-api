@@ -11,11 +11,15 @@ addons:
     token:
       secure: $SONARCLOUD_TOKEN
 
-script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+- stage: unit-test
+  script:
+    - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+  after_success:
+    - mvn clean test jacoco:report coveralls:report
 
-after_success:
-  - mvn clean test jacoco:report coveralls:report
+- stage: end2end-test
+  script:
+    - mvn clean test -Pend2end
 
 cache:
   directories:
