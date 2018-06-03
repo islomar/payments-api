@@ -22,9 +22,9 @@ public class PaymentsApiController {
     @RequestMapping(value = "/v1/payments", method = RequestMethod.GET)
     @ResponseBody
     public FetchAllPaymentsResponse fetchAllPayments(HttpServletRequest request) throws MalformedURLException {
-        ApiResponseLinks apiResponseLinks = new ApiResponseLinks();
-        apiResponseLinks.addLink("self", currentUrl(request));
-        return new FetchAllPaymentsResponse(Collections.emptyList(), apiResponseLinks);
+        FetchAllPaymentsResponse fetchAllPaymentsResponse = new FetchAllPaymentsResponse(Collections.emptyList());
+        fetchAllPaymentsResponse.addLink("self", currentUrl(request));
+        return fetchAllPaymentsResponse;
     }
 
     private URL currentUrl(HttpServletRequest request) throws MalformedURLException {

@@ -2,26 +2,34 @@ package com.islomar.payments.api;
 
 import com.islomar.payments.core.Payment;
 
+import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FetchAllPaymentsResponse {
 
     private List<Payment> data;
-    private ApiResponseLinks links;
+    private Map<String, URL> links;
 
     public FetchAllPaymentsResponse(){}
 
-    public FetchAllPaymentsResponse(List<Payment> data, ApiResponseLinks links) {
+    public FetchAllPaymentsResponse(List<Payment> data) {
 
         this.data = data;
-        this.links = links;
+        this.links = new HashMap<>();
+    }
+
+    public void addLink(String linkName, URL linkUri) {
+        links.put(linkName, linkUri);
     }
 
     public List<Payment> getData() {
         return data;
     }
 
-    public ApiResponseLinks getLinks() {
-        return links;
+    public Map<String, URL> getLinks() {
+        return Collections.unmodifiableMap(this.links);
     }
 }
