@@ -4,7 +4,6 @@ import com.islomar.payments.core.actions.CreateOnePayment;
 import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.core.model.PaymentsRepository;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 
@@ -24,7 +23,7 @@ public class CreateOnePaymentShould {
         createOnePayment = new CreateOnePayment(paymentsRepository);
     }
 
-    @Ignore
+    @Test
     public void saveValidPayment() {
         this.createOnePayment.execute(this.payment);
 

@@ -17,7 +17,6 @@ public class CreateOnePayment {
     }
 
     public void execute(Payment payment) {
-        System.out.println(this.paymentsRepository);
         this.paymentsRepository.save(payment);
     }
 }
