@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class InMemoryPaymentsRepository implements PaymentsRepository {
+public class InMemoryPaymentRepository implements PaymentsRepository {
     private List<Payment> paymentStore = new ArrayList<>();
 
     @Override
