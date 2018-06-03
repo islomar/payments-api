@@ -2,15 +2,17 @@ package com.islomar.payments.core.model;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 public class PaymentService {
 
     private final PaymentsRepository paymentsRepository;
 
-    @Autowired
-    protected ModelMapper modelMapper;
+//    @Autowired
+//    protected ModelMapper modelMapper;
 
     @Autowired
     public PaymentService(PaymentsRepository paymentsRepository) {

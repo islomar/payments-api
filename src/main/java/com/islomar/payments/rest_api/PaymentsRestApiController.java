@@ -2,6 +2,7 @@ package com.islomar.payments.rest_api;
 
 import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.core.actions.CreateOnePayment;
+import com.islomar.payments.core.model.PaymentTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +45,7 @@ public class PaymentsRestApiController {
 
     @PostMapping(value = "/v1/payments")
     @ResponseBody
-    public ResponseEntity createOnePayment(HttpServletRequest request, @RequestBody Payment payment) {
+    public ResponseEntity createOnePayment(@RequestBody PaymentTO paymentTO) {
         final HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create("http://localhost:9000/v1/payments/1"));
         return new ResponseEntity<>(new CreateOnePaymentResponse(null, null), headers, CREATED);
