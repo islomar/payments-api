@@ -1,12 +1,11 @@
 package com.islomar.payments.core.infrastructure;
 
 import com.islomar.payments.core.model.Payment;
+import com.islomar.payments.core.model.PaymentTO;
 import com.islomar.payments.core.model.PaymentsRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class InMemoryPaymentRepository implements PaymentsRepository {
@@ -25,6 +24,11 @@ public class InMemoryPaymentRepository implements PaymentsRepository {
     @Override
     public void deleteById(String paymentId) {
         this.paymentStore.remove(paymentId);
+    }
+
+    @Override
+    public List<Payment> findAll() {
+        return new ArrayList(this.paymentStore.values());
     }
 
 }

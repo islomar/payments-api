@@ -38,10 +38,11 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
     public void noPaymentsExist() {
     }
 
-    @Given("^an existing payment$")
-    public void an_existing_payment() {
-        this.paymentResponse = createOnePayment();
-        System.out.println(String.format(">>>>>> Created %s", paymentResponse.getHeaders().getLocation().toString()));
+    @Given("^it exists (\\d+) payments$")
+    public void it_exists_payments(int numberOfPayments) {
+        for (int i=0; i< numberOfPayments; i++) {
+            this.paymentResponse = createOnePayment();
+        }
     }
 
     @When("^the client calls GET /v1/payments/(\\S+)$")
@@ -76,10 +77,10 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
         this.paymentResponse = deleteOnePayment(paymentId);
     }
 
-    @Then("^no payments are returned$")
-    public void noPaymentsAreReturned() {
+    @Then("^(\\d+) payments are returned$")
+    public void payments_are_reReturned(int expectedNumberOfPaymentsReturned) throws Throwable {
         List<Payment> data = (List<Payment>) paymentResponse.getBody().getData();
-        assertThat(data, empty());
+        assertThat(data, hasSize(expectedNumberOfPaymentsReturned));
     }
 
     @And("^it receives response status code of (\\d+)$")

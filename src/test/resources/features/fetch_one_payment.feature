@@ -5,7 +5,6 @@ Feature: Fetch one payment resource
     Then it receives response status code of 404
 
   Scenario: The payment resource requested exists
-    Given an existing payment
+    Given it exists 1 payments
     When the client calls GET to the payment URI
     Then it receives response status code of 200
-    #And xxxx

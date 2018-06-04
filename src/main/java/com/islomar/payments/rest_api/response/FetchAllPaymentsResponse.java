@@ -1,6 +1,6 @@
 package com.islomar.payments.rest_api.response;
 
-import com.islomar.payments.core.model.Payment;
+import com.islomar.payments.core.model.PaymentTO;
 
 import java.net.URI;
 import java.util.Collections;
@@ -10,12 +10,12 @@ import java.util.Map;
 
 public class FetchAllPaymentsResponse implements PaymentResponse {
 
-    private List<Payment> data;
+    private List<PaymentTO> data;
     private Map<String, URI> links;
 
     public FetchAllPaymentsResponse(){}
 
-    public FetchAllPaymentsResponse(List<Payment> data) {
+    public FetchAllPaymentsResponse(List<PaymentTO> data) {
 
         this.data = data;
         this.links = new HashMap<>();
@@ -27,7 +27,7 @@ public class FetchAllPaymentsResponse implements PaymentResponse {
     }
 
     @Override
-    public List<Payment> getData() {
+    public List<PaymentTO> getData() {
         return data;
     }
 

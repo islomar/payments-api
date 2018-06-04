@@ -2,6 +2,7 @@ package com.islomar.payments.rest_api;
 
 import com.islomar.payments.core.actions.CreateOnePayment;
 import com.islomar.payments.core.actions.DeleteOnePayment;
+import com.islomar.payments.core.actions.FetchAllPayments;
 import com.islomar.payments.core.actions.FetchOnePayment;
 import com.islomar.payments.core.model.PaymentTO;
 import com.islomar.payments.core.model.exceptions.PaymentNotFoundException;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Collections;
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -30,13 +32,15 @@ public class PaymentsRestApiController {
     private final CreateOnePayment createOnePayment;
     private final FetchOnePayment fetchOnePayment;
     private final DeleteOnePayment deleteOnePayment;
+    private final FetchAllPayments fetchAllPayments;
 
     @Autowired
-    public PaymentsRestApiController(CreateOnePayment createOnePayment, FetchOnePayment fetchOnePayment, DeleteOnePayment deleteOnePayment) {
+    public PaymentsRestApiController(CreateOnePayment createOnePayment, FetchOnePayment fetchOnePayment, DeleteOnePayment deleteOnePayment, FetchAllPayments fetchAllPayments) {
 
         this.createOnePayment = createOnePayment;
         this.fetchOnePayment = fetchOnePayment;
         this.deleteOnePayment = deleteOnePayment;
+        this.fetchAllPayments = fetchAllPayments;
     }
 
     @RequestMapping("/")
@@ -47,7 +51,9 @@ public class PaymentsRestApiController {
     @GetMapping(value = "/v1/payments")
     @ResponseBody
     public FetchAllPaymentsResponse fetchAllPayments(HttpServletRequest request) {
-        FetchAllPaymentsResponse fetchAllPaymentsResponse = new FetchAllPaymentsResponse(Collections.emptyList());
+        List<PaymentTO> allPayments = this.fetchAllPayments.execute();
+
+        FetchAllPaymentsResponse fetchAllPaymentsResponse = new FetchAllPaymentsResponse(allPayments);
         fetchAllPaymentsResponse.addLink("self", currentUrl(request));
         return fetchAllPaymentsResponse;
     }
