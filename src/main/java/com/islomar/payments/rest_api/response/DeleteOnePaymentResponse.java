@@ -20,6 +20,6 @@ public class DeleteOnePaymentResponse implements PaymentResponse {
 
     @Override
     public void addLink(String linkName, URI linkUri) {
-
+        //TODO Look for an alternative for this class, since its only use is the tests
     }
 }

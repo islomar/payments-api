@@ -24,19 +24,16 @@ public class PaymentService {
     public PaymentTO save(PaymentTO paymentTO) {
         //Payment payment = modelMapper.map(paymentTO, Payment.class);
         String paymentId = this.generatePaymentId();
-        System.out.println(String.format(">>>>> Created id %s", paymentId));
         Payment payment = new Payment(paymentId);
         this.paymentsRepository.save(payment);
         PaymentTO createdPaymentTO = new PaymentTO(paymentId, null, null, null);
-        System.out.println(String.format(">>>>> Saved with id %s", paymentId));
         return createdPaymentTO;
     }
 
     public PaymentTO findById(String paymentId) {
         Optional<Payment> payment = this.paymentsRepository.findById(paymentId);
         raiseExceptionIfPaymentNotFound(payment);
-        PaymentTO foundPaymentTO = new PaymentTO(paymentId, null, null, null);
-        return foundPaymentTO;
+        return new PaymentTO(paymentId, null, null, null);
     }
 
     public void delete(String paymentId) {

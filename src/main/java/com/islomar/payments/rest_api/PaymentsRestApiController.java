@@ -3,9 +3,7 @@ package com.islomar.payments.rest_api;
 import com.islomar.payments.core.actions.CreateOnePayment;
 import com.islomar.payments.core.actions.DeleteOnePayment;
 import com.islomar.payments.core.actions.FetchOnePayment;
-import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.core.model.PaymentTO;
-import com.islomar.payments.core.model.PaymentsRepository;
 import com.islomar.payments.core.model.exceptions.PaymentNotFoundException;
 import com.islomar.payments.rest_api.response.FetchAllPaymentsResponse;
 import com.islomar.payments.rest_api.response.FetchOrCreateOnePaymentResponse;
@@ -20,15 +18,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
 import java.util.Collections;
-import java.util.Optional;
 
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 public class PaymentsRestApiController {
