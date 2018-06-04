@@ -71,6 +71,11 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
         this.paymentResponse = deleteOnePayment(existingPayment.getId());
     }
 
+    @When("^the client calls DELETE /v1/payments/(\\S+)$")
+    public void theClientCallsDELETEVPaymentsAnyUnknownId(String paymentId) {
+        this.paymentResponse = deleteOnePayment(paymentId);
+    }
+
     @Then("^no payments are returned$")
     public void noPaymentsAreReturned() {
         List<Payment> data = (List<Payment>) paymentResponse.getBody().getData();
@@ -129,5 +134,4 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
         Pattern pattern = Pattern.compile(LOCALHOST + ":" + this.port + V1_PAYMENTS_API_PATH + "/(.+)");
         return pattern.matcher(resourceLocation.toString());
     }
-
 }

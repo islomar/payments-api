@@ -1,8 +1,8 @@
 Feature: Delete one payment resource
 
-  #Scenario: The payment resource to be deleted does not exist
-  #  When the client calls DELETE /v1/payments/any-unknown-id
-  #  Then it receives response status code of 404
+  Scenario: The payment resource to be deleted does not exist
+    When the client calls DELETE /v1/payments/any-unknown-id
+    Then it receives response status code of 404
 
   Scenario: The payment resource to be deleted exists
     Given an existing payment
