@@ -61,7 +61,7 @@ public class PaymentsRestApiController {
 
     @ExceptionHandler({Exception.class})
     void handleInternalServerError(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
-        LOGGER.error(request.getMethod() + " request: " + request.getRequestURL() + " raised " + ex);
+        LOGGER.error("{} request: {} raised {}", request.getMethod(), request.getRequestURL(), ex);
         response.sendError(INTERNAL_SERVER_ERROR.value());
     }
 }
