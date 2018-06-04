@@ -32,10 +32,11 @@ public class PaymentService {
         return createdPaymentTO;
     }
 
-    public Payment findById(String paymentId) {
+    public PaymentTO findById(String paymentId) {
         Optional<Payment> payment = paymentsRepository.findById(paymentId);
         raiseExceptionIfPaymentNotFound(payment);
-        return payment.get();
+        PaymentTO foundPaymentTO = new PaymentTO(paymentId, null, null, null);
+        return foundPaymentTO;
     }
 
     private void raiseExceptionIfPaymentNotFound(Optional<Payment> payment) {

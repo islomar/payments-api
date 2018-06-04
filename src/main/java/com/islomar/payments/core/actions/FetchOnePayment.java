@@ -20,7 +20,7 @@ public class FetchOnePayment {
         this.paymentService = paymentService;
     }
 
-    public Payment execute(String paymentId) {
+    public PaymentTO execute(String paymentId) {
         return paymentService.findById(paymentId);
     }
 

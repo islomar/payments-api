@@ -17,7 +17,6 @@ public class CreateOnePaymentShould {
 
     @Mock private PaymentService paymentService;
     @Mock private PaymentTO paymentTO;
-    @Mock private Payment payment;
     private CreateOnePayment createOnePayment;
 
     @Before
@@ -35,10 +34,10 @@ public class CreateOnePaymentShould {
 
     @Test
     public void returnsTheCreatedPayment() {
-        given(paymentService.save(this.paymentTO)).willReturn(this.payment);
+        given(paymentService.save(this.paymentTO)).willReturn(this.paymentTO);
 
-        Payment createdPayment = this.createOnePayment.execute(this.paymentTO);
+        PaymentTO createdPayment = this.createOnePayment.execute(this.paymentTO);
 
-        assertThat(createdPayment, is(this.payment));
+        assertThat(createdPayment, is(this.paymentTO));
     }
 }

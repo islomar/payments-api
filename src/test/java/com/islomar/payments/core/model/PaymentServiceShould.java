@@ -33,7 +33,7 @@ public class PaymentServiceShould {
 
     @Test
     public void returnsPaymentIdWithUUIDformat() {
-        Payment payment = this.paymentService.save(this.paymentTO);
+        PaymentTO payment = this.paymentService.save(this.paymentTO);
         String paymentId = payment.getId();
         try {
             UUID.fromString(paymentId);

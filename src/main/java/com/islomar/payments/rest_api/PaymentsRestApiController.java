@@ -58,12 +58,12 @@ public class PaymentsRestApiController {
 
     @GetMapping(value = "/v1/payments/{paymentId}")
     @ResponseBody
-    public FetchOrCreateOnePaymentResponse fetchOnePayment(HttpServletRequest request, @PathVariable String paymentId) throws MalformedURLException {
-        LOGGER.info("Searching for paymentId {} {}", "xxx", paymentId);
-        Payment payment = this.fetchOnePayment.execute(paymentId);
+    public FetchOrCreateOnePaymentResponse fetchOnePayment(HttpServletRequest request, @PathVariable String paymentId) {
+        PaymentTO payment = this.fetchOnePayment.execute(paymentId);
+
         URI paymentUri = URI.create(currentUrl(request) + "/" + payment.getId());
         FetchOrCreateOnePaymentResponse response = new FetchOrCreateOnePaymentResponse(new PaymentTO(paymentId,null, null, null));
-        response.addLink("self", paymentUri);
+        fillResponseWithLinks(response, paymentUri);
         return response;
     }
 
@@ -73,7 +73,7 @@ public class PaymentsRestApiController {
         PaymentTO createdPaymentTO = createOnePayment.execute(inputPaymentTO);
         System.out.println(String.format(">>>>>>> paymentId = %s", createdPaymentTO.getId()));
 
-        URI paymentUri = URI.create(currentUrl(request) + "/" + createdPaymentTO.getId());
+        URI paymentUri = buildPaymentURI(request, createdPaymentTO);
         FetchOrCreateOnePaymentResponse response = new FetchOrCreateOnePaymentResponse(new PaymentTO(createdPaymentTO.getId(), null, null, null));
         fillResponseWithLinks(response, paymentUri);
         HttpHeaders headers = generateHeadersWithLocation(paymentUri);
@@ -89,8 +89,8 @@ public class PaymentsRestApiController {
         response.addLink("self", paymentUri);
     }
 
-    private URI buildPaymentURI(HttpServletRequest request, Payment payment) {
-        return URI.create(currentUrl(request) + "/" + payment.getId());
+    private URI buildPaymentURI(HttpServletRequest request, PaymentTO paymentTO) {
+        return URI.create(currentUrl(request) + "/" + paymentTO.getId());
     }
 
     private HttpHeaders generateHeadersWithLocation(URI paymentUri) {
