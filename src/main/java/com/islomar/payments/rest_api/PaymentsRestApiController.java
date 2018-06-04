@@ -3,6 +3,8 @@ package com.islomar.payments.rest_api;
 import com.islomar.payments.core.actions.CreateOnePayment;
 import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.core.model.PaymentTO;
+import com.islomar.payments.rest_api.response.FetchAllPaymentsResponse;
+import com.islomar.payments.rest_api.response.FetchOrCreateOnePaymentResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,11 +50,13 @@ public class PaymentsRestApiController {
 
     @PostMapping(value = "/v1/payments")
     @ResponseBody
-    public ResponseEntity createOnePayment(HttpServletRequest request, @RequestBody PaymentTO paymentTO) {
+    public ResponseEntity createOnePayment(HttpServletRequest request, @RequestBody PaymentTO paymentTO) throws MalformedURLException {
         Payment payment = createOnePayment.execute(paymentTO);
         final HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(request.getRequestURL() + "/" + payment.getId()));
-        return new ResponseEntity<>(new CreateOnePaymentResponse(null, null), headers, CREATED);
+        headers.setLocation(URI.create(currentUrl(request) + "/" + payment.getId()));
+        FetchOrCreateOnePaymentResponse response = new FetchOrCreateOnePaymentResponse(new PaymentTO(null, null, null));
+        response.addLink("self", currentUrl(request));
+        return new ResponseEntity<>(response, headers, CREATED);
     }
 
     private URL currentUrl(HttpServletRequest request) throws MalformedURLException {

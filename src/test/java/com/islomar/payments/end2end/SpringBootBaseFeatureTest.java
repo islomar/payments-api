@@ -1,7 +1,7 @@
 package com.islomar.payments.end2end;
 
-import com.islomar.payments.rest_api.CreateOnePaymentResponse;
-import com.islomar.payments.rest_api.FetchAllPaymentsResponse;
+import com.islomar.payments.rest_api.response.FetchAllPaymentsResponse;
+import com.islomar.payments.rest_api.response.FetchOrCreateOnePaymentResponse;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -28,16 +28,16 @@ public abstract class SpringBootBaseFeatureTest {
         restTemplate = new TestRestTemplate();
     }
 
-    public ResponseEntity<FetchAllPaymentsResponse> fetchOnePayment(String paymentId) {
-        return restTemplate.getForEntity(SERVER_URL + ":" + port + VERSION_1_PAYMENTS_PATH + "/" + paymentId, FetchAllPaymentsResponse.class);
+    public ResponseEntity<FetchOrCreateOnePaymentResponse> fetchOnePayment(String paymentId) {
+        return restTemplate.getForEntity(SERVER_URL + ":" + port + VERSION_1_PAYMENTS_PATH + "/" + paymentId, FetchOrCreateOnePaymentResponse.class);
     }
 
     public ResponseEntity<FetchAllPaymentsResponse> fetchAllPayments() {
         return restTemplate.getForEntity(SERVER_URL + ":" + port + VERSION_1_PAYMENTS_PATH, FetchAllPaymentsResponse.class);
     }
 
-    public ResponseEntity<CreateOnePaymentResponse> createOnePayment() {
+    public ResponseEntity<FetchOrCreateOnePaymentResponse> createOnePayment() {
         CreateOnePaymentRequest createOnePaymentRequest = new CreateOnePaymentRequest(null, null, null);
-        return restTemplate.postForEntity(SERVER_URL + ":" + port + VERSION_1_PAYMENTS_PATH, createOnePaymentRequest, CreateOnePaymentResponse.class);
+        return restTemplate.postForEntity(SERVER_URL + ":" + port + VERSION_1_PAYMENTS_PATH, createOnePaymentRequest, FetchOrCreateOnePaymentResponse.class);
     }
 }

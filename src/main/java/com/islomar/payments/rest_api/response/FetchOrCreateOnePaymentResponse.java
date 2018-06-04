@@ -1,21 +1,20 @@
-package com.islomar.payments.rest_api;
+package com.islomar.payments.rest_api.response;
 
-import com.islomar.payments.core.model.Payment;
+import com.islomar.payments.core.model.PaymentTO;
 
 import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class FetchAllPaymentsResponse {
+public class FetchOrCreateOnePaymentResponse implements PaymentResponse {
 
-    private List<Payment> data;
+    private PaymentTO data;
     private Map<String, URL> links;
 
-    public FetchAllPaymentsResponse(){}
+    public FetchOrCreateOnePaymentResponse(){}
 
-    public FetchAllPaymentsResponse(List<Payment> data) {
+    public FetchOrCreateOnePaymentResponse(PaymentTO data) {
 
         this.data = data;
         this.links = new HashMap<>();
@@ -25,10 +24,12 @@ public class FetchAllPaymentsResponse {
         links.put(linkName, linkUri);
     }
 
-    public List<Payment> getData() {
+    @Override
+    public PaymentTO getData() {
         return data;
     }
 
+    @Override
     public Map<String, URL> getLinks() {
         return Collections.unmodifiableMap(this.links);
     }
