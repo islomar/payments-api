@@ -1,10 +1,11 @@
 package com.islomar.payments.rest_api.response;
 
-import java.net.URL;
+import java.net.URI;
 import java.util.Map;
 
 public interface PaymentResponse {
 
     Object getData();
-    Map<String, URL> getLinks();
+    Map<String, URI> getLinks();
+    void addLink(String linkName, URI linkUri);
 }

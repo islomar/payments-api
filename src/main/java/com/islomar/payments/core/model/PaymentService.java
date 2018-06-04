@@ -1,8 +1,10 @@
 package com.islomar.payments.core.model;
 
+import com.islomar.payments.core.model.exceptions.PaymentNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -19,14 +21,28 @@ public class PaymentService {
         this.paymentsRepository = paymentsRepository;
     }
 
-    public Payment save(PaymentTO paymentTO) {
+    public PaymentTO save(PaymentTO paymentTO) {
         //Payment payment = modelMapper.map(paymentTO, Payment.class);
         String paymentId = this.generatePaymentId();
+        System.out.println(String.format(">>>>> Created id %s", paymentId));
         Payment payment = new Payment(paymentId);
         this.paymentsRepository.save(payment);
-        return payment;
+        PaymentTO createdPaymentTO = new PaymentTO(paymentId, null, null, null);
+        System.out.println(String.format(">>>>> Saved with id %s", paymentId));
+        return createdPaymentTO;
     }
 
+    public Payment findById(String paymentId) {
+        Optional<Payment> payment = paymentsRepository.findById(paymentId);
+        raiseExceptionIfPaymentNotFound(payment);
+        return payment.get();
+    }
+
+    private void raiseExceptionIfPaymentNotFound(Optional<Payment> payment) {
+        if (!payment.isPresent()) {
+            throw new PaymentNotFoundException();
+        }
+    }
 
 
     private String generatePaymentId() {

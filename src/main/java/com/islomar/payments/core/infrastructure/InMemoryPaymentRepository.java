@@ -4,16 +4,22 @@ import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.core.model.PaymentsRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class InMemoryPaymentRepository implements PaymentsRepository {
-    private List<Payment> paymentStore = new ArrayList<>();
+    private Map<String, Payment> paymentStore = new HashMap<>();
 
     @Override
     public void save(Payment payment) {
-        paymentStore.add(payment);
+        paymentStore.put(payment.getId(), payment);
+    }
+
+    @Override
+    public Optional<Payment> findById(String paymentId) {
+        return Optional.ofNullable(paymentStore.get(paymentId));
     }
 
 }

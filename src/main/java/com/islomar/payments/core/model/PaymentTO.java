@@ -3,13 +3,15 @@ package com.islomar.payments.core.model;
 import java.util.Map;
 
 public class PaymentTO {
+    private String id;
     private String type;
     private String organisationId;
     private Map<String, Object> attributes;
 
     public PaymentTO(){}
 
-    public PaymentTO(String type, String organisationId, Map<String, Object> attributes) {
+    public PaymentTO(String id, String type, String organisationId, Map<String, Object> attributes) {
+        this.id = id;
         this.type = type;
         this.organisationId = organisationId;
         this.attributes = attributes;
@@ -27,4 +29,7 @@ public class PaymentTO {
         return attributes;
     }
 
+    public String getId() {
+        return id;
+    }
 }

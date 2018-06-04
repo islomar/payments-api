@@ -1,6 +1,7 @@
 package com.islomar.payments.end2end.steps;
 
 import com.islomar.payments.core.model.Payment;
+import com.islomar.payments.core.model.PaymentTO;
 import com.islomar.payments.end2end.SpringBootBaseFeatureTest;
 import com.islomar.payments.rest_api.response.PaymentResponse;
 import cucumber.api.java.en.And;
@@ -30,8 +31,7 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
     private static final String V1_PAYMENTS_API_PATH = "/v1/payments";
     private static final String SELF_ATTRIBUTE_KEY = "self";
     private ResponseEntity<? extends PaymentResponse> paymentResponse;
-    //private ResponseEntity<FetchOrCreateOnePaymentResponse> createResponse;
-    //private ResponseEntity<? extends PaymentResponse> lastResponse;
+
 
     @Given("^no payments exist$")
     public void noPaymentsExist() {
@@ -40,6 +40,7 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
     @Given("^an existing payment$")
     public void an_existing_payment() {
         this.paymentResponse = createOnePayment();
+        System.out.println(String.format(">>>>>> Created %s", paymentResponse.getHeaders().getLocation().toString()));
     }
 
     @When("^the client calls GET /v1/payments/(\\S+)$")
@@ -49,7 +50,10 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
 
     @When("^the client calls GET to the payment URI$")
     public void the_client_calls_GET_to_the_payment_URI() {
-        this.paymentResponse = fetchOnePayment(this.paymentResponse.getHeaders().getLocation().toString());
+        System.out.println(String.format(">>>>>> Fetching %s", paymentResponse.getHeaders().getLocation().toString()));
+        PaymentTO payment = (PaymentTO)this.paymentResponse.getBody().getData();
+        System.out.println(String.format(">>>>>> {}", payment.getId()));
+        this.paymentResponse = fetchOnePayment(payment.getId());
     }
 
     @When("^the client calls GET /v1/payments$")
@@ -89,13 +93,13 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
     }
 
     @And("^the links attribute contains a self to ([^\"]*)$")
-    public void the_links_attribute_contains_a_self_to_all_payments_uri(String path) throws MalformedURLException {
-        Map<String, URL> links = paymentResponse.getBody().getLinks();
+    public void the_links_attribute_contains_a_self_to_all_payments_uri(String path) {
+        Map<String, URI> links = paymentResponse.getBody().getLinks();
         assertNotNull("Missing 'links' attribute", links);
         assertThat("Missing 'self' attribute", links, hasKey(SELF_ATTRIBUTE_KEY));
 
-        URL expectedUrl= new URL(LOCALHOST + ":" + this.port + path);
-        assertThat(links, hasEntry(SELF_ATTRIBUTE_KEY, expectedUrl));
+        URI expectedUri= URI.create(LOCALHOST + ":" + this.port + path);
+        assertThat(links, hasEntry(SELF_ATTRIBUTE_KEY, expectedUri));
     }
 
     @And("^it receives the resource URI in the Location header$")

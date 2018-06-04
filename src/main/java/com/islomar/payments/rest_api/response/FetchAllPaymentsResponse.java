@@ -2,7 +2,7 @@ package com.islomar.payments.rest_api.response;
 
 import com.islomar.payments.core.model.Payment;
 
-import java.net.URL;
+import java.net.URI;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Map;
 public class FetchAllPaymentsResponse implements PaymentResponse {
 
     private List<Payment> data;
-    private Map<String, URL> links;
+    private Map<String, URI> links;
 
     public FetchAllPaymentsResponse(){}
 
@@ -21,7 +21,8 @@ public class FetchAllPaymentsResponse implements PaymentResponse {
         this.links = new HashMap<>();
     }
 
-    public void addLink(String linkName, URL linkUri) {
+    @Override
+    public void addLink(String linkName, URI linkUri) {
         links.put(linkName, linkUri);
     }
 
@@ -31,7 +32,7 @@ public class FetchAllPaymentsResponse implements PaymentResponse {
     }
 
     @Override
-    public Map<String, URL> getLinks() {
+    public Map<String, URI> getLinks() {
         return Collections.unmodifiableMap(this.links);
     }
 }
