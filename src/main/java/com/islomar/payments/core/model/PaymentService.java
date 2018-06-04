@@ -33,20 +33,25 @@ public class PaymentService {
     }
 
     public PaymentTO findById(String paymentId) {
-        Optional<Payment> payment = paymentsRepository.findById(paymentId);
+        Optional<Payment> payment = this.paymentsRepository.findById(paymentId);
         raiseExceptionIfPaymentNotFound(payment);
         PaymentTO foundPaymentTO = new PaymentTO(paymentId, null, null, null);
         return foundPaymentTO;
+    }
+
+    public void delete(String paymentId) {
+        Optional<Payment> payment = paymentsRepository.findById(paymentId);
+        raiseExceptionIfPaymentNotFound(payment);
+        this.paymentsRepository.deleteById(paymentId);
+    }
+
+    private String generatePaymentId() {
+        return UUID.randomUUID().toString();
     }
 
     private void raiseExceptionIfPaymentNotFound(Optional<Payment> payment) {
         if (!payment.isPresent()) {
             throw new PaymentNotFoundException();
         }
-    }
-
-
-    private String generatePaymentId() {
-        return UUID.randomUUID().toString();
     }
 }

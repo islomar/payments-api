@@ -4,6 +4,7 @@ import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.core.model.PaymentTO;
 import com.islomar.payments.end2end.SpringBootBaseFeatureTest;
 import com.islomar.payments.rest_api.response.PaymentResponse;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -50,10 +51,8 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
 
     @When("^the client calls GET to the payment URI$")
     public void the_client_calls_GET_to_the_payment_URI() {
-        System.out.println(String.format(">>>>>> Fetching %s", paymentResponse.getHeaders().getLocation().toString()));
-        PaymentTO payment = (PaymentTO)this.paymentResponse.getBody().getData();
-        System.out.println(String.format(">>>>>> {}", payment.getId()));
-        this.paymentResponse = fetchOnePayment(payment.getId());
+        PaymentTO existingPayment = (PaymentTO)this.paymentResponse.getBody().getData();
+        this.paymentResponse = fetchOnePayment(existingPayment.getId());
     }
 
     @When("^the client calls GET /v1/payments$")
@@ -64,6 +63,12 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
     @When("^the client calls POST /v1/payments$")
     public void theClientCallsPOSTVPayments() {
         this.paymentResponse = createOnePayment();
+    }
+
+    @When("^the client calls DELETE to the payment URI$")
+    public void theClientCallsDELETEToThePaymentURI() {
+        PaymentTO existingPayment = (PaymentTO)this.paymentResponse.getBody().getData();
+        this.paymentResponse = deleteOnePayment(existingPayment.getId());
     }
 
     @Then("^no payments are returned$")

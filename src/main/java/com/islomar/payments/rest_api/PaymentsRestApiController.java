@@ -1,6 +1,7 @@
 package com.islomar.payments.rest_api;
 
 import com.islomar.payments.core.actions.CreateOnePayment;
+import com.islomar.payments.core.actions.DeleteOnePayment;
 import com.islomar.payments.core.actions.FetchOnePayment;
 import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.core.model.PaymentTO;
@@ -35,12 +36,14 @@ public class PaymentsRestApiController {
 
     private final CreateOnePayment createOnePayment;
     private final FetchOnePayment fetchOnePayment;
+    private final DeleteOnePayment deleteOnePayment;
 
     @Autowired
-    public PaymentsRestApiController(CreateOnePayment createOnePayment, FetchOnePayment fetchOnePayment) {
+    public PaymentsRestApiController(CreateOnePayment createOnePayment, FetchOnePayment fetchOnePayment, DeleteOnePayment deleteOnePayment) {
 
         this.createOnePayment = createOnePayment;
         this.fetchOnePayment = fetchOnePayment;
+        this.deleteOnePayment = deleteOnePayment;
     }
 
     @RequestMapping("/")
@@ -59,9 +62,9 @@ public class PaymentsRestApiController {
     @GetMapping(value = "/v1/payments/{paymentId}")
     @ResponseBody
     public FetchOrCreateOnePaymentResponse fetchOnePayment(HttpServletRequest request, @PathVariable String paymentId) {
-        PaymentTO payment = this.fetchOnePayment.execute(paymentId);
+        PaymentTO paymentTO = this.fetchOnePayment.execute(paymentId);
 
-        URI paymentUri = URI.create(currentUrl(request) + "/" + payment.getId());
+        URI paymentUri = buildPaymentURI(request, paymentTO);
         FetchOrCreateOnePaymentResponse response = new FetchOrCreateOnePaymentResponse(new PaymentTO(paymentId,null, null, null));
         fillResponseWithLinks(response, paymentUri);
         return response;
@@ -71,14 +74,22 @@ public class PaymentsRestApiController {
     @ResponseBody
     public ResponseEntity createOnePayment(HttpServletRequest request, @RequestBody PaymentTO inputPaymentTO) {
         PaymentTO createdPaymentTO = createOnePayment.execute(inputPaymentTO);
-        System.out.println(String.format(">>>>>>> paymentId = %s", createdPaymentTO.getId()));
 
         URI paymentUri = buildPaymentURI(request, createdPaymentTO);
         FetchOrCreateOnePaymentResponse response = new FetchOrCreateOnePaymentResponse(new PaymentTO(createdPaymentTO.getId(), null, null, null));
         fillResponseWithLinks(response, paymentUri);
+
         HttpHeaders headers = generateHeadersWithLocation(paymentUri);
 
         return new ResponseEntity<>(response, headers, CREATED);
+    }
+
+    @DeleteMapping(value = "/v1/payments/{paymentId}")
+    @ResponseBody
+    public ResponseEntity deleteOnePayment(HttpServletRequest request, @PathVariable String paymentId) {
+        this.deleteOnePayment.execute(paymentId);
+
+        return ResponseEntity.noContent().build();
     }
 
     private URI currentUrl(HttpServletRequest request) {
@@ -106,7 +117,7 @@ public class PaymentsRestApiController {
     }
 
     @ExceptionHandler({PaymentNotFoundException.class})
-    void handleNotFoundError(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
+    void handleNotFoundError(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.sendError(NOT_FOUND.value());
     }
 }

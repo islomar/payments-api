@@ -22,4 +22,9 @@ public class InMemoryPaymentRepository implements PaymentsRepository {
         return Optional.ofNullable(paymentStore.get(paymentId));
     }
 
+    @Override
+    public void deleteById(String paymentId) {
+        this.paymentStore.remove(paymentId);
+    }
+
 }
