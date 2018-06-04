@@ -1,5 +1,7 @@
 package com.islomar.payments.core.model;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.util.Map;
 
 public class PaymentTO {
@@ -31,5 +33,26 @@ public class PaymentTO {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setOrganisationId(String organisationId) {
+        this.organisationId = organisationId;
+    }
+
+    public void setAttributes(Map<String, Object> attributes) {
+        this.attributes = attributes;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

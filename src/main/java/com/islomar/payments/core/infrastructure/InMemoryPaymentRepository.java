@@ -1,7 +1,6 @@
 package com.islomar.payments.core.infrastructure;
 
 import com.islomar.payments.core.model.Payment;
-import com.islomar.payments.core.model.PaymentTO;
 import com.islomar.payments.core.model.PaymentsRepository;
 import org.springframework.stereotype.Repository;
 

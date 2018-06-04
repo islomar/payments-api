@@ -3,17 +3,17 @@ package com.islomar.payments.end2end.steps;
 import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.core.model.PaymentTO;
 import com.islomar.payments.end2end.SpringBootBaseFeatureTest;
+import com.islomar.payments.rest_api.response.FetchAllPaymentsResponse;
 import com.islomar.payments.rest_api.response.PaymentResponse;
-import cucumber.api.PendingException;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.springframework.http.ResponseEntity;
 
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -33,6 +33,19 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
     private static final String SELF_ATTRIBUTE_KEY = "self";
     private ResponseEntity<? extends PaymentResponse> paymentResponse;
 
+
+    @Before
+    public void setUp(){
+        deleteAllPayments();
+    }
+
+    private void deleteAllPayments() {
+        ResponseEntity<FetchAllPaymentsResponse> allPaymentsResponse = fetchAllPayments();
+        List<PaymentTO> allPaymentTOs = allPaymentsResponse.getBody().getData();
+        for (PaymentTO paymentTO : allPaymentTOs) {
+            deleteOnePayment(paymentTO.getId());
+        }
+    }
 
     @Given("^no payments exist$")
     public void noPaymentsExist() {
@@ -85,11 +98,6 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
 
     @And("^it receives response status code of (\\d+)$")
     public void the_client_receives_response_status_code_of(int httpStatusCodeValue) {
-        assertThat(this.paymentResponse.getStatusCodeValue(), is(httpStatusCodeValue));
-    }
-
-    @And("^it receives response status code of (\\d+) 2$")
-    public void the_client_receives_response_status_code_of_2(int httpStatusCodeValue) {
         assertThat(this.paymentResponse.getStatusCodeValue(), is(httpStatusCodeValue));
     }
 

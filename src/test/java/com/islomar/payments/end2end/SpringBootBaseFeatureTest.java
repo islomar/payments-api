@@ -5,6 +5,10 @@ import com.islomar.payments.rest_api.response.DeleteOnePaymentResponse;
 import com.islomar.payments.rest_api.response.FetchAllPaymentsResponse;
 import com.islomar.payments.rest_api.response.FetchOrCreateOnePaymentResponse;
 import com.islomar.payments.rest_api.response.PaymentResponse;
+import cucumber.api.java.Before;
+
+
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
