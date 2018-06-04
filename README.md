@@ -133,6 +133,9 @@ The main frameworks, technologies and platforms used have been:
 ### Hypermedia
 * https://spring.io/guides/gs/rest-hateoas/
 
+### Exception handling
+* http://www.springboottutorial.com/spring-boot-exception-handling-for-rest-services
+* https://www.toptal.com/java/spring-boot-rest-api-error-handling
 
 
 ### Persistence

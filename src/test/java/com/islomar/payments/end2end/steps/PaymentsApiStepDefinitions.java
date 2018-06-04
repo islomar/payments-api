@@ -1,9 +1,9 @@
 package com.islomar.payments.end2end.steps;
 
-import com.islomar.payments.rest_api.CreateOnePaymentResponse;
-import com.islomar.payments.rest_api.FetchAllPaymentsResponse;
 import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.end2end.SpringBootBaseFeatureTest;
+import com.islomar.payments.rest_api.CreateOnePaymentResponse;
+import com.islomar.payments.rest_api.FetchAllPaymentsResponse;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -11,19 +11,24 @@ import cucumber.api.java.en.When;
 import org.springframework.http.ResponseEntity;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
 
     private static final String LOCALHOST = "http://localhost";
+    private static final String V1_PAYMENTS_API_PATH = "/v1/payments";
     private static final String SELF_ATTRIBUTE_KEY = "self";
     private ResponseEntity<FetchAllPaymentsResponse> response;
     private ResponseEntity<CreateOnePaymentResponse> createResponse;
@@ -82,4 +87,29 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
         URL expectedUrl= new URL(LOCALHOST + ":" + this.port + path);
         assertThat(links, hasEntry(SELF_ATTRIBUTE_KEY, expectedUrl));
     }
+
+    @And("^it receives the resource URI in the Location header$")
+    public void it_receives_a_valid_resource_uri_at_the_Location_header() {
+        URI resourceLocation = this.createResponse.getHeaders().getLocation();
+        Matcher matcher = buildPaymentUriMatcher(resourceLocation);
+
+        assertTrue(matcher.matches());
+        assertResourceIdIsValidUUID(matcher);
+    }
+
+    private void assertResourceIdIsValidUUID(Matcher matcher) {
+        String resourceId = matcher.group(1);
+        try {
+            UUID.fromString(resourceId);
+        } catch (Exception ex) {
+            fail(String.format("The id in the Location header is not UUID compliant: %s", resourceId));
+        }
+    }
+
+    private Matcher buildPaymentUriMatcher(URI resourceLocation) {
+        Pattern pattern = Pattern.compile(LOCALHOST + ":" + this.port + V1_PAYMENTS_API_PATH + "/(.+)");
+        return pattern.matcher(resourceLocation.toString());
+    }
+
+
 }

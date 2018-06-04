@@ -7,12 +7,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import static com.islomar.payments.core.PaymentBuilder.aPayment;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.hamcrest.CoreMatchers.is;
 
 public class CreateOnePaymentShould {
 
