@@ -1,12 +1,14 @@
 package com.islomar.payments.web.response;
 
 import com.islomar.payments.core.infrastructure.PaymentTO;
+import lombok.ToString;
 
 import java.net.URI;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+@ToString
 public class FetchOrCreateOnePaymentResponse implements PaymentResponse {
 
     private PaymentTO data;
