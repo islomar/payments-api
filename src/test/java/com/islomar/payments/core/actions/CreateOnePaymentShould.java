@@ -1,13 +1,16 @@
 package com.islomar.payments.core.actions;
 
-import com.islomar.payments.core.model.PaymentService;
 import com.islomar.payments.core.infrastructure.PaymentTO;
+import com.islomar.payments.core.model.Payment;
+import com.islomar.payments.core.model.PaymentService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Spy;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -15,7 +18,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class CreateOnePaymentShould {
 
     @Mock private PaymentService paymentService;
-    @Mock private PaymentTO paymentTO;
+    @Spy private PaymentTO paymentDTO;
     private CreateOnePayment createOnePayment;
 
     @Before
@@ -26,17 +29,21 @@ public class CreateOnePaymentShould {
 
     @Test
     public void save_a_valid_payment() {
-        this.createOnePayment.execute(this.paymentTO);
+        Payment dummyPayment = new Payment();
+        given(paymentService.save(any(Payment.class))).willReturn(dummyPayment);
 
-        verify(this.paymentService).save(this.paymentTO);
+        this.createOnePayment.execute(this.paymentDTO);
+
+        verify(this.paymentService).save(dummyPayment);
     }
 
     @Test
     public void return_the_created_payment() {
-        given(paymentService.save(this.paymentTO)).willReturn(this.paymentTO);
+        Payment dummyPayment = new Payment();
+        given(paymentService.save(any(Payment.class))).willReturn(dummyPayment);
 
-        PaymentTO createdPayment = this.createOnePayment.execute(this.paymentTO);
+        PaymentTO createdPaymentDTO = this.createOnePayment.execute(this.paymentDTO);
 
-        assertThat(createdPayment, is(this.paymentTO));
+        assertThat(createdPaymentDTO, is(this.paymentDTO));
     }
 }

@@ -4,6 +4,7 @@ import com.islomar.payments.core.infrastructure.PaymentTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Spy;
 
 import java.util.UUID;
 
@@ -16,7 +17,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class PaymentServiceShould {
 
     @Mock private PaymentRepository paymentRepository;
-    @Mock private PaymentTO paymentTO;
+    @Spy private Payment payment;
     private PaymentService paymentService;
 
     @Before
@@ -27,14 +28,15 @@ public class PaymentServiceShould {
 
     @Test
     public void save_a_valid_payment() {
-        this.paymentService.save(this.paymentTO);
+        this.paymentService.save(this.payment);
 
         verify(this.paymentRepository).save(any(Payment.class));
     }
 
     @Test
     public void return_paymentId_with_UUID_format() {
-        PaymentTO payment = this.paymentService.save(this.paymentTO);
+        Payment payment = this.paymentService.save(this.payment);
+
         String paymentId = payment.getId();
         try {
             UUID.fromString(paymentId);

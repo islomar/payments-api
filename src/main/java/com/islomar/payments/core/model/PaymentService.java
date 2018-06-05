@@ -24,17 +24,13 @@ public class PaymentService {
         this.paymentRepository = paymentRepository;
     }
 
-    public PaymentTO save(PaymentTO paymentTO) {
+    public Payment save(Payment payment) {
         String paymentId = this.generatePaymentId();
-        Payment payment = modelMapper.map(paymentTO, Payment.class);
         payment.setId(paymentId);
         this.paymentRepository.save(payment);
-
-        PaymentTO createdPaymentTO = modelMapper.map(payment, PaymentTO.class);
-        createdPaymentTO.getId();
         //modelMapper.validate();
         //TODO: ignore some attributes: http://modelmapper.org/user-manual/property-mapping/
-        return createdPaymentTO;
+        return payment;
     }
 
     public Payment findById(String paymentId) {
