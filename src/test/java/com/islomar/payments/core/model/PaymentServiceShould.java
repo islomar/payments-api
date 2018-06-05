@@ -1,6 +1,5 @@
 package com.islomar.payments.core.model;
 
-import com.islomar.payments.core.infrastructure.PaymentTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

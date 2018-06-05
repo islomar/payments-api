@@ -12,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class PaymentTO {
+public class PaymentDTO {
     private String id;
     private String type;
     private String organisationId;

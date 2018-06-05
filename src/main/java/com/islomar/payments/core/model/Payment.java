@@ -18,7 +18,4 @@ public class Payment implements Entity {
     private String organisationId;
     private PaymentAttributes attributes;
 
-    public Payment(String id) {
-        this.id = id;
-    }
 }

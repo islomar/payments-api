@@ -2,7 +2,7 @@ package com.islomar.payments.core.actions;
 
 import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.core.model.PaymentService;
-import com.islomar.payments.core.infrastructure.PaymentTO;
+import com.islomar.payments.core.infrastructure.PaymentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ public class FetchOnePayment extends PaymentAction {
         this.paymentService = paymentService;
     }
 
-    public PaymentTO execute(String paymentId) {
+    public PaymentDTO execute(String paymentId) {
         Payment payment = paymentService.findById(paymentId);
         return toDTO(payment);
     }

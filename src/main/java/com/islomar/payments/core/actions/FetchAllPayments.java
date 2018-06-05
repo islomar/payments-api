@@ -2,7 +2,7 @@ package com.islomar.payments.core.actions;
 
 import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.core.model.PaymentService;
-import com.islomar.payments.core.infrastructure.PaymentTO;
+import com.islomar.payments.core.infrastructure.PaymentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class FetchAllPayments extends PaymentAction {
         this.paymentService = paymentService;
     }
 
-    public List<PaymentTO> execute() {
+    public List<PaymentDTO> execute() {
         List<Payment> allPayments = paymentService.findAll();
         return allPayments.stream()
                 .map(payment -> toDTO(payment))

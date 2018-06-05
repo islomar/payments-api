@@ -6,12 +6,11 @@ import com.islomar.payments.core.actions.CreateOnePayment;
 import com.islomar.payments.core.actions.DeleteOnePayment;
 import com.islomar.payments.core.actions.FetchAllPayments;
 import com.islomar.payments.core.actions.FetchOnePayment;
-import com.islomar.payments.core.infrastructure.PaymentTO;
+import com.islomar.payments.core.infrastructure.PaymentDTO;
 import com.islomar.payments.core.model.exceptions.PaymentNotFoundException;
 import com.islomar.payments.web.response.FetchOrCreateOnePaymentResponse;
 import org.apache.commons.io.IOUtils;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +61,8 @@ public class PaymentsRestApiControllerShould {
 
     @Test
     public void return_code_201_when_creating_one_payment_with_all_the_mandatory_attributes() throws Exception {
-        PaymentTO paymentTO = this.convertJsonFileToPaymentTO("json_request_body/one_payment.json");
-        when(this.createOnePayment.execute(paymentTO)).thenReturn(paymentTO);
+        PaymentDTO paymentDTO = this.convertJsonFileToPaymentTO("json_request_body/one_payment.json");
+        when(this.createOnePayment.execute(paymentDTO)).thenReturn(paymentDTO);
 
         RequestBuilder postRequest = post(V1_PAYMENT_API_BASE_PATH)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
@@ -71,7 +70,7 @@ public class PaymentsRestApiControllerShould {
                 .content(loadJsonFile("json_request_body/one_payment.json"));
 
         mockMvc.perform(postRequest)
-                .andExpect(header().string("Location", LOCALHOST_URL + V1_PAYMENT_API_BASE_PATH + "/" + paymentTO.getId()))
+                .andExpect(header().string("Location", LOCALHOST_URL + V1_PAYMENT_API_BASE_PATH + "/" + paymentDTO.getId()))
                 .andExpect(status().isCreated());
     }
 
@@ -86,13 +85,13 @@ public class PaymentsRestApiControllerShould {
 
     @Test
     public void return_code_200_when_fetching_one_payment_and_it_does_exist() throws Exception {
-        PaymentTO paymentTO = this.convertJsonFileToPaymentTO("json_request_body/one_payment.json");
-        when(this.fetchOnePayment.execute(paymentTO.getId())).thenReturn(paymentTO);
+        PaymentDTO paymentDTO = this.convertJsonFileToPaymentTO("json_request_body/one_payment.json");
+        when(this.fetchOnePayment.execute(paymentDTO.getId())).thenReturn(paymentDTO);
 
-        RequestBuilder getRequest = get(V1_PAYMENT_API_BASE_PATH + "/" + paymentTO.getId())
+        RequestBuilder getRequest = get(V1_PAYMENT_API_BASE_PATH + "/" + paymentDTO.getId())
                                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                                 .contentType(MediaType.APPLICATION_JSON);
-        FetchOrCreateOnePaymentResponse expectedContent = new FetchOrCreateOnePaymentResponse(paymentTO);
+        FetchOrCreateOnePaymentResponse expectedContent = new FetchOrCreateOnePaymentResponse(paymentDTO);
         mockMvc.perform(getRequest)
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(expectedContent)));
@@ -130,7 +129,7 @@ public class PaymentsRestApiControllerShould {
         return IOUtils.toString(this.classLoader.getResourceAsStream(filename), StandardCharsets.UTF_8);
     }
 
-    private PaymentTO convertJsonFileToPaymentTO(String filename) throws IOException {
-        return objectMapper.readValue(this.classLoader.getResourceAsStream(filename), PaymentTO.class);
+    private PaymentDTO convertJsonFileToPaymentTO(String filename) throws IOException {
+        return objectMapper.readValue(this.classLoader.getResourceAsStream(filename), PaymentDTO.class);
     }
 }

@@ -1,7 +1,7 @@
 package com.islomar.payments.end2end.steps;
 
 import com.islomar.payments.core.model.Payment;
-import com.islomar.payments.core.infrastructure.PaymentTO;
+import com.islomar.payments.core.infrastructure.PaymentDTO;
 import com.islomar.payments.end2end.SpringBootBaseFeatureTest;
 import com.islomar.payments.web.response.FetchAllPaymentsResponse;
 import com.islomar.payments.web.response.PaymentResponse;
@@ -40,9 +40,9 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
 
     private void deleteAllPayments() {
         ResponseEntity<FetchAllPaymentsResponse> allPaymentsResponse = fetchAllPayments();
-        List<PaymentTO> allPaymentTOs = allPaymentsResponse.getBody().getData();
-        for (PaymentTO paymentTO : allPaymentTOs) {
-            deleteOnePayment(paymentTO.getId());
+        List<PaymentDTO> allPaymentDTOS = allPaymentsResponse.getBody().getData();
+        for (PaymentDTO paymentDTO : allPaymentDTOS) {
+            deleteOnePayment(paymentDTO.getId());
         }
     }
 
@@ -64,7 +64,7 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
 
     @When("^the client calls GET to the payment URI$")
     public void the_client_calls_GET_to_the_payment_URI() {
-        PaymentTO existingPayment = (PaymentTO)this.paymentResponse.getBody().getData();
+        PaymentDTO existingPayment = (PaymentDTO)this.paymentResponse.getBody().getData();
         this.paymentResponse = fetchOnePayment(existingPayment.getId());
     }
 
@@ -80,7 +80,7 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
 
     @When("^the client calls DELETE to the payment URI$")
     public void theClientCallsDELETEToThePaymentURI() {
-        PaymentTO existingPayment = (PaymentTO)this.paymentResponse.getBody().getData();
+        PaymentDTO existingPayment = (PaymentDTO)this.paymentResponse.getBody().getData();
         this.paymentResponse = deleteOnePayment(existingPayment.getId());
     }
 
@@ -126,8 +126,8 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
         assertNotNull("Missing 'links' attribute", links);
         assertThat("Missing 'self' attribute", links, hasKey(SELF_ATTRIBUTE_KEY));
 
-        PaymentTO paymentTO = (PaymentTO)this.paymentResponse.getBody().getData();
-        URI expectedUri= URI.create(LOCALHOST + ":" + this.port + V1_PAYMENTS_API_PATH + "/" + paymentTO.getId());
+        PaymentDTO paymentDTO = (PaymentDTO)this.paymentResponse.getBody().getData();
+        URI expectedUri= URI.create(LOCALHOST + ":" + this.port + V1_PAYMENTS_API_PATH + "/" + paymentDTO.getId());
         assertThat(links, hasEntry(SELF_ATTRIBUTE_KEY, expectedUri));
     }
 

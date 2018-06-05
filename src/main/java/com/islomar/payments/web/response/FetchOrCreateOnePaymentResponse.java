@@ -1,6 +1,6 @@
 package com.islomar.payments.web.response;
 
-import com.islomar.payments.core.infrastructure.PaymentTO;
+import com.islomar.payments.core.infrastructure.PaymentDTO;
 import lombok.ToString;
 
 import java.net.URI;
@@ -11,12 +11,12 @@ import java.util.Map;
 @ToString
 public class FetchOrCreateOnePaymentResponse implements PaymentResponse {
 
-    private PaymentTO data;
+    private PaymentDTO data;
     private Map<String, URI> links;
 
     public FetchOrCreateOnePaymentResponse(){}
 
-    public FetchOrCreateOnePaymentResponse(PaymentTO data) {
+    public FetchOrCreateOnePaymentResponse(PaymentDTO data) {
 
         this.data = data;
         this.links = new HashMap<>();
@@ -28,7 +28,7 @@ public class FetchOrCreateOnePaymentResponse implements PaymentResponse {
     }
 
     @Override
-    public PaymentTO getData() {
+    public PaymentDTO getData() {
         return data;
     }
 

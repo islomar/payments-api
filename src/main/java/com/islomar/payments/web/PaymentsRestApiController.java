@@ -4,7 +4,7 @@ import com.islomar.payments.core.actions.CreateOnePayment;
 import com.islomar.payments.core.actions.DeleteOnePayment;
 import com.islomar.payments.core.actions.FetchAllPayments;
 import com.islomar.payments.core.actions.FetchOnePayment;
-import com.islomar.payments.core.infrastructure.PaymentTO;
+import com.islomar.payments.core.infrastructure.PaymentDTO;
 import com.islomar.payments.core.model.exceptions.PaymentNotFoundException;
 import com.islomar.payments.web.response.FetchAllPaymentsResponse;
 import com.islomar.payments.web.response.FetchOrCreateOnePaymentResponse;
@@ -50,7 +50,7 @@ public class PaymentsRestApiController {
     @GetMapping(value = "/v1/payments")
     @ResponseBody
     public FetchAllPaymentsResponse fetchAllPayments(HttpServletRequest request) {
-        List<PaymentTO> allPayments = this.fetchAllPayments.execute();
+        List<PaymentDTO> allPayments = this.fetchAllPayments.execute();
 
         FetchAllPaymentsResponse fetchAllPaymentsResponse = new FetchAllPaymentsResponse(allPayments);
         fetchAllPaymentsResponse.addLink("self", currentUrl(request));
@@ -60,21 +60,21 @@ public class PaymentsRestApiController {
     @GetMapping(value = "/v1/payments/{paymentId}")
     @ResponseBody
     public FetchOrCreateOnePaymentResponse fetchOnePayment(HttpServletRequest request, @PathVariable String paymentId) {
-        PaymentTO paymentTO = this.fetchOnePayment.execute(paymentId);
+        PaymentDTO paymentDTO = this.fetchOnePayment.execute(paymentId);
 
         URI paymentUri = URI.create(currentUrl(request).toString());
-        FetchOrCreateOnePaymentResponse response = new FetchOrCreateOnePaymentResponse(paymentTO);
+        FetchOrCreateOnePaymentResponse response = new FetchOrCreateOnePaymentResponse(paymentDTO);
         fillResponseWithLinks(response, paymentUri);
         return response;
     }
 
     @PostMapping(value = "/v1/payments")
     @ResponseBody
-    public ResponseEntity createOnePayment(HttpServletRequest request, @RequestBody PaymentTO inputPaymentTO) {
-        PaymentTO createdPaymentTO = createOnePayment.execute(inputPaymentTO);
+    public ResponseEntity createOnePayment(HttpServletRequest request, @RequestBody PaymentDTO inputPaymentDTO) {
+        PaymentDTO createdPaymentDTO = createOnePayment.execute(inputPaymentDTO);
 
-        URI paymentUri = buildPaymentURI(request, createdPaymentTO);
-        FetchOrCreateOnePaymentResponse response = new FetchOrCreateOnePaymentResponse(createdPaymentTO);
+        URI paymentUri = buildPaymentURI(request, createdPaymentDTO);
+        FetchOrCreateOnePaymentResponse response = new FetchOrCreateOnePaymentResponse(createdPaymentDTO);
         fillResponseWithLinks(response, paymentUri);
 
         HttpHeaders headers = generateHeadersWithLocation(paymentUri);
@@ -98,8 +98,8 @@ public class PaymentsRestApiController {
         response.addLink("self", paymentUri);
     }
 
-    private URI buildPaymentURI(HttpServletRequest request, PaymentTO paymentTO) {
-        return URI.create(currentUrl(request) + "/" + paymentTO.getId());
+    private URI buildPaymentURI(HttpServletRequest request, PaymentDTO paymentDTO) {
+        return URI.create(currentUrl(request) + "/" + paymentDTO.getId());
     }
 
     private HttpHeaders generateHeadersWithLocation(URI paymentUri) {

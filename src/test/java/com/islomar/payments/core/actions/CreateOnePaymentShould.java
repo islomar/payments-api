@@ -1,6 +1,6 @@
 package com.islomar.payments.core.actions;
 
-import com.islomar.payments.core.infrastructure.PaymentTO;
+import com.islomar.payments.core.infrastructure.PaymentDTO;
 import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.core.model.PaymentService;
 import org.junit.Before;
@@ -18,7 +18,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class CreateOnePaymentShould {
 
     @Mock private PaymentService paymentService;
-    @Spy private PaymentTO paymentDTO;
+    @Spy private PaymentDTO paymentDTO;
     private CreateOnePayment createOnePayment;
 
     @Before
@@ -42,7 +42,7 @@ public class CreateOnePaymentShould {
         Payment dummyPayment = new Payment();
         given(paymentService.save(any(Payment.class))).willReturn(dummyPayment);
 
-        PaymentTO createdPaymentDTO = this.createOnePayment.execute(this.paymentDTO);
+        PaymentDTO createdPaymentDTO = this.createOnePayment.execute(this.paymentDTO);
 
         assertThat(createdPaymentDTO, is(this.paymentDTO));
     }

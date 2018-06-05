@@ -1,6 +1,6 @@
 package com.islomar.payments.core.actions;
 
-import com.islomar.payments.core.infrastructure.PaymentTO;
+import com.islomar.payments.core.infrastructure.PaymentDTO;
 import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.core.model.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,8 @@ public class CreateOnePayment extends PaymentAction {
         this.paymentService = paymentService;
     }
 
-    public PaymentTO execute(PaymentTO paymentTO) {
-        Payment payment = fromDTO(paymentTO);
+    public PaymentDTO execute(PaymentDTO paymentDTO) {
+        Payment payment = fromDTO(paymentDTO);
         Payment createdPayment = paymentService.save(payment);
         return toDTO(createdPayment);
     }
