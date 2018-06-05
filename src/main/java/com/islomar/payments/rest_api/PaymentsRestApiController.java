@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
@@ -64,7 +63,7 @@ public class PaymentsRestApiController {
         PaymentTO paymentTO = this.fetchOnePayment.execute(paymentId);
 
         URI paymentUri = URI.create(currentUrl(request).toString());
-        FetchOrCreateOnePaymentResponse response = new FetchOrCreateOnePaymentResponse(new PaymentTO(paymentId,null, null, null));
+        FetchOrCreateOnePaymentResponse response = new FetchOrCreateOnePaymentResponse(paymentTO);
         fillResponseWithLinks(response, paymentUri);
         return response;
     }
