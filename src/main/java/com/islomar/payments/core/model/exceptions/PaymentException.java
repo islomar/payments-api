@@ -1,4 +1,4 @@
 package com.islomar.payments.core.model.exceptions;
 
-public interface PaymentException {
+public class PaymentException extends RuntimeException {
 }

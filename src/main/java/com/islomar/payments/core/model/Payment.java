@@ -9,7 +9,6 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-@AllArgsConstructor
 public class Payment implements Entity {
 
     private String id;
@@ -18,4 +17,11 @@ public class Payment implements Entity {
     private String organisationId;
     private PaymentAttributes attributes;
 
+    public Payment(String id, String type, int version, String organisationId, PaymentAttributes attributes) {
+        this.id = id;
+        this.type = type;
+        this.version = version;
+        this.organisationId = organisationId;
+        this.attributes = attributes;
+    }
 }
