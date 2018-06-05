@@ -10,7 +10,6 @@ import com.islomar.payments.core.infrastructure.PaymentTO;
 import com.islomar.payments.core.model.exceptions.PaymentNotFoundException;
 import com.islomar.payments.web.response.FetchOrCreateOnePaymentResponse;
 import org.apache.commons.io.IOUtils;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -80,7 +79,7 @@ public class PaymentsRestApiControllerShould {
 
     @Test
     public void return_code_200_when_fetching_one_payment_and_it_does_exist() throws Exception {
-        PaymentTO paymentTO = this.convertJsonFileToPaymentTO("payment.json");
+        PaymentTO paymentTO = this.convertJsonFileToPaymentTO("json_request_body/one_payment.json");
         when(this.fetchOnePayment.execute(paymentTO.getId())).thenReturn(paymentTO);
 
         RequestBuilder request = get(V1_PAYMENT_API_BASE_PATH + "/" + paymentTO.getId())
@@ -116,7 +115,7 @@ public class PaymentsRestApiControllerShould {
         mockMvc.perform(
                 get(V1_PAYMENT_API_BASE_PATH))
                 .andExpect(status().isOk())
-                .andExpect(content().json(loadJsonFile("expected_json_responses/emptyListOfPayments.json")));
+                .andExpect(content().json(loadJsonFile("expected_json_responses/empty_list_of_payments.json")));
     }
 
 
