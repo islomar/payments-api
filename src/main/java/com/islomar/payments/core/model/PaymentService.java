@@ -1,22 +1,17 @@
 package com.islomar.payments.core.model;
 
-import com.islomar.payments.core.infrastructure.PaymentTO;
 import com.islomar.payments.core.model.exceptions.PaymentNotFoundException;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
-
-    private ModelMapper modelMapper = new ModelMapper();
 
     @Autowired
     public PaymentService(PaymentRepository paymentRepository) {
@@ -28,8 +23,6 @@ public class PaymentService {
         String paymentId = this.generatePaymentId();
         payment.setId(paymentId);
         this.paymentRepository.save(payment);
-        //modelMapper.validate();
-        //TODO: ignore some attributes: http://modelmapper.org/user-manual/property-mapping/
         return payment;
     }
 
@@ -39,11 +32,8 @@ public class PaymentService {
         return payment.get();
     }
 
-    public List<PaymentTO> findAll() {
-        List<Payment> allPayments = this.paymentRepository.findAll();
-        return allPayments.stream()
-                .map(payment -> modelMapper.map(payment, PaymentTO.class))
-                .collect(Collectors.toList());
+    public List<Payment> findAll() {
+        return this.paymentRepository.findAll();
     }
 
     public void delete(String paymentId) {
