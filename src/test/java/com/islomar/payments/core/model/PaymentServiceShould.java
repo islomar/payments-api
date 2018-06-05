@@ -1,5 +1,6 @@
 package com.islomar.payments.core.model;
 
+import com.islomar.payments.core.infrastructure.PaymentTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -14,21 +15,21 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class PaymentServiceShould {
 
-    @Mock private PaymentsRepository paymentsRepository;
+    @Mock private PaymentRepository paymentRepository;
     @Mock private PaymentTO paymentTO;
     private PaymentService paymentService;
 
     @Before
     public void setUp() {
         initMocks(this);
-        paymentService = new PaymentService(paymentsRepository);
+        paymentService = new PaymentService(paymentRepository);
     }
 
     @Test
     public void saveValidPayment() {
         this.paymentService.save(this.paymentTO);
 
-        verify(this.paymentsRepository).save(any(Payment.class));
+        verify(this.paymentRepository).save(any(Payment.class));
     }
 
     @Test

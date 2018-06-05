@@ -1,14 +1,14 @@
-package com.islomar.payments.rest_api;
+package com.islomar.payments.web;
 
 import com.islomar.payments.core.actions.CreateOnePayment;
 import com.islomar.payments.core.actions.DeleteOnePayment;
 import com.islomar.payments.core.actions.FetchAllPayments;
 import com.islomar.payments.core.actions.FetchOnePayment;
-import com.islomar.payments.core.model.PaymentTO;
+import com.islomar.payments.core.infrastructure.PaymentTO;
 import com.islomar.payments.core.model.exceptions.PaymentNotFoundException;
-import com.islomar.payments.rest_api.response.FetchAllPaymentsResponse;
-import com.islomar.payments.rest_api.response.FetchOrCreateOnePaymentResponse;
-import com.islomar.payments.rest_api.response.PaymentResponse;
+import com.islomar.payments.web.response.FetchAllPaymentsResponse;
+import com.islomar.payments.web.response.FetchOrCreateOnePaymentResponse;
+import com.islomar.payments.web.response.PaymentResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +71,6 @@ public class PaymentsRestApiController {
     @PostMapping(value = "/v1/payments")
     @ResponseBody
     public ResponseEntity createOnePayment(HttpServletRequest request, @RequestBody PaymentTO inputPaymentTO) {
-        System.out.println(String.format(">>>>> Create one payment: %s", inputPaymentTO.toString()));
         PaymentTO createdPaymentTO = createOnePayment.execute(inputPaymentTO);
 
         URI paymentUri = buildPaymentURI(request, createdPaymentTO);

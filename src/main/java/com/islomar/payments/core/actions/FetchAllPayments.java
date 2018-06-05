@@ -1,7 +1,7 @@
 package com.islomar.payments.core.actions;
 
 import com.islomar.payments.core.model.PaymentService;
-import com.islomar.payments.core.model.PaymentTO;
+import com.islomar.payments.core.infrastructure.PaymentTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

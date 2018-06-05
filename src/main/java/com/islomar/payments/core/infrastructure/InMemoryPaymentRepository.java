@@ -1,13 +1,13 @@
 package com.islomar.payments.core.infrastructure;
 
 import com.islomar.payments.core.model.Payment;
-import com.islomar.payments.core.model.PaymentsRepository;
+import com.islomar.payments.core.model.PaymentRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 @Repository
-public class InMemoryPaymentRepository implements PaymentsRepository {
+public class InMemoryPaymentRepository implements PaymentRepository {
     private Map<String, Payment> paymentStore = new HashMap<>();
 
     @Override

@@ -1,12 +1,10 @@
 package com.islomar.payments.end2end.steps;
 
 import com.islomar.payments.core.model.Payment;
-import com.islomar.payments.core.model.PaymentTO;
+import com.islomar.payments.core.infrastructure.PaymentTO;
 import com.islomar.payments.end2end.SpringBootBaseFeatureTest;
-import com.islomar.payments.rest_api.response.FetchAllPaymentsResponse;
-import com.islomar.payments.rest_api.response.PaymentResponse;
-import cucumber.api.PendingException;
-import cucumber.api.java.After;
+import com.islomar.payments.web.response.FetchAllPaymentsResponse;
+import com.islomar.payments.web.response.PaymentResponse;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;

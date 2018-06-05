@@ -1,4 +1,4 @@
-package com.islomar.payments.rest_api.response;
+package com.islomar.payments.web.response;
 
 import java.net.URI;
 import java.util.Map;

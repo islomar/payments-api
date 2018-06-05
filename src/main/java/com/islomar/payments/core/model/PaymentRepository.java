@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PaymentsRepository {
+public interface PaymentRepository {
     void save(Payment payment);
 
     Optional<Payment> findById(String paymentId);

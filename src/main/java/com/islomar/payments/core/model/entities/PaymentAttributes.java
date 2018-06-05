@@ -1,4 +1,4 @@
-package com.islomar.payments.core.model;
+package com.islomar.payments.core.model.entities;
 
 import lombok.*;
 
@@ -10,11 +10,16 @@ import java.util.Currency;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class PaymentAttributes {
     private BigDecimal amount;
     private Currency currency;
     private String endToEndReference;
     private String paymentId;
     private String paymentPurpose;
-
+    private DebtorParty debtorParty;
+    private Forex fx;
+    private ChargesInformation chargesInformation;
+    private SponsorParty sponsorParty;
+    private BeneficiaryParty beneficiaryParty;
 }

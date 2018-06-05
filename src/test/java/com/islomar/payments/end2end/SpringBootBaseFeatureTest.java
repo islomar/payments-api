@@ -1,20 +1,15 @@
 package com.islomar.payments.end2end;
 
-import com.islomar.payments.core.model.PaymentAttributes;
-import com.islomar.payments.core.model.PaymentTO;
-import com.islomar.payments.rest_api.response.DeleteOnePaymentResponse;
-import com.islomar.payments.rest_api.response.FetchAllPaymentsResponse;
-import com.islomar.payments.rest_api.response.FetchOrCreateOnePaymentResponse;
-import com.islomar.payments.rest_api.response.PaymentResponse;
-import cucumber.api.java.Before;
+import com.islomar.payments.core.model.entities.PaymentAttributes;
+import com.islomar.payments.web.response.DeleteOnePaymentResponse;
+import com.islomar.payments.web.response.FetchAllPaymentsResponse;
+import com.islomar.payments.web.response.FetchOrCreateOnePaymentResponse;
 
 
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -62,7 +57,7 @@ public abstract class SpringBootBaseFeatureTest {
     }
 
     private CreateOnePaymentRequest generateCreateOnePaymentRequest() {
-        PaymentAttributes paymentAttributes = new PaymentAttributes(BigDecimal.valueOf(100.21), Currency.getInstance("GBP"), null, null, null);
+        PaymentAttributes paymentAttributes = PaymentAttributes.builder().amount(BigDecimal.valueOf(100.21)).currency(Currency.getInstance("GBP")).build();
         return new CreateOnePaymentRequest(null, null, null, paymentAttributes);
     }
 
