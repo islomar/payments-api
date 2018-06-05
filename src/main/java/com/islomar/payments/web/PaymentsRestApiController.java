@@ -28,10 +28,10 @@ import static org.springframework.http.HttpStatus.*;
 public class PaymentsRestApiController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PaymentsRestApiController.class);
 
-    private final CreateOnePayment createOnePayment;
-    private final FetchOnePayment fetchOnePayment;
-    private final DeleteOnePayment deleteOnePayment;
-    private final FetchAllPayments fetchAllPayments;
+    private CreateOnePayment createOnePayment;
+    private FetchOnePayment fetchOnePayment;
+    private DeleteOnePayment deleteOnePayment;
+    private FetchAllPayments fetchAllPayments;
 
     @Autowired
     public PaymentsRestApiController(CreateOnePayment createOnePayment, FetchOnePayment fetchOnePayment, DeleteOnePayment deleteOnePayment, FetchAllPayments fetchAllPayments) {

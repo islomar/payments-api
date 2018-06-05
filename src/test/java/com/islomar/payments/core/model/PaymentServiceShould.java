@@ -26,14 +26,14 @@ public class PaymentServiceShould {
     }
 
     @Test
-    public void saveValidPayment() {
+    public void save_a_valid_payment() {
         this.paymentService.save(this.paymentTO);
 
         verify(this.paymentRepository).save(any(Payment.class));
     }
 
     @Test
-    public void returnsPaymentIdWithUUIDformat() {
+    public void return_paymentId_with_UUID_format() {
         PaymentTO payment = this.paymentService.save(this.paymentTO);
         String paymentId = payment.getId();
         try {

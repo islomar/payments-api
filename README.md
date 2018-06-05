@@ -94,7 +94,9 @@ The main frameworks, technologies and platforms used have been:
 * http://www.springboottutorial.com/spring-boot-rest-api-projects-with-code-examples
 * https://spring.io/guides/gs/actuator-service/
 * Publish info with actuator: http://www.baeldung.com/spring-boot-info-actuator-custom
-* Unit test for Spring MVC Controller: https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#spring-mvc-test-server
+* Unit test for Spring MVC Controller: 
+    * https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#spring-mvc-test-server
+    * https://docs.spring.io/spring-security/site/docs/current/reference/html/test-mockmvc.html
 * Testing and use of MockMvc: 
     * https://spring.io/guides/gs/testing-web/
     * https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html#boot-features-testing-spring-boot-applications-testing-autoconfigured-mvc-tests

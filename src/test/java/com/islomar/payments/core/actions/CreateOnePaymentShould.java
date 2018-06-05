@@ -25,14 +25,14 @@ public class CreateOnePaymentShould {
     }
 
     @Test
-    public void saveValidPayment() {
+    public void save_a_valid_payment() {
         this.createOnePayment.execute(this.paymentTO);
 
         verify(this.paymentService).save(this.paymentTO);
     }
 
     @Test
-    public void returnsTheCreatedPayment() {
+    public void return_the_created_payment() {
         given(paymentService.save(this.paymentTO)).willReturn(this.paymentTO);
 
         PaymentTO createdPayment = this.createOnePayment.execute(this.paymentTO);
