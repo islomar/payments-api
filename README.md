@@ -59,6 +59,7 @@ The main frameworks, technologies and platforms used have been:
 * Cucumber
 * Papertrail logging and basic alerts
 * Micrometer monitoring
+* Lombok
 
 
 ## Pending to take a look

@@ -30,6 +30,7 @@ public class PaymentService {
         this.paymentsRepository.save(payment);
 
         PaymentTO createdPaymentTO = modelMapper.map(payment, PaymentTO.class);
+        createdPaymentTO.getId();
         //modelMapper.validate();
         //TODO: ignore some attributes: http://modelmapper.org/user-manual/property-mapping/
         return createdPaymentTO;
