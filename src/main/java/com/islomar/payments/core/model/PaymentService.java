@@ -26,7 +26,8 @@ public class PaymentService {
 
     public PaymentTO save(PaymentTO paymentTO) {
         String paymentId = this.generatePaymentId();
-        Payment payment = new Payment(paymentId);
+        Payment payment = modelMapper.map(paymentTO, Payment.class);
+        payment.setId(paymentId);
         this.paymentsRepository.save(payment);
 
         PaymentTO createdPaymentTO = modelMapper.map(payment, PaymentTO.class);
