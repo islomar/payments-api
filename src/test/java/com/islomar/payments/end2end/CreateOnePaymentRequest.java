@@ -1,6 +1,6 @@
 package com.islomar.payments.end2end;
 
-import com.islomar.payments.core.model.entities.PaymentAttributes;
+import com.islomar.payments.core.model.payment_attributes.PaymentAttributes;
 import lombok.*;
 
 @Getter

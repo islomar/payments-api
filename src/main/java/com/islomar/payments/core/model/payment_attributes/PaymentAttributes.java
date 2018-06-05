@@ -1,5 +1,6 @@
-package com.islomar.payments.core.model.entities;
+package com.islomar.payments.core.model.payment_attributes;
 
+import com.islomar.payments.core.model.shared.ValueObject;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -11,7 +12,7 @@ import java.util.Currency;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PaymentAttributes {
+public class PaymentAttributes implements ValueObject {
     private BigDecimal amount;
     private Currency currency;
     private String endToEndReference;

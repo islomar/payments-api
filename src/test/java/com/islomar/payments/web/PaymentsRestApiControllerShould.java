@@ -29,6 +29,7 @@ import java.util.Collections;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,6 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(PaymentsRestApiController.class)
 public class PaymentsRestApiControllerShould {
 
+    private static final String LOCALHOST_URL = "http://localhost";
     private static final String V1_PAYMENT_API_BASE_PATH = "/v1/payments";
     private static final String ANY_NON_EXISTING_PAYMENT_ID = "any-non-existing-id";
     private static final String ANY_VALID_PAYMENT_ID = "4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43";
@@ -58,14 +60,19 @@ public class PaymentsRestApiControllerShould {
         objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
     }
 
-    @Ignore
+    @Test
     public void return_code_201_when_creating_one_payment_with_all_the_mandatory_attributes() throws Exception {
-        when(this.fetchAllPayments.execute()).thenThrow(new NullPointerException("Something unexpected just happened!"));
+        PaymentTO paymentTO = this.convertJsonFileToPaymentTO("json_request_body/one_payment.json");
+        when(this.createOnePayment.execute(paymentTO)).thenReturn(paymentTO);
 
-        mockMvc.perform(
-                get(V1_PAYMENT_API_BASE_PATH))
-                .andExpect(header().string("Location", V1_PAYMENT_API_BASE_PATH))
-                .andExpect(status().is5xxServerError());
+        RequestBuilder postRequest = post(V1_PAYMENT_API_BASE_PATH)
+                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loadJsonFile("json_request_body/one_payment.json"));
+
+        mockMvc.perform(postRequest)
+                .andExpect(header().string("Location", LOCALHOST_URL + V1_PAYMENT_API_BASE_PATH + "/" + paymentTO.getId()))
+                .andExpect(status().isCreated());
     }
 
     @Test
@@ -82,11 +89,11 @@ public class PaymentsRestApiControllerShould {
         PaymentTO paymentTO = this.convertJsonFileToPaymentTO("json_request_body/one_payment.json");
         when(this.fetchOnePayment.execute(paymentTO.getId())).thenReturn(paymentTO);
 
-        RequestBuilder request = get(V1_PAYMENT_API_BASE_PATH + "/" + paymentTO.getId())
+        RequestBuilder getRequest = get(V1_PAYMENT_API_BASE_PATH + "/" + paymentTO.getId())
                                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                                 .contentType(MediaType.APPLICATION_JSON);
         FetchOrCreateOnePaymentResponse expectedContent = new FetchOrCreateOnePaymentResponse(paymentTO);
-        mockMvc.perform(request)
+        mockMvc.perform(getRequest)
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(expectedContent)));
     }

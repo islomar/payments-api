@@ -1,6 +1,7 @@
 package com.islomar.payments.core.model;
 
-import com.islomar.payments.core.model.entities.PaymentAttributes;
+import com.islomar.payments.core.model.payment_attributes.PaymentAttributes;
+import com.islomar.payments.core.model.shared.Entity;
 import lombok.*;
 
 @Getter
@@ -8,7 +9,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Payment {
+public class Payment implements Entity {
 
     private String id;
     private String type;
