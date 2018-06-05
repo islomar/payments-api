@@ -63,7 +63,7 @@ public class PaymentsRestApiController {
     public FetchOrCreateOnePaymentResponse fetchOnePayment(HttpServletRequest request, @PathVariable String paymentId) {
         PaymentTO paymentTO = this.fetchOnePayment.execute(paymentId);
 
-        URI paymentUri = buildPaymentURI(request, paymentTO);
+        URI paymentUri = URI.create(currentUrl(request).toString());
         FetchOrCreateOnePaymentResponse response = new FetchOrCreateOnePaymentResponse(new PaymentTO(paymentId,null, null, null));
         fillResponseWithLinks(response, paymentUri);
         return response;

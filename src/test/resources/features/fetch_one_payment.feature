@@ -8,3 +8,4 @@ Feature: Fetch one payment resource
     Given it exists 1 payments
     When the client calls GET to the payment URI
     Then it receives response status code of 200
+    And the self link attribute points to the payment URI

@@ -5,6 +5,7 @@ import com.islomar.payments.core.model.PaymentTO;
 import com.islomar.payments.end2end.SpringBootBaseFeatureTest;
 import com.islomar.payments.rest_api.response.FetchAllPaymentsResponse;
 import com.islomar.payments.rest_api.response.PaymentResponse;
+import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
@@ -118,6 +119,17 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
         assertThat("Missing 'self' attribute", links, hasKey(SELF_ATTRIBUTE_KEY));
 
         URI expectedUri= URI.create(LOCALHOST + ":" + this.port + path);
+        assertThat(links, hasEntry(SELF_ATTRIBUTE_KEY, expectedUri));
+    }
+
+    @And("^the self link attribute points to the payment URI$")
+    public void theSelfLinkAttributePointsToThePaymentURI() {
+        Map<String, URI> links = paymentResponse.getBody().getLinks();
+        assertNotNull("Missing 'links' attribute", links);
+        assertThat("Missing 'self' attribute", links, hasKey(SELF_ATTRIBUTE_KEY));
+
+        PaymentTO paymentTO = (PaymentTO)this.paymentResponse.getBody().getData();
+        URI expectedUri= URI.create(LOCALHOST + ":" + this.port + V1_PAYMENTS_API_PATH + "/" + paymentTO.getId());
         assertThat(links, hasEntry(SELF_ATTRIBUTE_KEY, expectedUri));
     }
 
