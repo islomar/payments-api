@@ -37,10 +37,10 @@ public class PaymentService {
         return createdPaymentTO;
     }
 
-    public PaymentTO findById(String paymentId) {
+    public Payment findById(String paymentId) {
         Optional<Payment> payment = this.paymentRepository.findById(paymentId);
         raiseExceptionIfPaymentNotFound(payment);
-        return new PaymentTO(paymentId, null, null, null);
+        return payment.get();
     }
 
     public List<PaymentTO> findAll() {
