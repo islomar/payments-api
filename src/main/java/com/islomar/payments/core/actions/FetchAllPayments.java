@@ -21,7 +21,7 @@ public class FetchAllPayments extends PaymentAction {
     public List<PaymentDTO> execute() {
         List<Payment> allPayments = paymentService.findAll();
         return allPayments.stream()
-                .map(payment -> toDTO(payment))
+                .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 }
