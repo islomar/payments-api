@@ -1,5 +1,6 @@
 package com.islomar.payments.web;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.islomar.payments.core.actions.CreateOnePayment;
 import com.islomar.payments.core.actions.DeleteOnePayment;
 import com.islomar.payments.core.actions.FetchAllPayments;
@@ -12,8 +13,12 @@ import com.islomar.payments.web.response.PaymentResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConversionException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -108,14 +113,23 @@ public class PaymentsRestApiController {
         return headers;
     }
 
+    @ExceptionHandler({PaymentNotFoundException.class})
+    void handleNotFoundError(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendError(NOT_FOUND.value());
+    }
+
+    @ExceptionHandler({HttpMessageConversionException.class, InvalidFormatException.class})
+    void handleBadRequestError(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendError(BAD_REQUEST.value());
+    }
+
     @ExceptionHandler({Exception.class})
+    @Order(Ordered.LOWEST_PRECEDENCE)
     void handleInternalServerError(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
         LOGGER.error("{} request: {} raised {}", request.getMethod(), request.getRequestURL(), ex);
         response.sendError(INTERNAL_SERVER_ERROR.value());
     }
 
-    @ExceptionHandler({PaymentNotFoundException.class})
-    void handleNotFoundError(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.sendError(NOT_FOUND.value());
-    }
+
+
 }

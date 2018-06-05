@@ -75,6 +75,20 @@ public class PaymentsRestApiControllerShould {
     }
 
     @Test
+    public void return_code_400_when_creating_one_payment_with_invalid_type() throws Exception {
+        PaymentDTO paymentDTO = this.convertJsonFileToPaymentTO("json_request_body/one_payment.json");
+        when(this.createOnePayment.execute(paymentDTO)).thenReturn(paymentDTO);
+
+        RequestBuilder postRequest = post(V1_PAYMENT_API_BASE_PATH)
+                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loadJsonFile("json_request_body/one_payment_with_invalid_type.json"));
+
+        mockMvc.perform(postRequest)
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void return_code_404_when_fetching_one_payment_and_it_does_not_exist() throws Exception {
         when(this.fetchOnePayment.execute("any-non-existing-id")).thenThrow(new PaymentNotFoundException());
 

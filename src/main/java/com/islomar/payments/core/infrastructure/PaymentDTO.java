@@ -2,6 +2,7 @@ package com.islomar.payments.core.infrastructure;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.islomar.payments.core.model.PaymentType;
 import com.islomar.payments.core.model.payment_attributes.PaymentAttributes;
 import lombok.*;
 
@@ -14,7 +15,7 @@ import lombok.*;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class PaymentDTO {
     private String id;
-    private String type;
+    private PaymentType type;
     private String organisationId;
     private PaymentAttributes attributes;
 }
