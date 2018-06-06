@@ -2,6 +2,8 @@ package com.islomar.payments.core.infrastructure;
 
 import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.core.model.PaymentRepository;
+import jdk.nashorn.internal.ir.annotations.Immutable;
+import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -21,7 +23,7 @@ public class InMemoryPaymentRepository implements PaymentRepository {
         String paymentId = newPayment.getId();
         updateVersion(paymentId, newPayment);
         paymentStore.put(paymentId, newPayment);
-        return newPayment;
+        return SerializationUtils.clone(newPayment);
     }
 
     @Override

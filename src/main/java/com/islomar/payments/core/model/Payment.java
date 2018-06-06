@@ -4,6 +4,7 @@ import com.islomar.payments.core.model.payment_attributes.PaymentAttributes;
 import com.islomar.payments.core.model.shared.Entity;
 import lombok.*;
 
+import java.io.Serializable;
 
 
 @Getter
@@ -12,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Payment implements Entity {
+public class Payment implements Entity, Serializable {
 
     private String id;
     private PaymentType type;

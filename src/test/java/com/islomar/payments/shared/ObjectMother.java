@@ -17,8 +17,12 @@ public class ObjectMother {
     public static final String ANY_VALID_ORGASATION_ID = "743d5b63-8e6f-432e-a8fa-c5d8d2ee5fcb";
     public static final String NEW_PAYMENT_COMMAND_JSON_FILE = "json_request_body/new_payment_command.json";
 
-    public static Payment aPayment() {
+    public static Payment aDummyPayment() {
         return Payment.builder().build();
+    }
+
+    public static Payment.PaymentBuilder aPaymentBuilder() {
+        return Payment.builder();
     }
 
     public static NewPaymentCommand aNewPaymentCommand() {

@@ -3,11 +3,10 @@ package com.islomar.payments.core.model;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Spy;
 
 import java.util.UUID;
 
-import static com.islomar.payments.shared.ObjectMother.aPayment;
+import static com.islomar.payments.shared.ObjectMother.aDummyPayment;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -27,7 +26,7 @@ public class PaymentServiceShould {
 
     @Test
     public void save_a_valid_payment() {
-        Payment dummyPayment = aPayment();
+        Payment dummyPayment = aDummyPayment();
 
         this.paymentService.save(dummyPayment);
 
@@ -36,11 +35,20 @@ public class PaymentServiceShould {
 
     @Test
     public void return_paymentId_with_UUID_format() {
-        Payment dummyPayment = aPayment();
+        Payment dummyPayment = aDummyPayment();
 
         Payment createdPayment = this.paymentService.save(dummyPayment);
 
         this.verityPaymentIdIsUUDI(createdPayment);
+    }
+
+    @Test
+    public void update_a_valid_payment() {
+        Payment dummyPayment = aDummyPayment();
+
+        this.paymentService.save(dummyPayment);
+
+        verify(this.paymentRepository).save(any(Payment.class));
     }
 
     private void verityPaymentIdIsUUDI(Payment payment) {
