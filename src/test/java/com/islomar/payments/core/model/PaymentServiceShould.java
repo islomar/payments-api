@@ -38,9 +38,9 @@ public class PaymentServiceShould {
     public void return_paymentId_with_UUID_format() {
         Payment dummyPayment = aPayment();
 
-        Payment payment = this.paymentService.save(dummyPayment);
+        Payment createdPayment = this.paymentService.save(dummyPayment);
 
-        this.verityPaymentIdIsUUDI(payment);
+        this.verityPaymentIdIsUUDI(createdPayment);
     }
 
     private void verityPaymentIdIsUUDI(Payment payment) {

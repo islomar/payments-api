@@ -10,6 +10,8 @@ import com.islomar.payments.core.model.exceptions.PaymentNotFoundException;
 import com.islomar.payments.web.response.FetchAllPaymentsResponse;
 import com.islomar.payments.web.response.FetchOrCreateOnePaymentResponse;
 import com.islomar.payments.web.response.PaymentResponse;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,7 @@ public class PaymentsRestApiController {
     private FetchOnePayment fetchOnePayment;
     private DeleteOnePayment deleteOnePayment;
     private FetchAllPayments fetchAllPayments;
+    private ModelMapper modelMapper = new ModelMapper();
 
     @Autowired
     public PaymentsRestApiController(CreateOnePayment createOnePayment, FetchOnePayment fetchOnePayment, DeleteOnePayment deleteOnePayment, FetchAllPayments fetchAllPayments) {
@@ -46,6 +49,7 @@ public class PaymentsRestApiController {
         this.fetchOnePayment = fetchOnePayment;
         this.deleteOnePayment = deleteOnePayment;
         this.fetchAllPayments = fetchAllPayments;
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
     }
 
     @RequestMapping("/")
@@ -76,7 +80,9 @@ public class PaymentsRestApiController {
 
     @PostMapping(value = "/v1/payments")
     @ResponseBody
-    public ResponseEntity createOnePayment(HttpServletRequest request, @RequestBody PaymentDTO inputPaymentDTO) {
+    public ResponseEntity createOnePayment(HttpServletRequest request, @RequestBody NewPaymentCommand newPaymentCommand) {
+        System.out.println(String.format(">>>>>>>>>> newPaymentCommand: %s", newPaymentCommand));
+        PaymentDTO inputPaymentDTO = modelMapper.map(newPaymentCommand, PaymentDTO.class);
         System.out.println(String.format(">>>>>>>>>> inputPaymentDTO: %s", inputPaymentDTO));
         PaymentDTO createdPaymentDTO = createOnePayment.execute(inputPaymentDTO);
         System.out.println(String.format(">>>>>>>>>> createdPaymentDTO: %s", createdPaymentDTO));
