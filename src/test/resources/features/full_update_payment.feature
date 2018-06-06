@@ -1,4 +1,4 @@
-Feature: Update a payment
+Feature: FULL Update of a payment
 
   Scenario: The payment resource to be updated does not exist
     When the client calls PUT /v1/payments/any-unknown-id
