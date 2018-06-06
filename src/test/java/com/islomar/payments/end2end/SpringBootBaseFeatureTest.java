@@ -1,6 +1,7 @@
 package com.islomar.payments.end2end;
 
 import com.islomar.payments.core.model.payment_attributes.PaymentAttributes;
+import com.islomar.payments.web.NewPaymentCommand;
 import com.islomar.payments.web.response.DeleteOnePaymentResponse;
 import com.islomar.payments.web.response.FetchAllPaymentsResponse;
 import com.islomar.payments.web.response.FetchOrCreateOnePaymentResponse;
@@ -47,8 +48,8 @@ public abstract class SpringBootBaseFeatureTest {
     }
 
     public ResponseEntity<FetchOrCreateOnePaymentResponse> createOnePayment() {
-        CreateOnePaymentRequest createOnePaymentRequest = this.generateCreateOnePaymentRequest();
-        return restTemplate.postForEntity(generateBaseApiUri(), createOnePaymentRequest, FetchOrCreateOnePaymentResponse.class);
+        NewPaymentCommand newPaymentCommand = this.generateNewPaymentCommand();
+        return restTemplate.postForEntity(generateBaseApiUri(), newPaymentCommand, FetchOrCreateOnePaymentResponse.class);
     }
 
     public ResponseEntity<DeleteOnePaymentResponse> deleteOnePayment(String paymentId) {
@@ -56,11 +57,10 @@ public abstract class SpringBootBaseFeatureTest {
         return restTemplate.exchange(entity, DeleteOnePaymentResponse.class);
     }
 
-    private CreateOnePaymentRequest generateCreateOnePaymentRequest() {
+    private NewPaymentCommand generateNewPaymentCommand() {
         PaymentAttributes paymentAttributes = PaymentAttributes.builder().amount(BigDecimal.valueOf(100.21)).currency(Currency.getInstance("GBP")).build();
-        return new CreateOnePaymentRequest(null, null, null, paymentAttributes);
+        return NewPaymentCommand.builder().attributes(paymentAttributes).build();
     }
-
 
     private URI generatePaymentURI(String paymentId) {
         return URI.create(generateBaseApiUri().toString() + "/" + paymentId);

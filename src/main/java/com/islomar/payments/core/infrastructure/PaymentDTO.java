@@ -16,6 +16,7 @@ import lombok.*;
 public class PaymentDTO {
     private String id;
     private PaymentType type;
+    private int version;
     private String organisationId;
     private PaymentAttributes attributes;
 }

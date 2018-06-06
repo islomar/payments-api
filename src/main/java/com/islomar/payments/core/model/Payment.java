@@ -4,16 +4,16 @@ import com.islomar.payments.core.model.payment_attributes.PaymentAttributes;
 import com.islomar.payments.core.model.shared.Entity;
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
+
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor
 public class Payment implements Entity {
 
-    @NotNull
     private String id;
     private PaymentType type;
     private int version;
@@ -21,6 +21,7 @@ public class Payment implements Entity {
     private PaymentAttributes attributes;
 
     public Payment(String id, PaymentType type, int version, String organisationId, PaymentAttributes attributes) {
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> WTF " + type);
         this.id = id;
         this.type = type;
         this.version = version;

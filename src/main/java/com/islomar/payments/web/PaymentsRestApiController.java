@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
@@ -76,8 +77,9 @@ public class PaymentsRestApiController {
     @PostMapping(value = "/v1/payments")
     @ResponseBody
     public ResponseEntity createOnePayment(HttpServletRequest request, @RequestBody PaymentDTO inputPaymentDTO) {
+        System.out.println(String.format(">>>>>>>>>> inputPaymentDTO: %s", inputPaymentDTO));
         PaymentDTO createdPaymentDTO = createOnePayment.execute(inputPaymentDTO);
-
+        System.out.println(String.format(">>>>>>>>>> createdPaymentDTO: %s", createdPaymentDTO));
         URI paymentUri = buildPaymentURI(request, createdPaymentDTO);
         FetchOrCreateOnePaymentResponse response = new FetchOrCreateOnePaymentResponse(createdPaymentDTO);
         fillResponseWithLinks(response, paymentUri);
