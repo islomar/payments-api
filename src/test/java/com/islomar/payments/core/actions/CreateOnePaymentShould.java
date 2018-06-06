@@ -31,7 +31,7 @@ public class CreateOnePaymentShould {
 
     @Test
     public void save_a_valid_payment() {
-        Payment dummyPayment = new Payment();
+        Payment dummyPayment = createDummyPayment();
         given(paymentService.save(any(Payment.class))).willReturn(dummyPayment);
 
         this.createOnePayment.execute(this.paymentDTO);
@@ -41,11 +41,15 @@ public class CreateOnePaymentShould {
 
     @Test
     public void return_the_created_payment() {
-        Payment dummyPayment = new Payment();
+        Payment dummyPayment = createDummyPayment();
         given(paymentService.save(any(Payment.class))).willReturn(dummyPayment);
 
         PaymentDTO createdPaymentDTO = this.createOnePayment.execute(this.paymentDTO);
 
         assertThat(createdPaymentDTO, is(this.paymentDTO));
+    }
+
+    private Payment createDummyPayment() {
+        return Payment.builder().build();
     }
 }
