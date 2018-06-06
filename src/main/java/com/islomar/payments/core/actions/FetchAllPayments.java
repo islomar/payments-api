@@ -1,5 +1,6 @@
 package com.islomar.payments.core.actions;
 
+import com.islomar.payments.core.infrastructure.PaymentMapper;
 import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.core.model.PaymentService;
 import com.islomar.payments.core.infrastructure.PaymentDTO;
@@ -10,19 +11,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class FetchAllPayments extends PaymentAction {
+public class FetchAllPayments {
 
     private final PaymentService paymentService;
+    private final PaymentMapper paymentMapper;
 
     @Autowired
-    public FetchAllPayments(PaymentService paymentService) {
+    public FetchAllPayments(PaymentService paymentService, PaymentMapper paymentMapper) {
         this.paymentService = paymentService;
+        this.paymentMapper = paymentMapper;
     }
 
     public List<PaymentDTO> execute() {
         List<Payment> allPayments = paymentService.findAll();
         return allPayments.stream()
-                .map(this::toDTO)
+                .map(this.paymentMapper::toDTO)
                 .collect(Collectors.toList());
     }
 }

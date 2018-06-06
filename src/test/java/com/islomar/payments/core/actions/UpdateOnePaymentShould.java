@@ -24,7 +24,10 @@ public class UpdateOnePaymentShould {
     @Mock private PaymentService paymentService;
     @Mock private PaymentExternalValidator paymentExternalValidator;
     @Mock private PaymentMapper paymentMapper;
-    private PaymentDTO dummyPaymentDTO = aDummyPaymentDTO();
+    private final Payment dummyPayment = aDummyPayment();
+    private final Payment dummyUpdatedPayment = aDummyPayment();
+    private final PaymentDTO dummyPaymentDTO = aDummyPaymentDTO();
+    private final PaymentDTO dummyUpdatedPaymentDTO = aDummyPaymentDTO();
     private UpdateOnePayment updateOnePayment;
 
     @Before
@@ -35,10 +38,7 @@ public class UpdateOnePaymentShould {
 
     @Test
     public void update_a_valid_payment() {
-        Payment dummyPayment = aDummyPayment();
-        Payment dummyUpdatedPayment = aDummyPayment();
-        given(paymentMapper.fromDTO(dummyPaymentDTO)).willReturn(dummyPayment);
-        given(paymentService.update(eq(ANY_VALID_PAYMENT_ID), any(Payment.class))).willReturn(dummyUpdatedPayment);
+        givenPaymentMapperMapsCorrectly(dummyPayment, dummyPaymentDTO, dummyUpdatedPayment, dummyUpdatedPaymentDTO);
 
         this.updateOnePayment.execute(ANY_VALID_PAYMENT_ID, dummyPaymentDTO);
 
@@ -47,7 +47,7 @@ public class UpdateOnePaymentShould {
 
     @Test
     public void validate_the_payment_against_external_invariants() {
-        given(paymentService.update(anyString(), any(Payment.class))).willReturn(aDummyPayment());
+        given(paymentService.update(ANY_VALID_PAYMENT_ID, dummyPayment)).willReturn(dummyUpdatedPayment);
 
         this.updateOnePayment.execute(ANY_VALID_PAYMENT_ID, this.dummyPaymentDTO);
 
@@ -56,14 +56,16 @@ public class UpdateOnePaymentShould {
 
     @Test
     public void return_the_updated_paymentDTO() {
-        Payment dummyPayment = aDummyPayment();
-        Payment dummyUpdatedPayment = aDummyPayment();
-        given(paymentMapper.fromDTO(dummyPaymentDTO)).willReturn(dummyPayment);
-        given(paymentMapper.toDTO(dummyUpdatedPayment)).willReturn(dummyPaymentDTO);
-        given(paymentService.update(eq(ANY_VALID_PAYMENT_ID), any(Payment.class))).willReturn(dummyUpdatedPayment);
+        givenPaymentMapperMapsCorrectly(dummyPayment, dummyPaymentDTO, dummyUpdatedPayment, dummyUpdatedPaymentDTO);
+        given(paymentService.update(ANY_VALID_PAYMENT_ID, dummyPayment)).willReturn(dummyUpdatedPayment);
 
         PaymentDTO updatedPaymentDTO = this.updateOnePayment.execute(ANY_VALID_PAYMENT_ID, dummyPaymentDTO);
 
-        assertThat(updatedPaymentDTO, is(dummyPaymentDTO));
+        assertThat(updatedPaymentDTO, is(dummyUpdatedPaymentDTO));
+    }
+
+    private void givenPaymentMapperMapsCorrectly(Payment dummyPayment, PaymentDTO dummyPaymentDTO, Payment dummyUpdatedPayment, PaymentDTO dummyUpdatedPaymentDTO) {
+        given(paymentMapper.fromDTO(dummyPaymentDTO)).willReturn(dummyPayment);
+        given(paymentMapper.toDTO(dummyUpdatedPayment)).willReturn(dummyUpdatedPaymentDTO);
     }
 }
