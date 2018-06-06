@@ -1,6 +1,6 @@
 package com.islomar.payments.end2end;
 
-import com.islomar.payments.web.NewPaymentCommand;
+import com.islomar.payments.web.UpsertPaymentCommand;
 import com.islomar.payments.web.response.DeleteOnePaymentResponse;
 import com.islomar.payments.web.response.FetchAllPaymentsResponse;
 import com.islomar.payments.web.response.OnePaymentResponse;
@@ -47,8 +47,8 @@ public abstract class SpringBootBaseFeatureTest {
     }
 
     public ResponseEntity<OnePaymentResponse> createOnePayment() {
-        NewPaymentCommand newPaymentCommand = aNewPaymentCommand();
-        return restTemplate.postForEntity(generateBaseApiUri(), newPaymentCommand, OnePaymentResponse.class);
+        UpsertPaymentCommand upsertPaymentCommand = aNewPaymentCommand();
+        return restTemplate.postForEntity(generateBaseApiUri(), upsertPaymentCommand, OnePaymentResponse.class);
     }
 
     public ResponseEntity<DeleteOnePaymentResponse> deleteOnePayment(String paymentId) {
@@ -57,9 +57,9 @@ public abstract class SpringBootBaseFeatureTest {
     }
 
     public ResponseEntity<OnePaymentResponse> updateOnePayment(String paymentId) {
-        NewPaymentCommand updatePaymentCommand = aNewPaymentCommand();
+        UpsertPaymentCommand updatePaymentCommand = aNewPaymentCommand();
         updatePaymentCommand.setOrganisationId("updated-organisation-id");
-        RequestEntity<NewPaymentCommand> entity = new RequestEntity<>(updatePaymentCommand, HttpMethod.PUT, generatePaymentURI(paymentId));
+        RequestEntity<UpsertPaymentCommand> entity = new RequestEntity<>(updatePaymentCommand, HttpMethod.PUT, generatePaymentURI(paymentId));
         return restTemplate.exchange(entity, OnePaymentResponse.class);
     }
 

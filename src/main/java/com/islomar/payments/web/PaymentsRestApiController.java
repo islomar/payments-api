@@ -71,9 +71,9 @@ public class PaymentsRestApiController {
 
     @PostMapping(value = "/v1/payments")
     @ResponseBody
-    public ResponseEntity createOnePayment(HttpServletRequest request, @Valid @RequestBody NewPaymentCommand newPaymentCommand) {
-        System.out.println(String.format(">>>>>>>>>> newPaymentCommand: %s", newPaymentCommand));
-        PaymentDTO inputPaymentDTO = modelMapper.map(newPaymentCommand, PaymentDTO.class);
+    public ResponseEntity createOnePayment(HttpServletRequest request, @Valid @RequestBody UpsertPaymentCommand upsertPaymentCommand) {
+        System.out.println(String.format(">>>>>>>>>> upsertPaymentCommand: %s", upsertPaymentCommand));
+        PaymentDTO inputPaymentDTO = modelMapper.map(upsertPaymentCommand, PaymentDTO.class);
         System.out.println(String.format(">>>>>>>>>> inputPaymentDTO: %s", inputPaymentDTO));
 
         PaymentDTO createdPaymentDTO = createOnePayment.execute(inputPaymentDTO);
@@ -98,7 +98,7 @@ public class PaymentsRestApiController {
 
     @PutMapping(value = "/v1/payments/{paymentId}")
     @ResponseBody
-    public ResponseEntity fullUpdateOnePayment(HttpServletRequest request, @PathVariable String paymentId, @Valid @RequestBody NewPaymentCommand updatePaymentCommand) {
+    public ResponseEntity fullUpdateOnePayment(HttpServletRequest request, @PathVariable String paymentId, @Valid @RequestBody UpsertPaymentCommand updatePaymentCommand) {
         PaymentDTO inputPaymentDTO = modelMapper.map(updatePaymentCommand, PaymentDTO.class);
         PaymentDTO updatedPaymentDTO = this.updateOnePayment.execute(paymentId, inputPaymentDTO);
 

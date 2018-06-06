@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.islomar.payments.core.infrastructure.PaymentDTO;
-import com.islomar.payments.web.NewPaymentCommand;
+import com.islomar.payments.web.UpsertPaymentCommand;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -29,8 +29,8 @@ public class PaymentConverter {
         return this.objectMapper.readValue(this.classLoader.getResourceAsStream(filename), PaymentDTO.class);
     }
 
-    public NewPaymentCommand convertJsonFileToNewPaymentCommand(String filename) throws IOException {
-        return this.objectMapper.readValue(this.classLoader.getResourceAsStream(filename), NewPaymentCommand.class);
+    public UpsertPaymentCommand convertJsonFileToNewPaymentCommand(String filename) throws IOException {
+        return this.objectMapper.readValue(this.classLoader.getResourceAsStream(filename), UpsertPaymentCommand.class);
     }
 
     public String convertObjectToJsonString(Object object) throws JsonProcessingException {

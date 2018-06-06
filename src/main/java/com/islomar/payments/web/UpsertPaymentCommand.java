@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class NewPaymentCommand {
+public class UpsertPaymentCommand {
 
     @NotNull
     private PaymentType type;
