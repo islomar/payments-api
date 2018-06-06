@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 
 public class PaymentConverter {
 
-    private static ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
     private ClassLoader classLoader;
 
     public PaymentConverter() {

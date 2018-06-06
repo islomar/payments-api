@@ -9,12 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import static com.islomar.payments.shared.ObjectMother.ANY_VALID_PAYMENT_ID;
-import static com.islomar.payments.shared.ObjectMother.aDummyPayment;
-import static com.islomar.payments.shared.ObjectMother.aDummyPaymentDTO;
+import static com.islomar.payments.shared.ObjectMother.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;

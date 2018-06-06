@@ -33,9 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(PaymentsRestApiController.class)
 public class PaymentsRestApiControllerShould {
 
-    private static ObjectMapper objectMapper;
     private static PaymentConverter paymentConverter;
-    private ClassLoader classLoader = getClass().getClassLoader();
 
     @Autowired
     private MockMvc mockMvc;
@@ -50,8 +48,6 @@ public class PaymentsRestApiControllerShould {
     @BeforeClass
     public static void setUpClass() {
         paymentConverter = new PaymentConverter();
-        objectMapper = new ObjectMapper();
-        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
     }
 
     @Test
