@@ -75,28 +75,34 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
     }
 
     @When("^the client calls POST /v1/payments$")
-    public void theClientCallsPOSTVPayments() {
+    public void the_client_calls_POST() {
         this.paymentResponse = createOnePayment();
     }
 
     @When("^the client calls DELETE to the payment URI$")
-    public void theClientCallsDELETEToThePaymentURI() {
+    public void the_client_calls_DELETE_to_the_existing_payment_URI() {
         PaymentDTO existingPayment = (PaymentDTO)this.paymentResponse.getBody().getData();
         this.paymentResponse = deleteOnePayment(existingPayment.getId());
     }
 
     @When("^the client calls DELETE /v1/payments/(\\S+)$")
-    public void theClientCallsDELETEVPaymentsAnyUnknownId(String paymentId) {
+    public void the_client_calls_DELETE_to_payment_id(String paymentId) {
         this.paymentResponse = deleteOnePayment(paymentId);
     }
 
     @When("^the client calls PUT /v1/payments/(\\S+)$")
-    public void theClientCallsPUTVPaymentsAnyUnknownId(String paymentId) {
+    public void the_client_calls_PUT_to_payment_id(String paymentId) {
         this.paymentResponse = updateOnePayment(paymentId);
     }
 
+    @When("^the client calls PUT to the payment URI$")
+    public void the_client_calls_PUT_to_an_existing_payment_URI() {
+        PaymentDTO existingPayment = (PaymentDTO)this.paymentResponse.getBody().getData();
+        this.paymentResponse = updateOnePayment(existingPayment.getId());
+    }
+
     @Then("^(\\d+) payments are returned$")
-    public void payments_are_reReturned(int expectedNumberOfPaymentsReturned) throws Throwable {
+    public void payments_are_returned(int expectedNumberOfPaymentsReturned) throws Throwable {
         List<Payment> data = (List<Payment>) paymentResponse.getBody().getData();
         assertThat(data, hasSize(expectedNumberOfPaymentsReturned));
     }
@@ -107,7 +113,7 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
     }
 
     @And("^it receives response body text \"([^\"]*)\"$")
-    public void theClientReceivesResponseBodyText(String text) {
+    public void the_client_receives_response_body_text(String text) {
         assertThat(this.paymentResponse.getBody(), is(text));
     }
 
