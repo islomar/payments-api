@@ -87,7 +87,9 @@ public class PaymentsRestApiController {
         System.out.println(String.format(">>>>>>>>>> newPaymentCommand: %s", newPaymentCommand));
         PaymentDTO inputPaymentDTO = modelMapper.map(newPaymentCommand, PaymentDTO.class);
         System.out.println(String.format(">>>>>>>>>> inputPaymentDTO: %s", inputPaymentDTO));
+
         PaymentDTO createdPaymentDTO = createOnePayment.execute(inputPaymentDTO);
+
         System.out.println(String.format(">>>>>>>>>> createdPaymentDTO: %s", createdPaymentDTO));
         URI paymentUri = buildPaymentURI(request, createdPaymentDTO);
         FetchOrCreateOnePaymentResponse response = new FetchOrCreateOnePaymentResponse(createdPaymentDTO);

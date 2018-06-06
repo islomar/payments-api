@@ -6,6 +6,7 @@ import com.islomar.payments.core.model.PaymentType;
 import com.islomar.payments.core.model.payment_attributes.PaymentAttributes;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -21,6 +22,8 @@ public class NewPaymentCommand {
     @NotNull
     private PaymentType type;
     private int version;
+    @NotBlank
     private String organisationId;
+    @NotNull
     private PaymentAttributes attributes;
 }
