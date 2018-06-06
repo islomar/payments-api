@@ -1,35 +1,21 @@
 package com.islomar.payments.web;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.islomar.payments.core.actions.CreateOnePayment;
-import com.islomar.payments.core.actions.DeleteOnePayment;
-import com.islomar.payments.core.actions.FetchAllPayments;
-import com.islomar.payments.core.actions.FetchOnePayment;
+import com.islomar.payments.core.actions.*;
 import com.islomar.payments.core.infrastructure.PaymentDTO;
-import com.islomar.payments.core.model.exceptions.PaymentNotFoundException;
 import com.islomar.payments.web.response.FetchAllPaymentsResponse;
-import com.islomar.payments.web.response.FetchOrCreateOnePaymentResponse;
+import com.islomar.payments.web.response.OnePaymentResponse;
 import com.islomar.payments.web.response.PaymentResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageConversionException;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -43,15 +29,17 @@ public class PaymentsRestApiController {
     private FetchOnePayment fetchOnePayment;
     private DeleteOnePayment deleteOnePayment;
     private FetchAllPayments fetchAllPayments;
+    private UpdateOnePayment updateOnePayment;
     private ModelMapper modelMapper = new ModelMapper();
 
     @Autowired
-    public PaymentsRestApiController(CreateOnePayment createOnePayment, FetchOnePayment fetchOnePayment, DeleteOnePayment deleteOnePayment, FetchAllPayments fetchAllPayments) {
+    public PaymentsRestApiController(CreateOnePayment createOnePayment, FetchOnePayment fetchOnePayment, DeleteOnePayment deleteOnePayment, FetchAllPayments fetchAllPayments, UpdateOnePayment updateOnePayment) {
 
         this.createOnePayment = createOnePayment;
         this.fetchOnePayment = fetchOnePayment;
         this.deleteOnePayment = deleteOnePayment;
         this.fetchAllPayments = fetchAllPayments;
+        this.updateOnePayment = updateOnePayment;
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
     }
 
@@ -72,11 +60,11 @@ public class PaymentsRestApiController {
 
     @GetMapping(value = "/v1/payments/{paymentId}")
     @ResponseBody
-    public FetchOrCreateOnePaymentResponse fetchOnePayment(HttpServletRequest request, @PathVariable String paymentId) {
+    public OnePaymentResponse fetchOnePayment(HttpServletRequest request, @PathVariable String paymentId) {
         PaymentDTO paymentDTO = this.fetchOnePayment.execute(paymentId);
 
         URI paymentUri = URI.create(currentUrl(request).toString());
-        FetchOrCreateOnePaymentResponse response = new FetchOrCreateOnePaymentResponse(paymentDTO);
+        OnePaymentResponse response = new OnePaymentResponse(paymentDTO);
         fillResponseWithLinks(response, paymentUri);
         return response;
     }
@@ -92,7 +80,7 @@ public class PaymentsRestApiController {
 
         System.out.println(String.format(">>>>>>>>>> createdPaymentDTO: %s", createdPaymentDTO));
         URI paymentUri = buildPaymentURI(request, createdPaymentDTO);
-        FetchOrCreateOnePaymentResponse response = new FetchOrCreateOnePaymentResponse(createdPaymentDTO);
+        OnePaymentResponse response = new OnePaymentResponse(createdPaymentDTO);
         fillResponseWithLinks(response, paymentUri);
 
         HttpHeaders headers = generateHeadersWithLocation(paymentUri);
@@ -106,6 +94,19 @@ public class PaymentsRestApiController {
         this.deleteOnePayment.execute(paymentId);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(value = "/v1/payments/{paymentId}")
+    @ResponseBody
+    public ResponseEntity fullUpdateOnePayment(HttpServletRequest request, @PathVariable String paymentId, @Valid @RequestBody NewPaymentCommand updatePaymentCommand) {
+        PaymentDTO inputPaymentDTO = modelMapper.map(updatePaymentCommand, PaymentDTO.class);
+        PaymentDTO updatedPaymentDTO = this.updateOnePayment.execute(paymentId, inputPaymentDTO);
+
+        OnePaymentResponse response = new OnePaymentResponse(updatedPaymentDTO);
+        URI paymentURI = buildPaymentURI(request, updatedPaymentDTO);
+        HttpHeaders headers = generateHeadersWithLocation(paymentURI);
+
+        return new ResponseEntity<>(response, headers, OK);
     }
 
     private URI currentUrl(HttpServletRequest request) {

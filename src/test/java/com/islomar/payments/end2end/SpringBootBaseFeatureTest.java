@@ -1,10 +1,9 @@
 package com.islomar.payments.end2end;
 
-import com.islomar.payments.core.model.payment_attributes.PaymentAttributes;
 import com.islomar.payments.web.NewPaymentCommand;
 import com.islomar.payments.web.response.DeleteOnePaymentResponse;
 import com.islomar.payments.web.response.FetchAllPaymentsResponse;
-import com.islomar.payments.web.response.FetchOrCreateOnePaymentResponse;
+import com.islomar.payments.web.response.OnePaymentResponse;
 
 
 import org.junit.runner.RunWith;
@@ -17,9 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.math.BigDecimal;
 import java.net.URI;
-import java.util.Currency;
 
 import static com.islomar.payments.shared.ObjectMother.aNewPaymentCommand;
 
@@ -41,22 +38,29 @@ public abstract class SpringBootBaseFeatureTest {
         restTemplate = new TestRestTemplate();
     }
 
-    public ResponseEntity<FetchOrCreateOnePaymentResponse> fetchOnePayment(String paymentId) {
-        return restTemplate.getForEntity(generatePaymentURI(paymentId), FetchOrCreateOnePaymentResponse.class);
+    public ResponseEntity<OnePaymentResponse> fetchOnePayment(String paymentId) {
+        return restTemplate.getForEntity(generatePaymentURI(paymentId), OnePaymentResponse.class);
     }
 
     public ResponseEntity<FetchAllPaymentsResponse> fetchAllPayments() {
         return restTemplate.getForEntity(generateBaseApiUri(), FetchAllPaymentsResponse.class);
     }
 
-    public ResponseEntity<FetchOrCreateOnePaymentResponse> createOnePayment() {
+    public ResponseEntity<OnePaymentResponse> createOnePayment() {
         NewPaymentCommand newPaymentCommand = aNewPaymentCommand();
-        return restTemplate.postForEntity(generateBaseApiUri(), newPaymentCommand, FetchOrCreateOnePaymentResponse.class);
+        return restTemplate.postForEntity(generateBaseApiUri(), newPaymentCommand, OnePaymentResponse.class);
     }
 
     public ResponseEntity<DeleteOnePaymentResponse> deleteOnePayment(String paymentId) {
         RequestEntity<DeleteOnePaymentResponse> entity = new RequestEntity<>(HttpMethod.DELETE, generatePaymentURI(paymentId));
         return restTemplate.exchange(entity, DeleteOnePaymentResponse.class);
+    }
+
+    public ResponseEntity<OnePaymentResponse> updateOnePayment(String paymentId) {
+        NewPaymentCommand updatePaymentCommand = aNewPaymentCommand();
+        updatePaymentCommand.setOrganisationId("updated-organisation-id");
+        RequestEntity<NewPaymentCommand> entity = new RequestEntity<>(updatePaymentCommand, HttpMethod.PUT, generatePaymentURI(paymentId));
+        return restTemplate.exchange(entity, OnePaymentResponse.class);
     }
 
     private URI generatePaymentURI(String paymentId) {

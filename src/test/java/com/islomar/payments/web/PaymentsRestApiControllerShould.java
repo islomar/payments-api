@@ -1,21 +1,14 @@
 package com.islomar.payments.web;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.islomar.payments.core.actions.CreateOnePayment;
-import com.islomar.payments.core.actions.DeleteOnePayment;
-import com.islomar.payments.core.actions.FetchAllPayments;
-import com.islomar.payments.core.actions.FetchOnePayment;
+import com.islomar.payments.core.actions.*;
 import com.islomar.payments.core.infrastructure.PaymentDTO;
 import com.islomar.payments.core.model.exceptions.PaymentNotFoundException;
-import com.islomar.payments.shared.ObjectMother;
 import com.islomar.payments.shared.PaymentConverter;
-import com.islomar.payments.web.response.FetchOrCreateOnePaymentResponse;
-import org.apache.commons.io.IOUtils;
+import com.islomar.payments.web.response.OnePaymentResponse;
 import org.apache.commons.lang3.SerializationUtils;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +20,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 
 import static com.islomar.payments.shared.ObjectMother.*;
@@ -53,6 +44,7 @@ public class PaymentsRestApiControllerShould {
     @MockBean private FetchOnePayment fetchOnePayment;
     @MockBean private DeleteOnePayment deleteOnePayment;
     @MockBean private FetchAllPayments fetchAllPayments;
+    @MockBean private UpdateOnePayment updateOnePayment;
 
 
     @BeforeClass
@@ -76,7 +68,7 @@ public class PaymentsRestApiControllerShould {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(paymentConverter.loadJsonFile(NEW_PAYMENT_COMMAND_JSON_FILE));
 
-        FetchOrCreateOnePaymentResponse expectedContent = new FetchOrCreateOnePaymentResponse(createdPaymentDTO);
+        OnePaymentResponse expectedContent = new OnePaymentResponse(createdPaymentDTO);
         mockMvc.perform(postRequest)
                 .andExpect(header().string("Location", LOCALHOST_URL + V1_PAYMENT_API_BASE_PATH + "/" + createdPaymentDTO.getId()))
                 .andExpect(status().isCreated())
@@ -113,7 +105,7 @@ public class PaymentsRestApiControllerShould {
         RequestBuilder getRequest = get(V1_PAYMENT_API_BASE_PATH + "/" + paymentDTO.getId())
                                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                                 .contentType(MediaType.APPLICATION_JSON);
-        FetchOrCreateOnePaymentResponse expectedContent = new FetchOrCreateOnePaymentResponse(paymentDTO);
+        OnePaymentResponse expectedContent = new OnePaymentResponse(paymentDTO);
         mockMvc.perform(getRequest)
                 .andExpect(status().isOk())
                 .andExpect(content().json(paymentConverter.convertObjectToJsonString(expectedContent)));

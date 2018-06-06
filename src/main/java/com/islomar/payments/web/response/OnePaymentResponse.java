@@ -9,14 +9,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ToString
-public class FetchOrCreateOnePaymentResponse implements PaymentResponse {
+public class OnePaymentResponse implements PaymentResponse {
 
     private PaymentDTO data;
     private Map<String, URI> links;
 
-    public FetchOrCreateOnePaymentResponse(){}
+    public OnePaymentResponse(){}
 
-    public FetchOrCreateOnePaymentResponse(PaymentDTO data) {
+    public OnePaymentResponse(PaymentDTO data) {
 
         this.data = data;
         this.links = new HashMap<>();

@@ -8,21 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreateOnePayment extends PaymentAction {
+public class UpdateOnePayment extends PaymentAction {
 
     private final PaymentService paymentService;
     private final PaymentExternalValidator paymentExternalValidator;
 
     @Autowired
-    public CreateOnePayment(PaymentService paymentService, PaymentExternalValidator paymentExternalValidator) {
+    public UpdateOnePayment(PaymentService paymentService, PaymentExternalValidator paymentExternalValidator) {
         this.paymentService = paymentService;
         this.paymentExternalValidator = paymentExternalValidator;
     }
 
-    public PaymentDTO execute(PaymentDTO paymentDTO) {
+    public PaymentDTO execute(String paymentId, PaymentDTO paymentDTO) {
         this.paymentExternalValidator.validate(paymentDTO);
         Payment payment = fromDTO(paymentDTO);
-        Payment createdPayment = paymentService.save(payment);
-        return toDTO(createdPayment);
+        Payment updatedPayment = paymentService.update(paymentId, payment);
+        return toDTO(updatedPayment);
     }
 }

@@ -26,6 +26,14 @@ public class PaymentService {
         return payment;
     }
 
+    public Payment update(String paymentId, Payment paymentToBeUpdated) {
+        Optional<Payment> foundPayment = this.paymentRepository.findById(paymentId);
+        raiseExceptionIfPaymentNotFound(foundPayment);
+        paymentToBeUpdated.setId(paymentId);
+        this.paymentRepository.update(paymentToBeUpdated);
+        return paymentToBeUpdated;
+    }
+
     public Payment findById(String paymentId) {
         Optional<Payment> payment = this.paymentRepository.findById(paymentId);
         raiseExceptionIfPaymentNotFound(payment);

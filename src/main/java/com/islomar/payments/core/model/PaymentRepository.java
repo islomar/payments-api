@@ -9,6 +9,8 @@ import java.util.Optional;
 public interface PaymentRepository {
     void save(Payment payment);
 
+    Payment update(Payment payment);
+
     Optional<Payment> findById(String paymentId);
 
     void deleteById(String paymentId);

@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class FetchAllPayments extends PaymentAction {
+
     private final PaymentService paymentService;
 
     @Autowired

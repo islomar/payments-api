@@ -5,6 +5,7 @@ import com.islomar.payments.core.infrastructure.PaymentDTO;
 import com.islomar.payments.end2end.SpringBootBaseFeatureTest;
 import com.islomar.payments.web.response.FetchAllPaymentsResponse;
 import com.islomar.payments.web.response.PaymentResponse;
+import cucumber.api.PendingException;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -87,6 +88,11 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
     @When("^the client calls DELETE /v1/payments/(\\S+)$")
     public void theClientCallsDELETEVPaymentsAnyUnknownId(String paymentId) {
         this.paymentResponse = deleteOnePayment(paymentId);
+    }
+
+    @When("^the client calls PUT /v1/payments/(\\S+)$")
+    public void theClientCallsPUTVPaymentsAnyUnknownId(String paymentId) {
+        this.paymentResponse = updateOnePayment(paymentId);
     }
 
     @Then("^(\\d+) payments are returned$")

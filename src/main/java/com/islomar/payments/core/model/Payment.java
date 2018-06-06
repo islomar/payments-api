@@ -21,7 +21,6 @@ public class Payment implements Entity {
     private PaymentAttributes attributes;
 
     public Payment(String id, PaymentType type, int version, String organisationId, PaymentAttributes attributes) {
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> WTF " + type);
         this.id = id;
         this.type = type;
         this.version = version;
