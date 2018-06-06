@@ -21,6 +21,8 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.util.Currency;
 
+import static com.islomar.payments.shared.ObjectMother.aNewPaymentCommand;
+
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration
@@ -48,18 +50,13 @@ public abstract class SpringBootBaseFeatureTest {
     }
 
     public ResponseEntity<FetchOrCreateOnePaymentResponse> createOnePayment() {
-        NewPaymentCommand newPaymentCommand = this.generateNewPaymentCommand();
+        NewPaymentCommand newPaymentCommand = aNewPaymentCommand();
         return restTemplate.postForEntity(generateBaseApiUri(), newPaymentCommand, FetchOrCreateOnePaymentResponse.class);
     }
 
     public ResponseEntity<DeleteOnePaymentResponse> deleteOnePayment(String paymentId) {
         RequestEntity<DeleteOnePaymentResponse> entity = new RequestEntity<>(HttpMethod.DELETE, generatePaymentURI(paymentId));
         return restTemplate.exchange(entity, DeleteOnePaymentResponse.class);
-    }
-
-    private NewPaymentCommand generateNewPaymentCommand() {
-        PaymentAttributes paymentAttributes = PaymentAttributes.builder().amount(BigDecimal.valueOf(100.21)).currency(Currency.getInstance("GBP")).build();
-        return NewPaymentCommand.builder().attributes(paymentAttributes).build();
     }
 
     private URI generatePaymentURI(String paymentId) {

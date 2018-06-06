@@ -6,6 +6,8 @@ import com.islomar.payments.core.model.PaymentType;
 import com.islomar.payments.core.model.payment_attributes.PaymentAttributes;
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Setter
 @Builder
@@ -16,6 +18,7 @@ import lombok.*;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class NewPaymentCommand {
 
+    @NotNull
     private PaymentType type;
     private int version;
     private String organisationId;

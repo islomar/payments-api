@@ -18,10 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -80,7 +83,7 @@ public class PaymentsRestApiController {
 
     @PostMapping(value = "/v1/payments")
     @ResponseBody
-    public ResponseEntity createOnePayment(HttpServletRequest request, @RequestBody NewPaymentCommand newPaymentCommand) {
+    public ResponseEntity createOnePayment(HttpServletRequest request, @Valid @RequestBody NewPaymentCommand newPaymentCommand) {
         System.out.println(String.format(">>>>>>>>>> newPaymentCommand: %s", newPaymentCommand));
         PaymentDTO inputPaymentDTO = modelMapper.map(newPaymentCommand, PaymentDTO.class);
         System.out.println(String.format(">>>>>>>>>> inputPaymentDTO: %s", inputPaymentDTO));
@@ -120,24 +123,4 @@ public class PaymentsRestApiController {
         headers.setLocation(paymentUri);
         return headers;
     }
-
-    @ExceptionHandler({PaymentNotFoundException.class})
-    void handleNotFoundError(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.sendError(NOT_FOUND.value());
-    }
-
-    @ExceptionHandler({HttpMessageConversionException.class, InvalidFormatException.class})
-    void handleBadRequestError(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.sendError(BAD_REQUEST.value());
-    }
-
-    @ExceptionHandler({Exception.class})
-    @Order(Ordered.LOWEST_PRECEDENCE)
-    void handleInternalServerError(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
-        LOGGER.error("{} request: {} raised {}", request.getMethod(), request.getRequestURL(), ex);
-        response.sendError(INTERNAL_SERVER_ERROR.value());
-    }
-
-
-
 }
