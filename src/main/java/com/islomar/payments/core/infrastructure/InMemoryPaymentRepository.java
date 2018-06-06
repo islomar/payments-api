@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 public class InMemoryPaymentRepository implements PaymentRepository {
@@ -23,7 +24,7 @@ public class InMemoryPaymentRepository implements PaymentRepository {
         String paymentId = newPayment.getId();
         updateVersion(paymentId, newPayment);
         paymentStore.put(paymentId, newPayment);
-        return SerializationUtils.clone(newPayment);
+        return SerializationUtils.clone(SerializationUtils.clone(newPayment));
     }
 
     @Override
@@ -38,7 +39,7 @@ public class InMemoryPaymentRepository implements PaymentRepository {
 
     @Override
     public List<Payment> findAll() {
-        return new ArrayList(this.paymentStore.values());
+        return this.paymentStore.values().stream().map(SerializationUtils::clone).collect(Collectors.toList());
     }
 
     private void updateVersion(String paymentId, Payment newPayment) {
