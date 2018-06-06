@@ -9,3 +9,4 @@ Feature: Fetch one payment resource
     When the client calls GET to the payment URI
     Then it receives response status code of 200
     And the self link attribute points to the payment URI
+    And the response has JSON format

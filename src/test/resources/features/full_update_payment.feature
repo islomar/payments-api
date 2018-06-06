@@ -8,3 +8,4 @@ Feature: FULL Update of a payment
     Given it exists 1 payments
     When the client calls PUT to the payment URI
     Then it receives response status code of 200
+    And the response has JSON format
