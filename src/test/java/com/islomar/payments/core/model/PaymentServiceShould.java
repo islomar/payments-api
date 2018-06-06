@@ -8,9 +8,7 @@ import org.mockito.Mock;
 import java.util.*;
 
 import static com.islomar.payments.shared.ObjectMother.*;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;

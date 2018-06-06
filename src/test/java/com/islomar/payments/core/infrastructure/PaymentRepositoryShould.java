@@ -3,14 +3,12 @@ package com.islomar.payments.core.infrastructure;
 import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.core.model.PaymentRepository;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 
 import static com.islomar.payments.shared.ObjectMother.aPaymentBuilder;
 import static org.hamcrest.MatcherAssert.assertThat;
