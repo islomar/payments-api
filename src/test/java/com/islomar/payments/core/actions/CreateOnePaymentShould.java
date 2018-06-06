@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Spy;
 
+import static com.islomar.payments.shared.ObjectMother.aPayment;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -31,7 +32,7 @@ public class CreateOnePaymentShould {
 
     @Test
     public void save_a_valid_payment() {
-        Payment dummyPayment = createDummyPayment();
+        Payment dummyPayment = aPayment();
         given(paymentService.save(any(Payment.class))).willReturn(dummyPayment);
 
         this.createOnePayment.execute(this.paymentDTO);
@@ -41,15 +42,11 @@ public class CreateOnePaymentShould {
 
     @Test
     public void return_the_created_payment() {
-        Payment dummyPayment = createDummyPayment();
+        Payment dummyPayment = aPayment();
         given(paymentService.save(any(Payment.class))).willReturn(dummyPayment);
 
         PaymentDTO createdPaymentDTO = this.createOnePayment.execute(this.paymentDTO);
 
         assertThat(createdPaymentDTO, is(this.paymentDTO));
-    }
-
-    private Payment createDummyPayment() {
-        return Payment.builder().build();
     }
 }
