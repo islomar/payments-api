@@ -83,13 +83,10 @@ public class PaymentsRestApiControllerShould {
                 .andExpect(content().json(paymentConverter.convertObjectToJsonString(expectedContent)));
     }
 
-    @Ignore
+    @Test
     public void return_code_400_when_creating_one_payment_with_invalid_type() throws Exception {
-        System.out.println(String.format(">>>>>>>>>> START"));
         PaymentDTO paymentDTO = paymentConverter.convertJsonFileToPaymentTO("json_request_body/one_payment_with_invalid_type.json");
-        System.out.println(String.format(">>>>>>>>>> Test - PaymentDTO: %s", paymentDTO));
         when(this.createOnePayment.execute(paymentDTO)).thenReturn(paymentDTO);
-
         RequestBuilder postRequest = post(V1_PAYMENT_API_BASE_PATH)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -97,8 +94,6 @@ public class PaymentsRestApiControllerShould {
 
         mockMvc.perform(postRequest)
                 .andExpect(status().isBadRequest());
-
-        System.out.println(String.format(">>>>>>>>>> END"));
     }
 
     @Test
