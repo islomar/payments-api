@@ -46,8 +46,7 @@ public abstract class SpringBootBaseFeatureTest {
         return restTemplate.getForEntity(generateBaseApiUri(), FetchAllPaymentsResponse.class);
     }
 
-    public ResponseEntity<OnePaymentResponse> createOnePayment() {
-        UpsertPaymentCommand upsertPaymentCommand = aNewPaymentCommand();
+    public ResponseEntity<OnePaymentResponse> createOnePayment(UpsertPaymentCommand upsertPaymentCommand) {
         return restTemplate.postForEntity(generateBaseApiUri(), upsertPaymentCommand, OnePaymentResponse.class);
     }
 

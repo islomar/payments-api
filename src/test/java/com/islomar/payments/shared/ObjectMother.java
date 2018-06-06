@@ -31,11 +31,23 @@ public class ObjectMother {
     }
 
     public static UpsertPaymentCommand aNewPaymentCommand() {
-        PaymentAttributes paymentAttributes = PaymentAttributes.builder().amount(BigDecimal.valueOf(100.21)).currency(Currency.getInstance("GBP")).build();
+        PaymentAttributes paymentAttributes = generatePaymentAttributes();
         return UpsertPaymentCommand.builder()
                 .type(PaymentType.PAYMENT)
                 .organisationId(ANY_VALID_ORGASATION_ID)
                 .attributes(paymentAttributes)
                 .build();
+    }
+
+    public static UpsertPaymentCommand aNewPaymentCommandWithoutType() {
+        PaymentAttributes paymentAttributes = generatePaymentAttributes();
+        return UpsertPaymentCommand.builder()
+                .organisationId(ANY_VALID_ORGASATION_ID)
+                .attributes(paymentAttributes)
+                .build();
+    }
+
+    private static PaymentAttributes generatePaymentAttributes() {
+        return PaymentAttributes.builder().amount(BigDecimal.valueOf(100.21)).currency(Currency.getInstance("GBP")).build();
     }
 }

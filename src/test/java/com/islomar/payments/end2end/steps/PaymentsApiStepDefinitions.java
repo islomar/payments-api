@@ -3,9 +3,9 @@ package com.islomar.payments.end2end.steps;
 import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.core.infrastructure.PaymentDTO;
 import com.islomar.payments.end2end.SpringBootBaseFeatureTest;
+import com.islomar.payments.web.UpsertPaymentCommand;
 import com.islomar.payments.web.response.FetchAllPaymentsResponse;
 import com.islomar.payments.web.response.PaymentResponse;
-import cucumber.api.PendingException;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -20,6 +20,8 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.islomar.payments.shared.ObjectMother.aNewPaymentCommand;
+import static com.islomar.payments.shared.ObjectMother.aNewPaymentCommandWithoutType;
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
@@ -54,7 +56,7 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
     @Given("^it exists (\\d+) payments$")
     public void it_exists_payments(int numberOfPayments) {
         for (int i=0; i< numberOfPayments; i++) {
-            this.paymentResponse = createOnePayment();
+            this.paymentResponse = createOnePayment(aNewPaymentCommand());
         }
     }
 
@@ -76,7 +78,12 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
 
     @When("^the client calls POST /v1/payments$")
     public void the_client_calls_POST() {
-        this.paymentResponse = createOnePayment();
+        this.paymentResponse = createOnePayment(aNewPaymentCommand());
+    }
+
+    @When("^the client calls POST /v1/payments without type$")
+    public void the_client_calls_POST_without_type() {
+        this.paymentResponse = createOnePayment(aNewPaymentCommandWithoutType());
     }
 
     @When("^the client calls DELETE to the payment URI$")

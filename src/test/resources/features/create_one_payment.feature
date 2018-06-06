@@ -7,6 +7,6 @@ Feature: Create one payment resource
     And the self link attribute points to the payment URI
     And the response has JSON format
 
-#  Scenario: The payment resource does not contain all the required attributes
-#    When the client calls POST /v1/payments
-#    Then it receives response status code of 400
+  Scenario: The payment resource does not contain all the required attributes
+    When the client calls POST /v1/payments without type
+    Then it receives response status code of 400
