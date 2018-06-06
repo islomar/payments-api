@@ -2,7 +2,6 @@ package com.islomar.payments.core.infrastructure;
 
 import com.islomar.payments.core.model.Payment;
 import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
