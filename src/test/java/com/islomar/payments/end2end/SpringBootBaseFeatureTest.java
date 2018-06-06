@@ -1,7 +1,6 @@
 package com.islomar.payments.end2end;
 
 import com.islomar.payments.web.UpsertPaymentCommand;
-import com.islomar.payments.web.response.DeleteOnePaymentResponse;
 import com.islomar.payments.web.response.FetchAllPaymentsResponse;
 import com.islomar.payments.web.response.OnePaymentResponse;
 
@@ -50,9 +49,9 @@ public abstract class SpringBootBaseFeatureTest {
         return restTemplate.postForEntity(generateBaseApiUri(), upsertPaymentCommand, OnePaymentResponse.class);
     }
 
-    public ResponseEntity<DeleteOnePaymentResponse> deleteOnePayment(String paymentId) {
-        RequestEntity<DeleteOnePaymentResponse> entity = new RequestEntity<>(HttpMethod.DELETE, generatePaymentURI(paymentId));
-        return restTemplate.exchange(entity, DeleteOnePaymentResponse.class);
+    public ResponseEntity<OnePaymentResponse> deleteOnePayment(String paymentId) {
+        RequestEntity<OnePaymentResponse> entity = new RequestEntity<>(HttpMethod.DELETE, generatePaymentURI(paymentId));
+        return restTemplate.exchange(entity, OnePaymentResponse.class);
     }
 
     public ResponseEntity<OnePaymentResponse> updateOnePayment(String paymentId) {

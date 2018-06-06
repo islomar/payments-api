@@ -28,4 +28,8 @@ public class Payment implements Entity, Serializable {
         this.organisationId = organisationId;
         this.attributes = attributes;
     }
+
+    public void validate() {
+
+    }
 }
