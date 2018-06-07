@@ -1,7 +1,6 @@
 package com.islomar.payments.end2end.steps;
 
 import com.islomar.payments.core.infrastructure.PaymentDTO;
-import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.end2end.SpringBootBaseFeatureTest;
 import com.islomar.payments.web.response.FetchAllPaymentsResponse;
 import com.islomar.payments.web.response.PaymentResponse;
@@ -111,7 +110,7 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
 
     @Then("^(\\d+) payments are returned$")
     public void payments_are_returned(int expectedNumberOfPaymentsReturned) throws Throwable {
-        List<Payment> data = (List<Payment>) paymentResponse.getBody().getData();
+        List<PaymentDTO> data = (List<PaymentDTO>) paymentResponse.getBody().getData();
         assertThat(data, hasSize(expectedNumberOfPaymentsReturned));
     }
 
@@ -158,6 +157,13 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
 
         assertTrue(matcher.matches());
         assertResourceIdIsValidUUID(matcher);
+    }
+
+    @And("^the resource version is (\\d+)$")
+    public void the_resource_version_is(int version) {
+        PaymentDTO paymentDTO = (PaymentDTO) paymentResponse.getBody().getData();
+
+        assertThat(paymentDTO.getVersion(), is(version));
     }
 
     private void assertResourceIdIsValidUUID(Matcher matcher) {
