@@ -8,6 +8,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 @Getter
 @Setter
@@ -19,11 +20,8 @@ import javax.validation.constraints.NotNull;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class UpsertPaymentCommand {
 
-    @NotNull
-    private PaymentType type;
-    private int version;
-    @NotBlank
-    private String organisationId;
-    @NotNull
-    private PaymentAttributes attributes;
+    @NotNull private PaymentType type;
+    @PositiveOrZero private int version;
+    @NotBlank private String organisationId;
+    @NotNull private PaymentAttributes attributes;
 }

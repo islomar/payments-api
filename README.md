@@ -21,15 +21,15 @@
 
 ## Testing
 ### How to run the automated tests locally
-* Run the isolated tests with `mvn clean test`
-* Run the end to end tests with `mvn clean test -Pend2end`
+* **Isolated tests**: run `mvn clean test`
+* **End to end tests** run`mvn clean test -Pend2end`
 
 ### Manually test
 * You can import the Postman file included in "" and execute it from Postman.
 
 ### Mutation testing
 * Mutation testing is a good way to check how good your tests are.
-* Run `mvn org.pitest:pitest-maven:mutationCoverage`
+* Run `mvn clean test && mvn -DwithHistory org.pitest:pitest-maven:mutationCoverage` (you need to run the tests first)
 * You can see the HTML reports created under /target/pit-reports/<timestamp>
 
 ## Production environment
