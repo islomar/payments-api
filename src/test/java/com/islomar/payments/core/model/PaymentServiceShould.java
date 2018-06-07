@@ -20,18 +20,20 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class PaymentServiceShould {
 
     @Mock private PaymentRepository paymentRepository;
+    @Mock private PaymentValidator paymentValidator;
     private PaymentService paymentService;
 
     @Before
     public void setUp() {
         initMocks(this);
-        paymentService = new PaymentService(paymentRepository);
+        paymentService = new PaymentService(paymentRepository, paymentValidator);
     }
 
     @Test
     public void persist_the_payment_when_saving_a_payment() {
-        Payment dummyPayment = aDummyPayment();
-
+        Payment dummyPayment = anEmptyPayment();
+        //FIXME
+        //given(paymentValidator.validate(any())).willThrow();
         this.paymentService.save(dummyPayment);
 
         verify(this.paymentRepository).save(any(Payment.class));
@@ -39,7 +41,7 @@ public class PaymentServiceShould {
 
     @Test
     public void return_paymentId_with_UUID_format_when_saving_a_payment() {
-        Payment dummyPayment = aDummyPayment();
+        Payment dummyPayment = anEmptyPayment();
 
         Payment createdPayment = this.paymentService.save(dummyPayment);
 
@@ -67,7 +69,7 @@ public class PaymentServiceShould {
 
     @Test
     public void delete_a_payment_if_it_exists() {
-        given(paymentRepository.findById(ANY_VALID_PAYMENT_ID)).willReturn(Optional.of(aDummyPayment()));
+        given(paymentRepository.findById(ANY_VALID_PAYMENT_ID)).willReturn(Optional.of(anEmptyPayment()));
 
         this.paymentService.delete(ANY_VALID_PAYMENT_ID);
 
@@ -83,7 +85,7 @@ public class PaymentServiceShould {
 
     @Test
     public void fetch_a_payment_if_it_exists() {
-        Payment expectedFoundPayment = aDummyPayment();
+        Payment expectedFoundPayment = anEmptyPayment();
         given(paymentRepository.findById(ANY_VALID_PAYMENT_ID)).willReturn(Optional.of(expectedFoundPayment));
 
         Payment foundPayment = this.paymentService.findById(ANY_VALID_PAYMENT_ID);
@@ -111,7 +113,7 @@ public class PaymentServiceShould {
 
     @Test
     public void return_all_the_existing_payments() {
-        given(paymentRepository.findAll()).willReturn(Arrays.asList(aDummyPayment(), aDummyPayment()));
+        given(paymentRepository.findAll()).willReturn(Arrays.asList(anEmptyPayment(), anEmptyPayment()));
 
         List<Payment> allPayments = this.paymentService.findAll();
 

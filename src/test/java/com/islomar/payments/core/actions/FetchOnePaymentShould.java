@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import static com.islomar.payments.shared.ObjectMother.ANY_VALID_PAYMENT_ID;
-import static com.islomar.payments.shared.ObjectMother.aDummyPayment;
+import static com.islomar.payments.shared.ObjectMother.anEmptyPayment;
 import static com.islomar.payments.shared.ObjectMother.aDummyPaymentDTO;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -31,7 +31,7 @@ public class FetchOnePaymentShould {
 
     @Test
     public void fetch_one_existing_payment() {
-        Payment dummyPayment = aDummyPayment();
+        Payment dummyPayment = anEmptyPayment();
         PaymentDTO dummyPaymentDTO = aDummyPaymentDTO();
         given(paymentService.findById(ANY_VALID_PAYMENT_ID)).willReturn(dummyPayment);
         given(paymentMapper.toDTO(dummyPayment)).willReturn(dummyPaymentDTO);

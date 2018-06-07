@@ -12,16 +12,19 @@ import java.util.UUID;
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
+    private final PaymentValidator validator;
 
     @Autowired
-    public PaymentService(PaymentRepository paymentRepository) {
+    public PaymentService(PaymentRepository paymentRepository, PaymentValidator validator) {
 
         this.paymentRepository = paymentRepository;
+        this.validator = validator;
     }
 
     public Payment save(Payment payment) {
         String paymentId = this.generatePaymentId();
         payment.setId(paymentId);
+        payment.validate(validator);
         this.paymentRepository.save(payment);
         return payment;
     }

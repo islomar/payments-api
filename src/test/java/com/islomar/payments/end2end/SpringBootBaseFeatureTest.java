@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.IOException;
 import java.net.URI;
 
 import static com.islomar.payments.shared.ObjectMother.aNewPaymentCommand;
@@ -54,7 +55,7 @@ public abstract class SpringBootBaseFeatureTest {
         return restTemplate.exchange(entity, OnePaymentResponse.class);
     }
 
-    public ResponseEntity<OnePaymentResponse> updateOnePayment(String paymentId) {
+    public ResponseEntity<OnePaymentResponse> updateOnePayment(String paymentId) throws IOException {
         UpsertPaymentCommand updatePaymentCommand = aNewPaymentCommand();
         updatePaymentCommand.setOrganisationId("updated-organisation-id");
         RequestEntity<UpsertPaymentCommand> entity = new RequestEntity<>(updatePaymentCommand, HttpMethod.PUT, generatePaymentURI(paymentId));

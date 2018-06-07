@@ -11,7 +11,7 @@ import org.mockito.Mock;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.islomar.payments.shared.ObjectMother.aDummyPayment;
+import static com.islomar.payments.shared.ObjectMother.anEmptyPayment;
 import static com.islomar.payments.shared.ObjectMother.aDummyPaymentDTO;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -36,9 +36,9 @@ public class FetchAllPaymentsShould {
 
     @Test
     public void fetch_all_existing_payments() {
-        Payment dummyPayment = aDummyPayment();
+        Payment dummyPayment = anEmptyPayment();
         PaymentDTO dummyPaymentDTO = aDummyPaymentDTO();
-        given(paymentService.findAll()).willReturn(Arrays.asList(aDummyPayment(), aDummyPayment(), aDummyPayment()));
+        given(paymentService.findAll()).willReturn(Arrays.asList(anEmptyPayment(), anEmptyPayment(), anEmptyPayment()));
         given(paymentMapper.toDTO(dummyPayment)).willReturn(dummyPaymentDTO);
 
         List<PaymentDTO> allPaymentDTOs = this.fetchAllPayments.execute();

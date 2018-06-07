@@ -21,8 +21,8 @@ public class UpdateOnePaymentShould {
     @Mock private PaymentService paymentService;
     @Mock private PaymentExternalValidator paymentExternalValidator;
     @Mock private PaymentMapper paymentMapper;
-    private final Payment dummyPayment = aDummyPayment();
-    private final Payment dummyUpdatedPayment = aDummyPayment();
+    private final Payment dummyPayment = anEmptyPayment();
+    private final Payment dummyUpdatedPayment = anEmptyPayment();
     private final PaymentDTO dummyPaymentDTO = aDummyPaymentDTO();
     private final PaymentDTO dummyUpdatedPaymentDTO = aDummyPaymentDTO();
     private UpdateOnePayment updateOnePayment;

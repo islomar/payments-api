@@ -12,6 +12,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.springframework.http.ResponseEntity;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +55,7 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
     }
 
     @Given("^it exists (\\d+) payments$")
-    public void it_exists_payments(int numberOfPayments) {
+    public void it_exists_payments(int numberOfPayments) throws IOException {
         for (int i=0; i< numberOfPayments; i++) {
             this.paymentResponse = createOnePayment(aNewPaymentCommand());
         }
@@ -77,7 +78,7 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
     }
 
     @When("^the client calls POST /v1/payments$")
-    public void the_client_calls_POST() {
+    public void the_client_calls_POST() throws IOException {
         this.paymentResponse = createOnePayment(aNewPaymentCommand());
     }
 
@@ -98,12 +99,12 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
     }
 
     @When("^the client calls PUT /v1/payments/(\\S+)$")
-    public void the_client_calls_PUT_to_payment_id(String paymentId) {
+    public void the_client_calls_PUT_to_payment_id(String paymentId) throws IOException {
         this.paymentResponse = updateOnePayment(paymentId);
     }
 
     @When("^the client calls PUT to the payment URI$")
-    public void the_client_calls_PUT_to_an_existing_payment_URI() {
+    public void the_client_calls_PUT_to_an_existing_payment_URI() throws IOException {
         PaymentDTO existingPayment = (PaymentDTO)this.paymentResponse.getBody().getData();
         this.paymentResponse = updateOnePayment(existingPayment.getId());
     }

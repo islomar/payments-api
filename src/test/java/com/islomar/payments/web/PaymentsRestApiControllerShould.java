@@ -1,7 +1,5 @@
 package com.islomar.payments.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.islomar.payments.core.actions.*;
 import com.islomar.payments.core.infrastructure.PaymentDTO;
 import com.islomar.payments.core.model.exceptions.PaymentNotFoundException;
@@ -73,12 +71,12 @@ public class PaymentsRestApiControllerShould {
 
     @Test
     public void return_code_400_when_creating_one_payment_with_invalid_type() throws Exception {
-        PaymentDTO paymentDTO = paymentConverter.convertJsonFileToPaymentTO("json_request_body/one_payment_with_invalid_type.json");
+        PaymentDTO paymentDTO = paymentConverter.convertJsonFileToPaymentTO("json_payments/one_payment_with_invalid_type.json");
         when(this.createOnePayment.execute(paymentDTO)).thenReturn(paymentDTO);
         RequestBuilder postRequest = post(V1_PAYMENT_API_BASE_PATH)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(paymentConverter.loadJsonFile("json_request_body/one_payment_with_invalid_type.json"));
+                .content(paymentConverter.loadJsonFile("json_payments/one_payment_with_invalid_type.json"));
 
         mockMvc.perform(postRequest)
                 .andExpect(status().isBadRequest());
@@ -95,7 +93,7 @@ public class PaymentsRestApiControllerShould {
 
     @Test
     public void return_code_200_when_fetching_one_payment_and_it_does_exist() throws Exception {
-        PaymentDTO paymentDTO = paymentConverter.convertJsonFileToPaymentTO("json_request_body/one_payment.json");
+        PaymentDTO paymentDTO = paymentConverter.convertJsonFileToPaymentTO("json_payments/one_payment.json");
         when(this.fetchOnePayment.execute(paymentDTO.getId())).thenReturn(paymentDTO);
 
         RequestBuilder getRequest = get(V1_PAYMENT_API_BASE_PATH + "/" + paymentDTO.getId())
