@@ -13,6 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.boot.version>2.0.2.RELEASE</spring.boot.version>
         <cucumber.java.version>3.0.2</cucumber.java.version>
+        <pitest.version>1.4.0</pitest.version>
     </properties>
 
     <parent>
@@ -60,7 +61,7 @@
             <artifactId>validation-api</artifactId>
             <version>2.0.0.Final</version>
         </dependency>
-        
+
         <dependency>
             <groupId>javax.el</groupId>
             <artifactId>javax.el-api</artifactId>
@@ -194,7 +195,7 @@
             <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
-                <version>1.4.0</version>
+                <version>${pitest.version}</version>
             </plugin>
         </plugins>
     </build>
@@ -224,16 +225,16 @@
             <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
-                <version>1.2.0</version>
+                <version>${pitest.version}</version>
                 <configuration>
                     <skip>false</skip>
                     <reportsDirectory>${project.build.directory}/pit-custom-output-dir</reportsDirectory>
                     <sourceDataFormats>
                         <sourceDataFormat>HTML</sourceDataFormat>
                     </sourceDataFormats>
-                    <siteReportName>my-pit-report-name</siteReportName>
-                    <siteReportDescription>my pit report custom description</siteReportDescription>
-                    <siteReportDirectory>pit-custom-site-directory</siteReportDirectory>
+                    <siteReportName>payment-api-mutation-testing</siteReportName>
+                    <siteReportDescription>Payments API report</siteReportDescription>
+                    <siteReportDirectory>payment-api-mutation-testing-directory</siteReportDirectory>
                 </configuration>
                 <reportSets>
                     <reportSet>
