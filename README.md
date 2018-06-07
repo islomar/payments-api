@@ -20,6 +20,8 @@
 
 
 ## Testing
+You can see the resulting tests executed in TravisCI: https://travis-ci.org/islomar/payments-api
+
 ### How to run the automated tests locally
 * **Isolated tests**: run `mvn clean test`
 * **End to end tests** run`mvn clean test -Pend2end`
