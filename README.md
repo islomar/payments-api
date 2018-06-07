@@ -4,12 +4,19 @@
 
 
 # Payments REST API
+This repo is integrated with TravisCI, with a CD pipeline which executes the isolated and end to end tests, deploying in the end to Heroku and publishing several metrics to SonarCloud and Coveralls:
+
+* TravisCI: https://travis-ci.org/islomar/payments-api  
+* Heroku: https://payments-api-islomar.herokuapp.com
+* SonarCloud: https://sonarcloud.io/dashboard/index/com.islomar.payments:payments-api
+* Coveralls: https://coveralls.io/github/islomar/payments-api
+
 
 ## Prerequisites tu run anything locally
-* You need **Java 8** and **Maven** installed.
+* You need **Java 8** and **Maven 3.x** installed.
 
 
-## How to run the API locally
+## How to run the REST API server locally
 1. In order to start it up, you have two options:
     * `mvn spring-boot:run`, or
     * `mvn clean package && java -jar target/payments-api-1.0.0.jar`
@@ -26,46 +33,45 @@ You can see the resulting tests executed in TravisCI: https://travis-ci.org/islo
 * **Isolated tests**: run `mvn clean test`
 * **End to end tests** run`mvn clean test -Pend2end`
 
+### Postman testing
+The API is "documented" 
+
 ### Manually test
-* You can import the Postman file included in "" and execute it from Postman.
+* You can import a Postman collection from here: https://www.getpostman.com/collections/d6792fd6384da2a3ed15
 
 ### Mutation testing
 * Mutation testing is a good way to check how good your tests are.
 * Run `mvn clean test && mvn -DwithHistory org.pitest:pitest-maven:mutationCoverage` (you need to run the tests first)
-* You can see the HTML reports created under /target/pit-reports/<timestamp>
+* You can see locally the HTML reports created under /target/pit-reports/<timestamp>
+
 
 ## Production environment
-You can access the app here: https://payments-api-islomar.herokuapp.com/
+* You can access the app here: https://payments-api-islomar.herokuapp.com/
+* E.g. https://payments-api-islomar.herokuapp.com/v1/payments
 
 
-## Continuous Deployment
-The main frameworks, technologies and platforms used have been:
-* **Spring Boot**
-* **Heroku**: 
-    * The GitHub repository is connected to Heroku, as well to TravisCI (for CI).
-    * Each time a push is done to the GitHub repository, it builds the application and executes all the tests (at TravisCI). If the tests execution is successful, then the deployment to Heroku is done... et voilà!!! :-)
+## REST API documentation
+* https://documenter.getpostman.com/view/2082328/RWEauh9x#4a1f4612-7298-2a7c-b0a2-f5d57b92398c
+* Next: use Swagger or something similar.
 
 
-## Logging
-* **Papertrail** addon of Heroku to read, search and monitor logs.
-* Currently, an alert is configured to send to islomar@gmail.com an email in case an ERROR happens.
+## Logging, Alerts and Monitoring
+* **Papertrail** addon of Heroku to read, search and monitor logs (private unfortunately).
+    * Currently, an alert is configured to send to islomar@gmail.com an email in case an ERROR happens.
+* **Postman monitor** (private): https://is.gd/2L0TMw
+    * I would get an email if the server were down
 
-
-## Basic Monitoring Services
+### Basic Monitoring Services
 * Based in Micrometer (already included in Spring Boot).
 * Some examples in local environment:
     * Health:   http://localhost:9000/monitor/health
     * Info:     http://localhost:9000/monitor/info
 * Some examples in Production:
+    * All the published endpoints: http://payments-api-islomar.herokuapp.com/monitor
     * Health:   http://payments-api-islomar.herokuapp.com/monitor/health
     * Info:     http://payments-api-islomar.herokuapp.com/monitor/info
 * More info about the endpoints:
     * https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints-exposing-endpoints
-
-## Integrations
-* Heroku: https://payments-api-islomar.herokuapp.com
-* TravisCI: https://travis-ci.org/islomar/payments-api
-* SonarCloud: https://sonarcloud.io/dashboard/index/com.islomar.payments:payments-api
 
 
 ## New things tried:
@@ -73,33 +79,14 @@ The main frameworks, technologies and platforms used have been:
 * Papertrail logging and basic alerts
 * Micrometer monitoring
 * Lombok
-
-
-## Pending to take a look
-* Return Location when creating a resource: https://spring.io/guides/tutorials/bookmarks/
-* https://crunchify.com/hashmap-vs-concurrenthashmap-vs-synchronizedmap-how-a-hashmap-can-be-synchronized-in-java/
-* Validations
-* Swagger
-* https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-monitoring.html
-* 12factor
-
-
-## Principles
-* Decouple the domain from the frameworks. Use of DDD and hexagonal architecture. 
+* ModelMapper
 
 
 ## Next steps
-* Authentication and authorization: https://github.com/islomar/payments-api/issues/14
-* Publish monitoring endpoints on a different port
-* Secure monitoring endpoints: https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints-security
-* HTTPS
-* Serious logging and monitoring: e.g. ELK or Sentry or Prometheus+Grafana, etc.
-* Serious production environment: e.g. DigitalOcean, AWS, Google Cloud, etc.
+See the open issues at https://github.com/islomar/payments-api/projects/1
 
-## Comments
-* The response example given is neither HAL nor HATEOAS, but something ad-hoc.
 
-## References
+## References used
 
 ### Spring Boot
 * https://dzone.com/articles/spring-boot-rest-api-projects-with-code-examples
@@ -117,7 +104,6 @@ The main frameworks, technologies and platforms used have been:
 ### Cucumber
 * https://docs.cucumber.io/guides/anti-patterns/
 
-
 ### Cucumber + Spring
 * http://www.baeldung.com/cucumber-spring-integration
 * REST API + Cucumber: https://www.blazemeter.com/blog/api-testing-with-cucumber-bdd-configuration-tips
@@ -128,8 +114,7 @@ The main frameworks, technologies and platforms used have been:
     * https://github.com/Romeh/spring-boot-sample-app
     * https://github.com/microservices-practical/microservices-v9
     * https://github.com/spring-projects/spring-framework/tree/master/spring-test/src/test/java/org/springframework/test/web/servlet/samples
-    
-    
+        
 ### REST API
 * https://hackernoon.com/restful-api-designing-guidelines-the-best-practices-60e1d954e7c9
 
@@ -152,7 +137,6 @@ The main frameworks, technologies and platforms used have been:
 ### Exception handling
 * http://www.springboottutorial.com/spring-boot-exception-handling-for-rest-services
 * https://www.toptal.com/java/spring-boot-rest-api-error-handling
-
 
 ### Persistence
 * https://github.com/codurance/light-access
