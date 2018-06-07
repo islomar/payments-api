@@ -1,8 +1,10 @@
 package com.islomar.payments.core.model;
 
+import com.islomar.payments.core.model.exceptions.InvalidPaymentException;
 import com.islomar.payments.core.model.exceptions.PaymentNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 
 import java.util.*;
@@ -13,7 +15,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 
@@ -30,13 +32,29 @@ public class PaymentServiceShould {
     }
 
     @Test
-    public void persist_the_payment_when_saving_a_payment() {
+    public void persist_after_validating_the_payment_when_saving_a_payment() {
         Payment dummyPayment = anEmptyPayment();
-        //FIXME
-        //given(paymentValidator.validate(any())).willThrow();
+
         this.paymentService.save(dummyPayment);
 
-        verify(this.paymentRepository).save(any(Payment.class));
+        InOrder inOrder = inOrder(this.paymentValidator, this.paymentRepository);
+        inOrder.verify(this.paymentValidator).validate(dummyPayment);
+        inOrder.verify(this.paymentRepository).save(any(Payment.class));
+    }
+
+    @Test
+    public void throw_InvalidPaymentException_when_creating_an_invalid_payment() {
+        doThrow(InvalidPaymentException.class).when(paymentValidator).validate(any(Object.class));
+        Payment dummyPayment = anEmptyPayment();
+        try {
+            this.paymentService.save(dummyPayment);
+
+            fail("An InvalidPaymentException should have been thrown!");
+        } catch (InvalidPaymentException ex) {
+            verify(this.paymentRepository, never()).save(any(Payment.class));
+        } catch (Exception ex) {
+            fail("An InvalidPaymentException should have been thrown!");
+        }
     }
 
     @Test
@@ -49,14 +67,33 @@ public class PaymentServiceShould {
     }
 
     @Test
-    public void persist_the_payment_when_updating_an_existing_payment() {
+    public void persist_after_validating_the_payment_when_updating_an_existing_payment() {
         Payment existingPayment = aPaymentBuilder().id(ANY_VALID_PAYMENT_ID).build();
         given(paymentRepository.findById(ANY_VALID_PAYMENT_ID)).willReturn(Optional.of(existingPayment));
 
         existingPayment.setOrganisationId("another-organisation-id");
         this.paymentService.update(ANY_VALID_PAYMENT_ID, existingPayment);
 
-        verify(this.paymentRepository).update(any(Payment.class));
+        InOrder inOrder = inOrder(this.paymentValidator, this.paymentRepository);
+        inOrder.verify(this.paymentValidator).validate(existingPayment);
+        inOrder.verify(this.paymentRepository).update(any(Payment.class));
+    }
+
+    @Test
+    public void throw_InvalidPaymentException_when_updating_an_invalid_payment() {
+        doThrow(InvalidPaymentException.class).when(paymentValidator).validate(any(Object.class));
+        Payment existingPayment = aPaymentBuilder().id(ANY_VALID_PAYMENT_ID).build();
+        given(paymentRepository.findById(ANY_VALID_PAYMENT_ID)).willReturn(Optional.of(existingPayment));
+
+        try {
+            this.paymentService.update(ANY_VALID_PAYMENT_ID, existingPayment);
+
+            fail("An InvalidPaymentException should have been thrown!");
+        } catch (InvalidPaymentException ex) {
+            verify(this.paymentRepository, never()).save(any(Payment.class));
+        } catch (Exception ex) {
+            fail("An InvalidPaymentException should have been thrown!");
+        }
     }
 
     @Test(expected = PaymentNotFoundException.class)
