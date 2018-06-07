@@ -19,9 +19,18 @@
     * In either case, you should see a "The server is up and running!" message
 
 
-## How to run the tests locally
-Run `mvn clean test`
+## Testing
+### How to run the automated tests locally
+* Run the isolated tests with `mvn clean test`
+* Run the end to end tests with `mvn clean test -Pend2end`
 
+### Manually test
+* You can import the Postman file included in "" and execute it from Postman.
+
+### Mutation testing
+* Mutation testing is a good way to check how good your tests are.
+* Run `mvn org.pitest:pitest-maven:mutationCoverage`
+* You can see the HTML reports created under /target/pit-reports/<timestamp>
 
 ## Production environment
 You can access the app here: https://payments-api-islomar.herokuapp.com/
