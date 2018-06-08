@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.islomar.payments.core.model.exceptions.InvalidFieldError;
 import com.islomar.payments.core.model.exceptions.InvalidPaymentException;
 import com.islomar.payments.core.model.exceptions.PaymentNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -32,8 +30,6 @@ import static org.springframework.http.HttpStatus.*;
 @ControllerAdvice
 public class PaymentRestApiExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PaymentRestApiExceptionHandler.class);
-
     @ExceptionHandler({PaymentNotFoundException.class})
     void handleNotFoundError(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.sendError(NOT_FOUND.value());
@@ -52,7 +48,7 @@ public class PaymentRestApiExceptionHandler extends ResponseEntityExceptionHandl
     @ExceptionHandler({Exception.class})
     @Order(Ordered.LOWEST_PRECEDENCE)
     void handleInternalServerError(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
-        LOGGER.error("{} request: {} raised {}", request.getMethod(), request.getRequestURL(), ex);
+        logger.error(String.format("%s request: %s raised %s", request.getMethod(), request.getRequestURL(), ex));
         response.sendError(INTERNAL_SERVER_ERROR.value());
     }
 
@@ -63,7 +59,9 @@ public class PaymentRestApiExceptionHandler extends ResponseEntityExceptionHandl
                 .getFieldErrors().stream()
                 .map(this::formatErrorMessage)
                 .collect(Collectors.toList());
-        LOGGER.error(errors.toString());
+        if (!errors.isEmpty()) {
+            logger.error(errors.toString());
+        }
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
