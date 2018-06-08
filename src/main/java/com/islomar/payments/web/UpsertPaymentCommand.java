@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import java.io.Serializable;
 
 @Getter
 @Setter
@@ -19,7 +20,7 @@ import javax.validation.constraints.PositiveOrZero;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class UpsertPaymentCommand {
+public class UpsertPaymentCommand implements Serializable {
 
     @NotNull private PaymentType type;
     @PositiveOrZero private int version;

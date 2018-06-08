@@ -18,6 +18,8 @@ public class ObjectMother {
     public static final String ANY_VALID_PAYMENT_ID = "4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43";
     public static final String NEW_PAYMENT_COMMAND_JSON_FILE = "json_payments/new_payment_command.json";
     private static PaymentDTO validPaymentDTO;
+    private static Payment validPayment;
+    private static UpsertPaymentCommand upsertPaymentCommand;
     private static PaymentConverter paymentConverter = new PaymentConverter();
 
 
@@ -29,9 +31,11 @@ public class ObjectMother {
         return Payment.builder().build();
     }
 
-    //FIXME cache
     public static Payment aValidPayment() throws IOException {
-        return paymentConverter.convertJsonFileToPayment(VALID_PAYMENT_JSON_FILE);
+        if (validPayment == null) {
+            validPayment = paymentConverter.convertJsonFileToPayment(VALID_PAYMENT_JSON_FILE);
+        }
+        return SerializationUtils.clone(validPayment);
     }
 
     public static PaymentDTO aValidPaymentDTO() throws IOException {
@@ -46,7 +50,10 @@ public class ObjectMother {
     }
 
     public static UpsertPaymentCommand anUpsertPaymentCommand() throws IOException {
-        return paymentConverter.convertJsonFileToNewPaymentCommand(NEW_PAYMENT_COMMAND_JSON_FILE);
+        if (upsertPaymentCommand == null) {
+            upsertPaymentCommand = paymentConverter.convertJsonFileToNewPaymentCommand(NEW_PAYMENT_COMMAND_JSON_FILE);
+        }
+        return SerializationUtils.clone(upsertPaymentCommand);
     }
 
     public static UpsertPaymentCommand anUpsertPaymentCommandWithoutType() throws IOException {
