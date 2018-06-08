@@ -1,9 +1,10 @@
-package com.islomar.payments.web;
+package com.islomar.payments.isolated.web;
 
 import com.islomar.payments.core.actions.*;
 import com.islomar.payments.core.infrastructure.PaymentDTO;
 import com.islomar.payments.core.model.exceptions.PaymentNotFoundException;
 import com.islomar.payments.shared.PaymentConverter;
+import com.islomar.payments.web.PaymentsRestApiController;
 import com.islomar.payments.web.response.OnePaymentResponse;
 import org.apache.commons.lang3.SerializationUtils;
 import org.junit.BeforeClass;

@@ -1,5 +1,6 @@
-package com.islomar.payments.core.actions;
+package com.islomar.payments.isolated.core.actions;
 
+import com.islomar.payments.core.actions.DeleteOnePayment;
 import com.islomar.payments.core.model.PaymentService;
 import org.junit.Before;
 import org.junit.Test;

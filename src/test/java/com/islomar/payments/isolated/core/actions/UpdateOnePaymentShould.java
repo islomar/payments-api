@@ -1,5 +1,6 @@
-package com.islomar.payments.core.actions;
+package com.islomar.payments.isolated.core.actions;
 
+import com.islomar.payments.core.actions.UpdateOnePayment;
 import com.islomar.payments.core.infrastructure.PaymentDTO;
 import com.islomar.payments.core.infrastructure.PaymentMapper;
 import com.islomar.payments.core.model.Payment;

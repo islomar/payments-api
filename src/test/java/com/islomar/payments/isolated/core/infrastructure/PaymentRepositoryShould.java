@@ -1,5 +1,6 @@
-package com.islomar.payments.core.infrastructure;
+package com.islomar.payments.isolated.core.infrastructure;
 
+import com.islomar.payments.core.infrastructure.InMemoryPaymentRepository;
 import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.core.model.PaymentRepository;
 import org.junit.Before;

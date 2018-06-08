@@ -1,5 +1,6 @@
-package com.islomar.payments.core.actions;
+package com.islomar.payments.isolated.core.actions;
 
+import com.islomar.payments.core.actions.FetchAllPayments;
 import com.islomar.payments.core.infrastructure.PaymentDTO;
 import com.islomar.payments.core.infrastructure.PaymentMapper;
 import com.islomar.payments.core.model.Payment;
@@ -8,37 +9,43 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import static com.islomar.payments.shared.ObjectMother.ANY_VALID_PAYMENT_ID;
+import java.util.Arrays;
+import java.util.List;
+
 import static com.islomar.payments.shared.ObjectMother.anEmptyPayment;
 import static com.islomar.payments.shared.ObjectMother.anEmptyPaymentDTO;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class FetchOnePaymentShould {
+public class FetchAllPaymentsShould {
 
-    @Mock private PaymentService paymentService;
+    @Mock
+    private PaymentService paymentService;
     @Mock private PaymentMapper paymentMapper;
-    private FetchOnePayment fetchOnePayment;
+    private FetchAllPayments fetchAllPayments;
 
     @Before
     public void setUp() {
         initMocks(this);
-        this.fetchOnePayment = new FetchOnePayment(paymentService, paymentMapper);
+        this.fetchAllPayments = new FetchAllPayments(paymentService, paymentMapper);
     }
 
     @Test
-    public void fetch_one_existing_payment() {
+    public void fetch_all_existing_payments() {
         Payment dummyPayment = anEmptyPayment();
         PaymentDTO dummyPaymentDTO = anEmptyPaymentDTO();
-        given(paymentService.findById(ANY_VALID_PAYMENT_ID)).willReturn(dummyPayment);
+        given(paymentService.findAll()).willReturn(Arrays.asList(anEmptyPayment(), anEmptyPayment(), anEmptyPayment()));
         given(paymentMapper.toDTO(dummyPayment)).willReturn(dummyPaymentDTO);
 
-        PaymentDTO foundPaymentDTO = this.fetchOnePayment.execute(ANY_VALID_PAYMENT_ID);
+        List<PaymentDTO> allPaymentDTOs = this.fetchAllPayments.execute();
 
-        verify(this.paymentService).findById(ANY_VALID_PAYMENT_ID);
-        assertThat(foundPaymentDTO, is(dummyPaymentDTO));
+        verify(this.paymentService).findAll();
+        verify(this.paymentMapper, times(3)).toDTO(any(Payment.class));
+        assertThat(allPaymentDTOs, hasSize(3));
     }
 }

@@ -1,5 +1,8 @@
-package com.islomar.payments.core.model;
+package com.islomar.payments.isolated.core.model;
 
+import com.islomar.payments.core.model.Payment;
+import com.islomar.payments.core.model.PaymentType;
+import com.islomar.payments.core.model.PaymentValidator;
 import com.islomar.payments.core.model.exceptions.InvalidFieldError;
 import com.islomar.payments.core.model.exceptions.InvalidPaymentException;
 import com.islomar.payments.core.model.payment_attributes.PaymentAttributes;
