@@ -5,11 +5,13 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 @AllArgsConstructor
 @Getter
 @ToString
 @EqualsAndHashCode
-public class InvalidFieldError {
+public class InvalidFieldError implements Serializable {
 
     private final String fieldName;
     private final String errorMessage;
