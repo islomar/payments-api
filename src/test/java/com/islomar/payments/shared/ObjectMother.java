@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Currency;
 
+import static com.islomar.payments.shared.PaymentConverter.convertJsonFileToPayment;
+
 public class ObjectMother {
 
     private static final PaymentConverter paymentConverter = new PaymentConverter();
@@ -33,12 +35,12 @@ public class ObjectMother {
     }
 
     public static Payment aValidPayment() throws IOException {
-        return paymentConverter.convertJsonFileToPayment(VALID_PAYMENT_JSON_FILE);
+        return convertJsonFileToPayment(VALID_PAYMENT_JSON_FILE);
     }
 
     public static PaymentDTO aValidPaymentDTO() throws IOException {
         if (validPaymentDTO == null) {
-            validPaymentDTO = paymentConverter.convertJsonFileToPaymentDTO(NEW_PAYMENT_COMMAND_JSON_FILE);
+            validPaymentDTO = PaymentConverter.convertJsonFileToPaymentDTO(NEW_PAYMENT_COMMAND_JSON_FILE);
         }
         return SerializationUtils.clone(validPaymentDTO);
     }
@@ -48,7 +50,7 @@ public class ObjectMother {
     }
 
     public static UpsertPaymentCommand anUpsertPaymentCommand() throws IOException {
-        return paymentConverter.convertJsonFileToNewPaymentCommand(NEW_PAYMENT_COMMAND_JSON_FILE);
+        return PaymentConverter.convertJsonFileToNewPaymentCommand(NEW_PAYMENT_COMMAND_JSON_FILE);
     }
 
     public static UpsertPaymentCommand anUpsertPaymentCommandWithoutType() throws IOException {

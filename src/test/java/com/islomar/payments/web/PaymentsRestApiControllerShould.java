@@ -50,7 +50,7 @@ public class PaymentsRestApiControllerShould {
 
     @Test
     public void return_code_201_when_creating_one_payment_with_all_the_mandatory_attributes() throws Exception {
-        PaymentDTO paymentDTO = paymentConverter.convertJsonFileToPaymentDTO(NEW_PAYMENT_COMMAND_JSON_FILE);
+        PaymentDTO paymentDTO = PaymentConverter.convertJsonFileToPaymentDTO(NEW_PAYMENT_COMMAND_JSON_FILE);
         PaymentDTO createdPaymentDTO = SerializationUtils.clone(paymentDTO);
         createdPaymentDTO.setId(ANY_VALID_PAYMENT_ID);
 
@@ -65,7 +65,7 @@ public class PaymentsRestApiControllerShould {
         mockMvc.perform(postRequest)
                 .andExpect(header().string("Location", LOCALHOST_URL + V1_PAYMENT_API_BASE_PATH + "/" + createdPaymentDTO.getId()))
                 .andExpect(status().isCreated())
-                .andExpect(content().json(paymentConverter.convertObjectToJsonString(expectedContent)));
+                .andExpect(content().json(PaymentConverter.convertObjectToJsonString(expectedContent)));
     }
 
     @Test
@@ -77,7 +77,7 @@ public class PaymentsRestApiControllerShould {
         RequestBuilder postRequest = post(V1_PAYMENT_API_BASE_PATH)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(paymentConverter.convertObjectToJsonString(paymentDtoWithInvalidType));
+                .content(PaymentConverter.convertObjectToJsonString(paymentDtoWithInvalidType));
 
         mockMvc.perform(postRequest)
                 .andExpect(status().isBadRequest());
@@ -94,7 +94,7 @@ public class PaymentsRestApiControllerShould {
 
     @Test
     public void return_code_200_when_fetching_one_payment_and_it_does_exist() throws Exception {
-        PaymentDTO paymentDTO = paymentConverter.convertJsonFileToPaymentDTO("json_payments/one_payment.json");
+        PaymentDTO paymentDTO = PaymentConverter.convertJsonFileToPaymentDTO("json_payments/one_payment.json");
         when(this.fetchOnePayment.execute(paymentDTO.getId())).thenReturn(paymentDTO);
 
         RequestBuilder getRequest = get(V1_PAYMENT_API_BASE_PATH + "/" + paymentDTO.getId())
@@ -103,7 +103,7 @@ public class PaymentsRestApiControllerShould {
         OnePaymentResponse expectedContent = new OnePaymentResponse(paymentDTO);
         mockMvc.perform(getRequest)
                 .andExpect(status().isOk())
-                .andExpect(content().json(paymentConverter.convertObjectToJsonString(expectedContent)));
+                .andExpect(content().json(PaymentConverter.convertObjectToJsonString(expectedContent)));
     }
 
     @Test
