@@ -72,17 +72,13 @@ public class PaymentsRestApiController {
     @PostMapping(value = "/v1/payments")
     @ResponseBody
     public ResponseEntity createOnePayment(HttpServletRequest request, @Valid @RequestBody UpsertPaymentCommand upsertPaymentCommand) {
-        System.out.println(String.format(">>>>>>>>>> upsertPaymentCommand: %s", upsertPaymentCommand));
         PaymentDTO inputPaymentDTO = modelMapper.map(upsertPaymentCommand, PaymentDTO.class);
-        System.out.println(String.format(">>>>>>>>>> inputPaymentDTO: %s", inputPaymentDTO));
 
         PaymentDTO createdPaymentDTO = createOnePayment.execute(inputPaymentDTO);
 
-        System.out.println(String.format(">>>>>>>>>> createdPaymentDTO: %s", createdPaymentDTO));
         URI paymentUri = buildPaymentURI(request, createdPaymentDTO);
         OnePaymentResponse response = new OnePaymentResponse(createdPaymentDTO);
         fillResponseWithLinks(response, paymentUri);
-
         HttpHeaders headers = generateHeadersWithLocation(paymentUri);
 
         return new ResponseEntity<>(response, headers, CREATED);

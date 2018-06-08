@@ -1,26 +1,31 @@
 package com.islomar.payments.end2end.steps;
 
+import com.islomar.payments.core.actions.FetchAllPayments;
 import com.islomar.payments.core.infrastructure.PaymentDTO;
+import com.islomar.payments.core.model.exceptions.InvalidFieldError;
 import com.islomar.payments.end2end.SpringBootBaseFeatureTest;
+import com.islomar.payments.shared.PaymentConverter;
 import com.islomar.payments.web.response.FetchAllPaymentsResponse;
+import com.islomar.payments.web.response.OnePaymentResponse;
 import com.islomar.payments.web.response.PaymentResponse;
+import cucumber.api.PendingException;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.apache.http.HttpResponse;
+import org.apache.http.message.BasicHttpResponse;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.islomar.payments.shared.ObjectMother.aNewPaymentCommand;
-import static com.islomar.payments.shared.ObjectMother.aNewPaymentCommandWithoutType;
+import static com.islomar.payments.shared.ObjectMother.anUpsertPaymentCommand;
+import static com.islomar.payments.shared.ObjectMother.anUpsertPaymentCommandWithoutType;
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
@@ -33,11 +38,13 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
     private static final String V1_PAYMENTS_API_PATH = "/v1/payments";
     private static final String SELF_ATTRIBUTE_KEY = "self";
     private ResponseEntity<? extends PaymentResponse> paymentResponse;
+    private ResponseEntity<Object> errorResponse;
 
 
     @Before
     public void setUp(){
         deleteAllPayments();
+        new PaymentConverter();
     }
 
     private void deleteAllPayments() {
@@ -56,7 +63,7 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
     @Given("^it exists (\\d+) payments$")
     public void it_exists_payments(int numberOfPayments) throws IOException {
         for (int i=0; i< numberOfPayments; i++) {
-            this.paymentResponse = createOnePayment(aNewPaymentCommand());
+            this.paymentResponse = createOnePayment(anUpsertPaymentCommand());
         }
     }
 
@@ -67,7 +74,7 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
 
     @When("^the client calls GET to the payment URI$")
     public void the_client_calls_GET_to_the_payment_URI() {
-        PaymentDTO existingPayment = (PaymentDTO)this.paymentResponse.getBody().getData();
+        PaymentDTO existingPayment = (PaymentDTO)((OnePaymentResponse)this.paymentResponse.getBody()).getData();
         this.paymentResponse = fetchOnePayment(existingPayment.getId());
     }
 
@@ -78,12 +85,12 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
 
     @When("^the client calls POST /v1/payments$")
     public void the_client_calls_POST() throws IOException {
-        this.paymentResponse = createOnePayment(aNewPaymentCommand());
+        this.paymentResponse = createOnePayment(anUpsertPaymentCommand());
     }
 
     @When("^the client calls POST /v1/payments without type$")
-    public void the_client_calls_POST_without_type() {
-        this.paymentResponse = createOnePayment(aNewPaymentCommandWithoutType());
+    public void the_client_calls_POST_without_type() throws IOException {
+        this.errorResponse = createOnePaymentWithError(anUpsertPaymentCommandWithoutType());
     }
 
     @When("^the client calls DELETE to the payment URI$")
@@ -119,9 +126,23 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
         assertThat(this.paymentResponse.getStatusCodeValue(), is(httpStatusCodeValue));
     }
 
+    @And("^it receives error response status code of (\\d+)$")
+    public void the_client_receives_error_response_status_code_of(int httpStatusCodeValue) {
+        assertThat(this.errorResponse.getStatusCodeValue(), is(httpStatusCodeValue));
+    }
+
     @And("^it receives response body text \"([^\"]*)\"$")
     public void the_client_receives_response_body_text(String text) {
         assertThat(this.paymentResponse.getBody(), is(text));
+    }
+
+    @And("^the error response contains error message with ([^\"]*)=\"([^\"]*)\" and ([^\"]*)=\"([^\"]*)\"$")
+    public void the_error_response_contains_error_message_with_fieldName(String firstKey, String firstValue, String secondKey, String secondValue) {
+        List<HashMap<String, Object>> invalidFieldErrors = (List<HashMap<String, Object>>)this.errorResponse.getBody();
+
+        assertThat(invalidFieldErrors, hasSize(1));
+        assertThat(invalidFieldErrors, contains(hasEntry(firstKey, firstValue)));
+        assertThat(invalidFieldErrors, contains(hasEntry(secondKey, secondValue)));
     }
 
     @And("^the response has JSON format$")

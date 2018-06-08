@@ -2,9 +2,11 @@ package com.islomar.payments.core.model.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
 
 @AllArgsConstructor
+@Getter
 @ToString
 @EqualsAndHashCode
 public class InvalidFieldError {

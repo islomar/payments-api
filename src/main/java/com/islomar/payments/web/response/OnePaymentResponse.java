@@ -2,6 +2,7 @@ package com.islomar.payments.web.response;
 
 import com.islomar.payments.core.infrastructure.PaymentDTO;
 import lombok.ToString;
+import org.apache.http.HttpResponse;
 
 import java.net.URI;
 import java.util.Collections;

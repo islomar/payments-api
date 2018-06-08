@@ -51,10 +51,9 @@ public class PaymentsRestApiControllerShould {
     @Test
     public void return_code_201_when_creating_one_payment_with_all_the_mandatory_attributes() throws Exception {
         PaymentDTO paymentDTO = paymentConverter.convertJsonFileToPaymentDTO(NEW_PAYMENT_COMMAND_JSON_FILE);
-        System.out.println(String.format(">>>>>>>>>> Test - paymentDTO: %s", paymentDTO));
         PaymentDTO createdPaymentDTO = SerializationUtils.clone(paymentDTO);
         createdPaymentDTO.setId(ANY_VALID_PAYMENT_ID);
-        System.out.println(String.format(">>>>>>>>>> Test - createdPaymentDTO: %s", createdPaymentDTO));
+
         when(this.createOnePayment.execute(paymentDTO)).thenReturn(createdPaymentDTO);
 
         RequestBuilder postRequest = post(V1_PAYMENT_API_BASE_PATH)
@@ -71,12 +70,14 @@ public class PaymentsRestApiControllerShould {
 
     @Test
     public void return_code_400_when_creating_one_payment_with_invalid_type() throws Exception {
-        PaymentDTO paymentDTO = paymentConverter.convertJsonFileToPaymentDTO("json_payments/one_payment_with_invalid_type.json");
-        when(this.createOnePayment.execute(paymentDTO)).thenReturn(paymentDTO);
+        PaymentDTO paymentDtoWithInvalidType = aValidPaymentDTO();
+        paymentDtoWithInvalidType.setType(null);
+        when(this.createOnePayment.execute(paymentDtoWithInvalidType)).thenReturn(paymentDtoWithInvalidType);
+
         RequestBuilder postRequest = post(V1_PAYMENT_API_BASE_PATH)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(paymentConverter.loadJsonFile("json_payments/one_payment_with_invalid_type.json"));
+                .content(paymentConverter.convertObjectToJsonString(paymentDtoWithInvalidType));
 
         mockMvc.perform(postRequest)
                 .andExpect(status().isBadRequest());

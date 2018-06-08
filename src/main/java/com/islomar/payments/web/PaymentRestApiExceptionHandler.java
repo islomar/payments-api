@@ -40,14 +40,19 @@ public class PaymentRestApiExceptionHandler extends ResponseEntityExceptionHandl
     }
 
     @ExceptionHandler({InvalidPaymentException.class})
-    ResponseEntity handleInvalidPaymentError(HttpServletRequest request, HttpServletResponse response, InvalidPaymentException ex) throws IOException {
+    ResponseEntity<Object> handleInvalidPaymentError(InvalidPaymentException ex) throws IOException {
         System.out.println(">>>>>>>>>>>>>>>>>> 1");
+        System.out.println(ex.toString());
         System.out.println(ex.getErrors());
-        LOGGER.error(ex.getErrors().toString());
+        //LOGGER.error(ex.getErrors().toString());
         //response.sendError(BAD_REQUEST.value());
-        response.setStatus(BAD_REQUEST.value());
+        //response.setStatus(BAD_REQUEST.value());
+        System.out.println(">>>>>>>>>>>>>>>>>> 1.5");
         //return ex.getErrors();
-        return new ResponseEntity(ex.getErrors(), HttpStatus.BAD_REQUEST);
+        Object myResponse = ex.getErrors().get(0);
+        System.out.println(">>>>>>>>>>>>>>>>>> 1.6");
+        return new ResponseEntity<>(ex.getErrors(), HttpStatus.BAD_REQUEST);
+        //response.sendError(HttpStatus.BAD_REQUEST.value());
     }
 
     @ExceptionHandler({HttpMessageConversionException.class, InvalidFormatException.class})
@@ -58,6 +63,7 @@ public class PaymentRestApiExceptionHandler extends ResponseEntityExceptionHandl
     @ExceptionHandler({Exception.class})
     @Order(Ordered.LOWEST_PRECEDENCE)
     void handleInternalServerError(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
+        LOGGER.error(">>>>> WTF!!!!");
         LOGGER.error("{} request: {} raised {}", request.getMethod(), request.getRequestURL(), ex);
         response.sendError(INTERNAL_SERVER_ERROR.value());
     }
@@ -65,6 +71,7 @@ public class PaymentRestApiExceptionHandler extends ResponseEntityExceptionHandl
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> handleMethodArgumentNotValid");
         List<InvalidFieldError> errors = ex.getBindingResult()
                 .getFieldErrors().stream()
                 .map(this::formatErrorMessage)
