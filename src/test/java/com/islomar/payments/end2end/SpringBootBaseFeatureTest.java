@@ -1,5 +1,6 @@
 package com.islomar.payments.end2end;
 
+import com.islomar.payments.shared.ObjectMother;
 import com.islomar.payments.web.UpsertPaymentCommand;
 import com.islomar.payments.web.response.FetchAllPaymentsResponse;
 import com.islomar.payments.web.response.OnePaymentResponse;
@@ -16,6 +17,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.net.URI;
 
+import static com.islomar.payments.shared.ObjectMother.LOCALHOST_URL;
+import static com.islomar.payments.shared.ObjectMother.V1_PAYMENT_API_BASE_PATH;
 import static com.islomar.payments.shared.ObjectMother.anUpsertPaymentCommand;
 
 
@@ -24,8 +27,6 @@ import static com.islomar.payments.shared.ObjectMother.anUpsertPaymentCommand;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class SpringBootBaseFeatureTest {
 
-    private final String SERVER_URL = "http://localhost";
-    private final String VERSION_1_PAYMENTS_PATH = "/v1/payments";
     private final TestRestTemplate restTemplate;
 
     @LocalServerPort
@@ -68,6 +69,6 @@ public abstract class SpringBootBaseFeatureTest {
     }
 
     private URI generateBaseApiUri() {
-        return URI.create(SERVER_URL + ":" + port + VERSION_1_PAYMENTS_PATH);
+        return URI.create(LOCALHOST_URL + ":" + port + V1_PAYMENT_API_BASE_PATH);
     }
 }
