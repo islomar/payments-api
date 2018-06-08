@@ -9,7 +9,7 @@ This repo is integrated with TravisCI, with a CD pipeline which executes the iso
 * TravisCI: https://travis-ci.org/islomar/payments-api  
 * Heroku: https://payments-api-islomar.herokuapp.com
 * SonarCloud: https://sonarcloud.io/dashboard/index/com.islomar.payments:payments-api
-* Coveralls: https://coveralls.io/github/islomar/payments-api
+* Coveralls: https://coveralls.io/github/islomar/payments-api  (the coverage is only shown for the isolated tests)
 
 ## Features description
 This is RESTful Payments API, where it is possible to:
