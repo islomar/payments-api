@@ -39,6 +39,7 @@ public class CreateOnePaymentIT {
 
         try {
             this.createOnePayment.execute(emptyPaymentDTO);
+
             fail("An InvalidPaymentException should have been thrown!");
         } catch (InvalidPaymentException ex) {
             List<InvalidFieldError> errors = ex.getErrors();
@@ -58,6 +59,7 @@ public class CreateOnePaymentIT {
 
         try {
             this.createOnePayment.execute(paymentDTO);
+
             fail("An InvalidPaymentException should have been thrown!");
         } catch (InvalidPaymentException ex) {
             List<InvalidFieldError> errors = ex.getErrors();
