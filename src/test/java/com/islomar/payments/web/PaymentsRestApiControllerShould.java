@@ -50,7 +50,7 @@ public class PaymentsRestApiControllerShould {
 
     @Test
     public void return_code_201_when_creating_one_payment_with_all_the_mandatory_attributes() throws Exception {
-        PaymentDTO paymentDTO = PaymentConverter.convertJsonFileToPaymentDTO(NEW_PAYMENT_COMMAND_JSON_FILE);
+        PaymentDTO paymentDTO = paymentConverter.convertJsonFileToPaymentDTO(NEW_PAYMENT_COMMAND_JSON_FILE);
         PaymentDTO createdPaymentDTO = SerializationUtils.clone(paymentDTO);
         createdPaymentDTO.setId(ANY_VALID_PAYMENT_ID);
 
@@ -65,7 +65,7 @@ public class PaymentsRestApiControllerShould {
         mockMvc.perform(postRequest)
                 .andExpect(header().string("Location", LOCALHOST_URL + V1_PAYMENT_API_BASE_PATH + "/" + createdPaymentDTO.getId()))
                 .andExpect(status().isCreated())
-                .andExpect(content().json(PaymentConverter.convertObjectToJsonString(expectedContent)));
+                .andExpect(content().json(paymentConverter.convertObjectToJsonString(expectedContent)));
     }
 
     @Test
@@ -77,7 +77,7 @@ public class PaymentsRestApiControllerShould {
         RequestBuilder postRequest = post(V1_PAYMENT_API_BASE_PATH)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(PaymentConverter.convertObjectToJsonString(paymentDtoWithInvalidType));
+                .content(paymentConverter.convertObjectToJsonString(paymentDtoWithInvalidType));
 
         mockMvc.perform(postRequest)
                 .andExpect(status().isBadRequest());
@@ -104,7 +104,7 @@ public class PaymentsRestApiControllerShould {
         OnePaymentResponse expectedContent = new OnePaymentResponse(paymentDTO);
         mockMvc.perform(getRequest)
                 .andExpect(status().isOk())
-                .andExpect(content().json(PaymentConverter.convertObjectToJsonString(expectedContent)));
+                .andExpect(content().json(paymentConverter.convertObjectToJsonString(expectedContent)));
     }
 
     @Test

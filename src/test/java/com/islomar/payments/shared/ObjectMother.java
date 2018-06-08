@@ -9,8 +9,6 @@ import org.apache.commons.lang3.SerializationUtils;
 
 import java.io.IOException;
 
-import static com.islomar.payments.shared.PaymentConverter.convertJsonFileToPayment;
-
 public class ObjectMother {
 
     private static final String VALID_PAYMENT_JSON_FILE = "json_payments/one_valid_payment.json";
@@ -20,6 +18,7 @@ public class ObjectMother {
     public static final String ANY_VALID_PAYMENT_ID = "4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43";
     public static final String NEW_PAYMENT_COMMAND_JSON_FILE = "json_payments/new_payment_command.json";
     private static PaymentDTO validPaymentDTO;
+    private static PaymentConverter paymentConverter = new PaymentConverter();
 
 
     public static PaymentDTO anEmptyPaymentDTO() {
@@ -32,12 +31,12 @@ public class ObjectMother {
 
     //FIXME cache
     public static Payment aValidPayment() throws IOException {
-        return convertJsonFileToPayment(VALID_PAYMENT_JSON_FILE);
+        return paymentConverter.convertJsonFileToPayment(VALID_PAYMENT_JSON_FILE);
     }
 
     public static PaymentDTO aValidPaymentDTO() throws IOException {
         if (validPaymentDTO == null) {
-            validPaymentDTO = PaymentConverter.convertJsonFileToPaymentDTO(NEW_PAYMENT_COMMAND_JSON_FILE);
+            validPaymentDTO = paymentConverter.convertJsonFileToPaymentDTO(NEW_PAYMENT_COMMAND_JSON_FILE);
         }
         return SerializationUtils.clone(validPaymentDTO);
     }
@@ -47,7 +46,7 @@ public class ObjectMother {
     }
 
     public static UpsertPaymentCommand anUpsertPaymentCommand() throws IOException {
-        return PaymentConverter.convertJsonFileToNewPaymentCommand(NEW_PAYMENT_COMMAND_JSON_FILE);
+        return paymentConverter.convertJsonFileToNewPaymentCommand(NEW_PAYMENT_COMMAND_JSON_FILE);
     }
 
     public static UpsertPaymentCommand anUpsertPaymentCommandWithoutType() throws IOException {
