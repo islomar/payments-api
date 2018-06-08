@@ -4,13 +4,10 @@ import com.islomar.payments.core.infrastructure.InMemoryPaymentRepository;
 import com.islomar.payments.core.infrastructure.PaymentDTO;
 import com.islomar.payments.core.infrastructure.PaymentMapper;
 import com.islomar.payments.core.model.*;
-import com.islomar.payments.core.model.payment_attributes.PaymentAttributes;
 import com.islomar.payments.web.UpsertPaymentCommand;
 import org.apache.commons.lang3.SerializationUtils;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Currency;
 
 import static com.islomar.payments.shared.PaymentConverter.convertJsonFileToPayment;
 
@@ -33,6 +30,7 @@ public class ObjectMother {
         return Payment.builder().build();
     }
 
+    //FIXME cache
     public static Payment aValidPayment() throws IOException {
         return convertJsonFileToPayment(VALID_PAYMENT_JSON_FILE);
     }
@@ -76,9 +74,5 @@ public class ObjectMother {
 
     public static PaymentMapper aPaymentMapper() {
         return new PaymentMapper();
-    }
-
-    private static PaymentAttributes generatePaymentAttributes() {
-        return PaymentAttributes.builder().amount(BigDecimal.valueOf(100.21)).currency(Currency.getInstance("GBP")).build();
     }
 }

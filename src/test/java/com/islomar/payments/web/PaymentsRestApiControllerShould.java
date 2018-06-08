@@ -94,7 +94,8 @@ public class PaymentsRestApiControllerShould {
 
     @Test
     public void return_code_200_when_fetching_one_payment_and_it_does_exist() throws Exception {
-        PaymentDTO paymentDTO = PaymentConverter.convertJsonFileToPaymentDTO("json_payments/one_payment.json");
+        PaymentDTO paymentDTO = aValidPaymentDTO();
+        paymentDTO.setId(ANY_VALID_PAYMENT_ID);
         when(this.fetchOnePayment.execute(paymentDTO.getId())).thenReturn(paymentDTO);
 
         RequestBuilder getRequest = get(V1_PAYMENT_API_BASE_PATH + "/" + paymentDTO.getId())

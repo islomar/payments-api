@@ -9,10 +9,12 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.*;
+import static com.islomar.payments.shared.ObjectMother.aValidPayment;
+import static com.islomar.payments.shared.ObjectMother.anEmptyPayment;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 public class PaymentValidatorShould {
 
@@ -20,15 +22,16 @@ public class PaymentValidatorShould {
 
     @Before
     public void setUp() {
-        initMocks(this);
         paymentValidator = new PaymentValidator();
     }
 
     @Test
     public void a_payment_without_any_mandatory_field_filled_is_invalid() {
         try {
-            Payment payment = ObjectMother.anEmptyPayment();
+            Payment payment = anEmptyPayment();
+
             payment.validate(this.paymentValidator);
+
             fail("An InvalidPaymentException should have been thrown!");
         } catch (InvalidPaymentException e) {
             List<InvalidFieldError> errors = e.getErrors();
@@ -43,10 +46,12 @@ public class PaymentValidatorShould {
     @Test
     public void a_payment_with_all_the_mandatories_fields_filled_is_valid() {
         try {
-            Payment payment = ObjectMother.aValidPayment();
+            Payment payment = aValidPayment();
+
             payment.validate(this.paymentValidator);
         } catch (Exception e) {
-            fail("No exception should have been thrown!");
+            e.printStackTrace();
+            fail("No exception should have been thrown!: " + e.getMessage());
         }
     }
 
@@ -55,7 +60,9 @@ public class PaymentValidatorShould {
         try {
             PaymentAttributes paymentAttributes = PaymentAttributes.builder().build();
             Payment payment = ObjectMother.aPaymentBuilder().id("1").type(PaymentType.PAYMENT).version(1).organisationId("1").attributes(paymentAttributes).build();
+
             payment.validate(this.paymentValidator);
+
             fail("An InvalidPaymentException should have been thrown!");
         } catch (InvalidPaymentException e) {
             List<InvalidFieldError> errors = e.getErrors();
