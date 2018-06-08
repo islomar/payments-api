@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PaymentMapper {
 
-    private ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
 
     public PaymentDTO toDTO(Payment payment) {
         return modelMapper.map(payment, PaymentDTO.class);

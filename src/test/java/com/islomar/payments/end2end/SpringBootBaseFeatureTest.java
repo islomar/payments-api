@@ -1,6 +1,5 @@
 package com.islomar.payments.end2end;
 
-import com.islomar.payments.shared.ObjectMother;
 import com.islomar.payments.web.UpsertPaymentCommand;
 import com.islomar.payments.web.response.FetchAllPaymentsResponse;
 import com.islomar.payments.web.response.OnePaymentResponse;
@@ -17,9 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.net.URI;
 
-import static com.islomar.payments.shared.ObjectMother.LOCALHOST_URL;
-import static com.islomar.payments.shared.ObjectMother.V1_PAYMENT_API_BASE_PATH;
-import static com.islomar.payments.shared.ObjectMother.anUpsertPaymentCommand;
+import static com.islomar.payments.shared.ObjectMother.*;
 
 
 @RunWith(SpringRunner.class)

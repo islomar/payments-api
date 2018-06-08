@@ -40,7 +40,7 @@ public class PaymentRestApiExceptionHandler extends ResponseEntityExceptionHandl
     }
 
     @ExceptionHandler({InvalidPaymentException.class})
-    ResponseEntity<Object> handleInvalidPaymentError(InvalidPaymentException ex) throws IOException {
+    ResponseEntity<Object> handleInvalidPaymentError(InvalidPaymentException ex) {
         return new ResponseEntity<>(ex.getErrors(), HttpStatus.BAD_REQUEST);
     }
 
@@ -64,7 +64,7 @@ public class PaymentRestApiExceptionHandler extends ResponseEntityExceptionHandl
                 .map(this::formatErrorMessage)
                 .collect(Collectors.toList());
         LOGGER.error(errors.toString());
-        return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     private InvalidFieldError formatErrorMessage(FieldError fieldError) {

@@ -111,7 +111,7 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
     }
 
     @Then("^(\\d+) payments are returned$")
-    public void payments_are_returned(int expectedNumberOfPaymentsReturned) throws Throwable {
+    public void payments_are_returned(int expectedNumberOfPaymentsReturned) {
         List<PaymentDTO> data = (List<PaymentDTO>) paymentResponse.getBody().getData();
         assertThat(data, hasSize(expectedNumberOfPaymentsReturned));
     }

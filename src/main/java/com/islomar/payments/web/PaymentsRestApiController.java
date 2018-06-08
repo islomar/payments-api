@@ -25,12 +25,12 @@ import static org.springframework.http.HttpStatus.*;
 public class PaymentsRestApiController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PaymentsRestApiController.class);
 
-    private CreateOnePayment createOnePayment;
-    private FetchOnePayment fetchOnePayment;
-    private DeleteOnePayment deleteOnePayment;
-    private FetchAllPayments fetchAllPayments;
-    private UpdateOnePayment updateOnePayment;
-    private ModelMapper modelMapper = new ModelMapper();
+    private final CreateOnePayment createOnePayment;
+    private final FetchOnePayment fetchOnePayment;
+    private final DeleteOnePayment deleteOnePayment;
+    private final FetchAllPayments fetchAllPayments;
+    private final UpdateOnePayment updateOnePayment;
+    private final ModelMapper modelMapper = new ModelMapper();
 
     @Autowired
     public PaymentsRestApiController(CreateOnePayment createOnePayment, FetchOnePayment fetchOnePayment, DeleteOnePayment deleteOnePayment, FetchAllPayments fetchAllPayments, UpdateOnePayment updateOnePayment) {

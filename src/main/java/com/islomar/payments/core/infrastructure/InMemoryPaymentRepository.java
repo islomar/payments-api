@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class InMemoryPaymentRepository implements PaymentRepository {
-    private Map<String, Payment> paymentStore = new ConcurrentHashMap<>();
+    private final Map<String, Payment> paymentStore = new ConcurrentHashMap<>();
 
     @Override
     public void save(Payment payment) {
