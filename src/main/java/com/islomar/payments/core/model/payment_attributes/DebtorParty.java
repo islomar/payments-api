@@ -2,12 +2,10 @@ package com.islomar.payments.core.model.payment_attributes;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.islomar.payments.core.model.PaymentValidator;
 import com.islomar.payments.core.model.shared.ValueObject;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Getter

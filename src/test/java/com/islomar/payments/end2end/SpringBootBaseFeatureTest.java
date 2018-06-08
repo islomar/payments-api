@@ -1,6 +1,5 @@
 package com.islomar.payments.end2end;
 
-import com.islomar.payments.shared.ObjectMother;
 import com.islomar.payments.web.UpsertPaymentCommand;
 import com.islomar.payments.web.response.FetchAllPaymentsResponse;
 import com.islomar.payments.web.response.OnePaymentResponse;

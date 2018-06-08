@@ -9,7 +9,6 @@ import com.islomar.payments.core.model.PaymentService;
 import com.islomar.payments.core.model.exceptions.InvalidFieldError;
 import com.islomar.payments.core.model.exceptions.InvalidPaymentException;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;

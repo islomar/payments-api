@@ -1,21 +1,16 @@
 package com.islomar.payments.end2end.steps;
 
-import com.islomar.payments.core.actions.FetchAllPayments;
 import com.islomar.payments.core.infrastructure.PaymentDTO;
-import com.islomar.payments.core.model.exceptions.InvalidFieldError;
 import com.islomar.payments.end2end.SpringBootBaseFeatureTest;
 import com.islomar.payments.shared.PaymentConverter;
 import com.islomar.payments.web.response.FetchAllPaymentsResponse;
 import com.islomar.payments.web.response.OnePaymentResponse;
 import com.islomar.payments.web.response.PaymentResponse;
-import cucumber.api.PendingException;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.apache.http.HttpResponse;
-import org.apache.http.message.BasicHttpResponse;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
