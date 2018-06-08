@@ -40,11 +40,14 @@ public class PaymentRestApiExceptionHandler extends ResponseEntityExceptionHandl
     }
 
     @ExceptionHandler({InvalidPaymentException.class})
-    void handleInvalidPaymentError(HttpServletRequest request, HttpServletResponse response, InvalidPaymentException ex) throws IOException {
+    ResponseEntity handleInvalidPaymentError(HttpServletRequest request, HttpServletResponse response, InvalidPaymentException ex) throws IOException {
         System.out.println(">>>>>>>>>>>>>>>>>> 1");
         System.out.println(ex.getErrors());
         LOGGER.error(ex.getErrors().toString());
-        response.sendError(BAD_REQUEST.value());
+        //response.sendError(BAD_REQUEST.value());
+        response.setStatus(BAD_REQUEST.value());
+        //return ex.getErrors();
+        return new ResponseEntity(ex.getErrors(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({HttpMessageConversionException.class, InvalidFormatException.class})

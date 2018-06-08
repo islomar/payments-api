@@ -33,8 +33,10 @@ public class PaymentValidatorShould {
         } catch (InvalidPaymentException e) {
             List<InvalidFieldError> errors = e.getErrors();
             assertThat(errors, hasSize(4));
+            assertThat(errors, hasItem(new InvalidFieldError("type", "must not be null")));
             assertThat(errors, hasItem(new InvalidFieldError("attributes", "must not be null")));
             assertThat(errors, hasItem(new InvalidFieldError("id", "must not be blank")));
+            assertThat(errors, hasItem(new InvalidFieldError("organisationId", "must not be blank")));
         }
     }
 
@@ -57,7 +59,6 @@ public class PaymentValidatorShould {
             fail("An InvalidPaymentException should have been thrown!");
         } catch (InvalidPaymentException e) {
             List<InvalidFieldError> errors = e.getErrors();
-            assertThat(errors, hasSize(6));
             assertThat(errors, hasItem(new InvalidFieldError("attributes.beneficiaryParty", "must not be null")));
             assertThat(errors, hasItem(new InvalidFieldError("attributes.amount", "must not be null")));
         }

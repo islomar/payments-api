@@ -6,6 +6,8 @@ import com.islomar.payments.core.model.PaymentValidator;
 import com.islomar.payments.core.model.shared.ValueObject;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -18,8 +20,8 @@ import java.util.Currency;
 @EqualsAndHashCode
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class Forex implements ValueObject, Serializable {
-    private String contractReference;
-    private BigDecimal exchangeRate;
-    private BigDecimal originalAmount;
-    private Currency originalCurrency;
+    @NotBlank private String contractReference;
+    @NotNull private BigDecimal exchangeRate;
+    @NotNull private BigDecimal originalAmount;
+    @NotNull private Currency originalCurrency;
 }

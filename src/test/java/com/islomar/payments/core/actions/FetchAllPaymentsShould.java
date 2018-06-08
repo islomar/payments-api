@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.islomar.payments.shared.ObjectMother.anEmptyPayment;
-import static com.islomar.payments.shared.ObjectMother.aDummyPaymentDTO;
+import static com.islomar.payments.shared.ObjectMother.anEmptyPaymentDTO;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
@@ -37,7 +37,7 @@ public class FetchAllPaymentsShould {
     @Test
     public void fetch_all_existing_payments() {
         Payment dummyPayment = anEmptyPayment();
-        PaymentDTO dummyPaymentDTO = aDummyPaymentDTO();
+        PaymentDTO dummyPaymentDTO = anEmptyPaymentDTO();
         given(paymentService.findAll()).willReturn(Arrays.asList(anEmptyPayment(), anEmptyPayment(), anEmptyPayment()));
         given(paymentMapper.toDTO(dummyPayment)).willReturn(dummyPaymentDTO);
 

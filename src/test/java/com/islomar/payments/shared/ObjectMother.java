@@ -1,9 +1,12 @@
 package com.islomar.payments.shared;
 
+import com.islomar.payments.core.infrastructure.InMemoryPaymentRepository;
 import com.islomar.payments.core.infrastructure.PaymentDTO;
-import com.islomar.payments.core.model.Payment;
+import com.islomar.payments.core.infrastructure.PaymentMapper;
+import com.islomar.payments.core.model.*;
 import com.islomar.payments.core.model.payment_attributes.PaymentAttributes;
 import com.islomar.payments.web.UpsertPaymentCommand;
+import org.apache.commons.lang3.SerializationUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -19,9 +22,10 @@ public class ObjectMother {
     public static final String ANY_VALID_ORGANISATION_ID = "743d5b63-8e6f-432e-a8fa-c5d8d2ee5fcb";
     public static final String NEW_PAYMENT_COMMAND_JSON_FILE = "json_payments/new_payment_command.json";
     public static final String VALID_PAYMENT_JSON_FILE = "json_payments/one_valid_payment.json";
+    private static PaymentDTO validPaymentDTO;
 
 
-    public static PaymentDTO aDummyPaymentDTO() {
+    public static PaymentDTO anEmptyPaymentDTO() {
         return PaymentDTO.builder().build();
     }
 
@@ -31,6 +35,13 @@ public class ObjectMother {
 
     public static Payment aValidPayment() throws IOException {
         return paymentConverter.convertJsonFileToPayment(VALID_PAYMENT_JSON_FILE);
+    }
+
+    public static PaymentDTO aValidPaymentDTO() throws IOException {
+        if (validPaymentDTO == null) {
+            validPaymentDTO = paymentConverter.convertJsonFileToPaymentDTO(NEW_PAYMENT_COMMAND_JSON_FILE);
+        }
+        return SerializationUtils.clone(validPaymentDTO);
     }
 
     public static Payment.PaymentBuilder aPaymentBuilder() {
@@ -47,6 +58,26 @@ public class ObjectMother {
                 .organisationId(ANY_VALID_ORGANISATION_ID)
                 .attributes(paymentAttributes)
                 .build();
+    }
+
+    public static PaymentService aPaymentService(PaymentRepository paymentRepository) {
+        return new PaymentService(paymentRepository, aPaymentValidator());
+    }
+
+    public static InMemoryPaymentRepository anInMemoryPaymentRepository() {
+        return new InMemoryPaymentRepository();
+    }
+
+    public static PaymentValidator aPaymentValidator() {
+        return new PaymentValidator();
+    }
+
+    public static PaymentExternalValidator aPaymentExternalValidator() {
+        return new PaymentExternalValidator();
+    }
+
+    public static PaymentMapper aPaymentMapper() {
+        return new PaymentMapper();
     }
 
     private static PaymentAttributes generatePaymentAttributes() {

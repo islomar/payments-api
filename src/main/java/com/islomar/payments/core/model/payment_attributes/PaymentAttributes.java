@@ -7,6 +7,7 @@ import com.islomar.payments.core.model.shared.ValueObject;
 import lombok.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -24,18 +25,18 @@ public class PaymentAttributes implements ValueObject, Serializable {
     @NotNull private BigDecimal amount;
     @NotNull @Valid private BeneficiaryParty beneficiaryParty;
     @NotNull @Valid private ChargesInformation chargesInformation;
-    private Currency currency;
+    @NotNull private Currency currency;
     @NotNull @Valid private DebtorParty debtorParty;
-    private String endToEndReference;
+    @NotBlank private String endToEndReference;
     @NotNull @Valid private Forex fx;
-    private String numericReference;
-    private String paymentId;               //TODO create a type!
-    private String paymentPurpose;
-    private String paymentScheme;           //TODO create a type!
-    private String paymentType;
-    private String processingDate;          //TODO use a Date with specific format
-    private String reference;
-    private String schemePaymentSubType;    //TODO create a type!
-    private String schemePaymentType;       //TODO create a type!
+    @NotBlank private String numericReference;
+    @NotBlank private String paymentId;               //TODO create a type!
+    @NotBlank private String paymentPurpose;
+    @NotBlank private String paymentScheme;           //TODO create a type!
+    @NotBlank private String paymentType;
+    @NotBlank private String processingDate;          //TODO use a Date with specific format
+    @NotBlank private String reference;
+    @NotBlank private String schemePaymentSubType;    //TODO create a type!
+    @NotBlank private String schemePaymentType;       //TODO create a type!
     @NotNull @Valid private SponsorParty sponsorParty;
 }

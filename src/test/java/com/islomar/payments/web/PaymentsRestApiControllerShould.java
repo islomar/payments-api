@@ -50,7 +50,7 @@ public class PaymentsRestApiControllerShould {
 
     @Test
     public void return_code_201_when_creating_one_payment_with_all_the_mandatory_attributes() throws Exception {
-        PaymentDTO paymentDTO = paymentConverter.convertJsonFileToPaymentTO(NEW_PAYMENT_COMMAND_JSON_FILE);
+        PaymentDTO paymentDTO = paymentConverter.convertJsonFileToPaymentDTO(NEW_PAYMENT_COMMAND_JSON_FILE);
         System.out.println(String.format(">>>>>>>>>> Test - paymentDTO: %s", paymentDTO));
         PaymentDTO createdPaymentDTO = SerializationUtils.clone(paymentDTO);
         createdPaymentDTO.setId(ANY_VALID_PAYMENT_ID);
@@ -71,7 +71,7 @@ public class PaymentsRestApiControllerShould {
 
     @Test
     public void return_code_400_when_creating_one_payment_with_invalid_type() throws Exception {
-        PaymentDTO paymentDTO = paymentConverter.convertJsonFileToPaymentTO("json_payments/one_payment_with_invalid_type.json");
+        PaymentDTO paymentDTO = paymentConverter.convertJsonFileToPaymentDTO("json_payments/one_payment_with_invalid_type.json");
         when(this.createOnePayment.execute(paymentDTO)).thenReturn(paymentDTO);
         RequestBuilder postRequest = post(V1_PAYMENT_API_BASE_PATH)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
@@ -93,7 +93,7 @@ public class PaymentsRestApiControllerShould {
 
     @Test
     public void return_code_200_when_fetching_one_payment_and_it_does_exist() throws Exception {
-        PaymentDTO paymentDTO = paymentConverter.convertJsonFileToPaymentTO("json_payments/one_payment.json");
+        PaymentDTO paymentDTO = paymentConverter.convertJsonFileToPaymentDTO("json_payments/one_payment.json");
         when(this.fetchOnePayment.execute(paymentDTO.getId())).thenReturn(paymentDTO);
 
         RequestBuilder getRequest = get(V1_PAYMENT_API_BASE_PATH + "/" + paymentDTO.getId())

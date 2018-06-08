@@ -27,7 +27,7 @@ public class PaymentConverter {
         return IOUtils.toString(readFile(filename), StandardCharsets.UTF_8);
     }
 
-    public PaymentDTO convertJsonFileToPaymentTO(String filename) throws IOException {
+    public PaymentDTO convertJsonFileToPaymentDTO(String filename) throws IOException {
         return this.objectMapper.readValue(readFile(filename), PaymentDTO.class);
     }
 

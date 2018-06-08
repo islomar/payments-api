@@ -6,6 +6,7 @@ import com.islomar.payments.core.model.PaymentType;
 import com.islomar.payments.core.model.payment_attributes.PaymentAttributes;
 import lombok.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
@@ -23,5 +24,5 @@ public class UpsertPaymentCommand {
     @NotNull private PaymentType type;
     @PositiveOrZero private int version;
     @NotBlank private String organisationId;
-    @NotNull private PaymentAttributes attributes;
+    @NotNull @Valid private PaymentAttributes attributes;
 }

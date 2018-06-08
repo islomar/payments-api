@@ -6,6 +6,8 @@ import com.islomar.payments.core.model.PaymentValidator;
 import com.islomar.payments.core.model.shared.ValueObject;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Getter
@@ -16,11 +18,11 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class DebtorParty implements ValueObject, Serializable {
-    private String accountName;
-    private String accountNumber;       //TODO create a type!
-    private String accountNumberCode;   //TODO create a type!
-    private String address;
-    private String bankId;              //TODO create a type!
-    private String bankIdCode;          //TODO create a type!
-    private String name;
+    @NotBlank private String accountName;
+    @NotBlank private String accountNumber;       //TODO create a type!
+    @NotBlank private String accountNumberCode;   //TODO create a type!
+    @NotBlank private String address;
+    @NotBlank private String bankId;              //TODO create a type!
+    @NotBlank private String bankIdCode;          //TODO create a type!
+    @NotBlank private String name;
 }

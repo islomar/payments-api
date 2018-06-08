@@ -6,6 +6,7 @@ import com.islomar.payments.core.model.PaymentValidator;
 import com.islomar.payments.core.model.shared.ValueObject;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Getter
@@ -16,7 +17,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class SponsorParty implements ValueObject, Serializable {
-    private String accountNumber;       //TODO create a type!
-    private String bankId;              //TODO create a type!
-    private String bankIdCode;          //TODO create a type!
+    @NotBlank private String accountNumber;       //TODO create a type!
+    @NotBlank private String bankId;              //TODO create a type!
+    @NotBlank private String bankIdCode;          //TODO create a type!
 }

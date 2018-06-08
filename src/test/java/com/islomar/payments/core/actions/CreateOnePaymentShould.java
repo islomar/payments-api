@@ -5,13 +5,12 @@ import com.islomar.payments.core.infrastructure.PaymentMapper;
 import com.islomar.payments.core.model.Payment;
 import com.islomar.payments.core.model.PaymentExternalValidator;
 import com.islomar.payments.core.model.PaymentService;
-import com.islomar.payments.core.model.PaymentValidator;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
 import static com.islomar.payments.shared.ObjectMother.anEmptyPayment;
-import static com.islomar.payments.shared.ObjectMother.aDummyPaymentDTO;
+import static com.islomar.payments.shared.ObjectMother.anEmptyPaymentDTO;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -25,8 +24,8 @@ public class CreateOnePaymentShould {
     @Mock private PaymentMapper paymentMapper;
     private final Payment dummyPayment = anEmptyPayment();
     private final Payment dummyCreatedPayment = anEmptyPayment();
-    private final PaymentDTO dummyPaymentDTO = aDummyPaymentDTO();
-    private final PaymentDTO dummyCreatedPaymentDTO = aDummyPaymentDTO();
+    private final PaymentDTO dummyPaymentDTO = anEmptyPaymentDTO();
+    private final PaymentDTO dummyCreatedPaymentDTO = anEmptyPaymentDTO();
     private CreateOnePayment createOnePayment;
 
     @Before

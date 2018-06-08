@@ -11,9 +11,18 @@ This repo is integrated with TravisCI, with a CD pipeline which executes the iso
 * SonarCloud: https://sonarcloud.io/dashboard/index/com.islomar.payments:payments-api
 * Coveralls: https://coveralls.io/github/islomar/payments-api
 
+## Features description
+This is RESTful Payments API, where it is possible to:
+* Fetch	a payment resource.	
+* Create, update and delete	a payment resource
+* List a collection of payment resources
+* Persist resource state (currently only in memory)	
+
+More info about closed and open issues: https://github.com/islomar/payments-api/projects/1
+
 
 ## Prerequisites tu run anything locally
-* You need **Java 8** and **Maven 3.x** installed.
+* You need **Java 8** and **Maven >= 3.5** installed.
 
 
 ## How to run the REST API server locally
@@ -31,7 +40,9 @@ You can see the resulting tests executed in TravisCI: https://travis-ci.org/islo
 
 ### How to run the automated tests locally
 * **Isolated tests**: run `mvn clean test`
-* **End to end tests** run`mvn clean test -Pend2end`
+* **Sociable tests**: run `mvn clean test -PintegrationTests` (domain boundary tests)
+* **End to end tests** run`mvn clean test -Pend2end` (real Spring Boot tests)
+* **All tests**: run `mvn clean test -PallTests` (all the above :-) )
 
 ### Postman testing
 The API is "documented" 
@@ -41,7 +52,7 @@ The API is "documented"
 
 ### Mutation testing
 * Mutation testing is a good way to check how good your tests are.
-* Run `mvn clean test && mvn -DwithHistory org.pitest:pitest-maven:mutationCoverage` (you need to run the tests first)
+* Run `mvn clean test -DwithHistory org.pitest:pitest-maven:mutationCoverage` (example for isolated tests)
 * You can see locally the HTML reports created under /target/pit-reports/<timestamp>
 
 
@@ -82,8 +93,13 @@ The API is "documented"
 * ModelMapper
 
 
-## Next steps
-See the open issues at https://github.com/islomar/payments-api/projects/1
+## Maven checks
+* Find available plugin updates: `mvn versions:display-plugin-updates`
+* Find available dependency updates: `mvn versions:display-dependency-updates`
+* Generate several reports under target/site running `mvn site`
+    * It generates pitest reports (mutation testing)
+    * Identify dependencies with known vulnerabilities
+    *
 
 
 ## References used

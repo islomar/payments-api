@@ -23,8 +23,8 @@ public class UpdateOnePaymentShould {
     @Mock private PaymentMapper paymentMapper;
     private final Payment dummyPayment = anEmptyPayment();
     private final Payment dummyUpdatedPayment = anEmptyPayment();
-    private final PaymentDTO dummyPaymentDTO = aDummyPaymentDTO();
-    private final PaymentDTO dummyUpdatedPaymentDTO = aDummyPaymentDTO();
+    private final PaymentDTO dummyPaymentDTO = anEmptyPaymentDTO();
+    private final PaymentDTO dummyUpdatedPaymentDTO = anEmptyPaymentDTO();
     private UpdateOnePayment updateOnePayment;
 
     @Before
