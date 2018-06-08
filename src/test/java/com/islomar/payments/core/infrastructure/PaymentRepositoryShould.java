@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.*;
 
 public class PaymentRepositoryShould {
 
-    public List<PaymentRepository> allPaymentRepositoryImplementations;
+    private List<PaymentRepository> allPaymentRepositoryImplementations;
 
     @Before
     public void setUp() {

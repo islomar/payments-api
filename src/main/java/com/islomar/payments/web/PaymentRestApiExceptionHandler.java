@@ -69,6 +69,5 @@ public class PaymentRestApiExceptionHandler extends ResponseEntityExceptionHandl
 
     private InvalidFieldError formatErrorMessage(FieldError fieldError) {
         return new InvalidFieldError(fieldError.getField(), fieldError.getDefaultMessage());
-        //return String.format("%s: %s", fieldError.getField(), fieldError.getDefaultMessage());
     }
 }
