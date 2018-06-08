@@ -24,6 +24,7 @@ import static org.springframework.http.HttpStatus.*;
 @RestController
 public class PaymentsRestApiController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PaymentsRestApiController.class);
+    private static final String REST_API_V1_PATH = "/v1/payments";
 
     private final CreateOnePayment createOnePayment;
     private final FetchOnePayment fetchOnePayment;
@@ -48,9 +49,10 @@ public class PaymentsRestApiController {
         return "The server is up and running!";
     }
 
-    @GetMapping(value = "/v1/payments")
+    @GetMapping(value = REST_API_V1_PATH)
     @ResponseBody
     public FetchAllPaymentsResponse fetchAllPayments(HttpServletRequest request) {
+        LOGGER.debug("GET request to {}", request.getRequestURL());
         List<PaymentDTO> allPayments = this.fetchAllPayments.execute();
 
         FetchAllPaymentsResponse fetchAllPaymentsResponse = new FetchAllPaymentsResponse(allPayments);
@@ -58,9 +60,10 @@ public class PaymentsRestApiController {
         return fetchAllPaymentsResponse;
     }
 
-    @GetMapping(value = "/v1/payments/{paymentId}")
+    @GetMapping(value = REST_API_V1_PATH +"/{paymentId}")
     @ResponseBody
     public OnePaymentResponse fetchOnePayment(HttpServletRequest request, @PathVariable String paymentId) {
+        LOGGER.debug("GET request to {} with paymentId {}", request.getRequestURL(), paymentId);
         PaymentDTO paymentDTO = this.fetchOnePayment.execute(paymentId);
 
         URI paymentUri = URI.create(currentUrl(request).toString());
@@ -69,9 +72,10 @@ public class PaymentsRestApiController {
         return response;
     }
 
-    @PostMapping(value = "/v1/payments")
+    @PostMapping(value = REST_API_V1_PATH)
     @ResponseBody
     public ResponseEntity createOnePayment(HttpServletRequest request, @Valid @RequestBody UpsertPaymentCommand upsertPaymentCommand) {
+        LOGGER.debug("POST request to {} with body {}", request.getRequestURL(), upsertPaymentCommand);
         PaymentDTO inputPaymentDTO = modelMapper.map(upsertPaymentCommand, PaymentDTO.class);
 
         PaymentDTO createdPaymentDTO = createOnePayment.execute(inputPaymentDTO);
@@ -84,17 +88,19 @@ public class PaymentsRestApiController {
         return new ResponseEntity<>(response, headers, CREATED);
     }
 
-    @DeleteMapping(value = "/v1/payments/{paymentId}")
+    @DeleteMapping(value = REST_API_V1_PATH + "/{paymentId}")
     @ResponseBody
     public ResponseEntity deleteOnePayment(HttpServletRequest request, @PathVariable String paymentId) {
+        LOGGER.debug("DELETE request for deleting one payment resource with id '{}'", paymentId);
         this.deleteOnePayment.execute(paymentId);
 
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping(value = "/v1/payments/{paymentId}")
+    @PutMapping(value = REST_API_V1_PATH + "/{paymentId}")
     @ResponseBody
     public ResponseEntity fullUpdateOnePayment(HttpServletRequest request, @PathVariable String paymentId, @Valid @RequestBody UpsertPaymentCommand updatePaymentCommand) {
+        LOGGER.debug("PUT request to {} with body {}", request.getRequestURL(), updatePaymentCommand);
         PaymentDTO inputPaymentDTO = modelMapper.map(updatePaymentCommand, PaymentDTO.class);
         PaymentDTO updatedPaymentDTO = this.updateOnePayment.execute(paymentId, inputPaymentDTO);
 

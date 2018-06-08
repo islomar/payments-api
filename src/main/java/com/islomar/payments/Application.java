@@ -11,17 +11,10 @@ import java.util.Arrays;
 @SpringBootApplication
 public class Application {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Application.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(Application.class, args);
-
-        LOG.debug("Let's inspect the beans provided by Spring Boot:");
-
-        String[] beanNames = ctx.getBeanDefinitionNames();
-        Arrays.sort(beanNames);
-        for (String beanName : beanNames) {
-            LOG.debug(beanName);
-        }
+        LOGGER.info("Starting our awesome REST API server...");
+        SpringApplication.run(Application.class, args);
     }
 }

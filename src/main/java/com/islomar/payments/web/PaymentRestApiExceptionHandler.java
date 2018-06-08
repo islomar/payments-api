@@ -25,30 +25,32 @@ import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.*;
 
-// https://blog.jayway.com/2013/02/03/improve-your-spring-rest-api-part-iii/
 
 @ControllerAdvice
 public class PaymentRestApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({PaymentNotFoundException.class})
-    void handleNotFoundError(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    void handleNotFoundError(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
+        this.logError(request, ex);
         response.sendError(NOT_FOUND.value());
     }
 
     @ExceptionHandler({InvalidPaymentException.class})
-    ResponseEntity<Object> handleInvalidPaymentError(InvalidPaymentException ex) {
+    ResponseEntity<Object> handleInvalidPaymentError(HttpServletRequest request, InvalidPaymentException ex) {
+        logger.error(String.format("%s request to %s had invalid fields: %s", request.getMethod(), request.getRequestURL(), ex.getErrors()));
         return new ResponseEntity<>(ex.getErrors(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({HttpMessageConversionException.class, InvalidFormatException.class})
-    void handleBadRequestError(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    void handleBadRequestError(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
+        this.logError(request, ex);
         response.sendError(BAD_REQUEST.value());
     }
 
     @ExceptionHandler({Exception.class})
     @Order(Ordered.LOWEST_PRECEDENCE)
     void handleInternalServerError(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
-        logger.error(String.format("%s request: %s raised %s", request.getMethod(), request.getRequestURL(), ex));
+        this.logError(request, ex);
         response.sendError(INTERNAL_SERVER_ERROR.value());
     }
 
@@ -60,12 +62,16 @@ public class PaymentRestApiExceptionHandler extends ResponseEntityExceptionHandl
                 .map(this::formatErrorMessage)
                 .collect(Collectors.toList());
         if (!errors.isEmpty()) {
-            logger.error(errors.toString());
+            logger.error(String.format("Request %s with had invalid fields: %s", request.getDescription(false), errors.toString()));
         }
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     private InvalidFieldError formatErrorMessage(FieldError fieldError) {
         return new InvalidFieldError(fieldError.getField(), fieldError.getDefaultMessage());
+    }
+
+    private void logError(HttpServletRequest request, Exception ex) {
+        logger.error(String.format("%s request to %s raised %s", request.getMethod(), request.getRequestURL(), ex));
     }
 }

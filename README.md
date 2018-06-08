@@ -44,9 +44,6 @@ You can see the resulting tests executed in TravisCI: https://travis-ci.org/islo
 * **End to end tests** run`mvn clean test -Pend2end` (real Spring Boot tests)
 * **All tests**: run `mvn clean test -PallTests` (all the above :-) )
 
-### Postman testing
-The API is "documented" 
-
 ### Manually test
 * You can import a Postman collection from here: https://www.getpostman.com/collections/d6792fd6384da2a3ed15
 
