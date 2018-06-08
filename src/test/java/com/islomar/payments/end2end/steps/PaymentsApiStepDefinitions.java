@@ -69,7 +69,7 @@ public class PaymentsApiStepDefinitions extends SpringBootBaseFeatureTest {
 
     @When("^the client calls GET to the payment URI$")
     public void the_client_calls_GET_to_the_payment_URI() {
-        PaymentDTO existingPayment = (PaymentDTO)((OnePaymentResponse)this.paymentResponse.getBody()).getData();
+        PaymentDTO existingPayment = ((OnePaymentResponse)this.paymentResponse.getBody()).getData();
         this.paymentResponse = fetchOnePayment(existingPayment.getId());
     }
 
