@@ -50,13 +50,19 @@ public class PaymentsRestApiControllerShould {
     }
 
     @Test
+    public void be_up_and_running() throws Exception {
+        mockMvc.perform(
+                get("/"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("The server is up and running!"));
+    }
+
+    @Test
     public void return_code_201_when_creating_one_payment_with_all_the_mandatory_attributes() throws Exception {
-        PaymentDTO paymentDTO = paymentConverter.convertJsonFileToPaymentDTO(NEW_PAYMENT_COMMAND_JSON_FILE);
-        PaymentDTO createdPaymentDTO = SerializationUtils.clone(paymentDTO);
+        PaymentDTO inputPaymentDTO = paymentConverter.convertJsonFileToPaymentDTO(NEW_PAYMENT_COMMAND_JSON_FILE);
+        PaymentDTO createdPaymentDTO = SerializationUtils.clone(inputPaymentDTO);
         createdPaymentDTO.setId(ANY_VALID_PAYMENT_ID);
-
-        when(this.createOnePayment.execute(paymentDTO)).thenReturn(createdPaymentDTO);
-
+        when(this.createOnePayment.execute(inputPaymentDTO)).thenReturn(createdPaymentDTO);
         RequestBuilder postRequest = post(V1_PAYMENT_API_BASE_PATH)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -74,7 +80,6 @@ public class PaymentsRestApiControllerShould {
         PaymentDTO paymentDtoWithInvalidType = aValidPaymentDTO();
         paymentDtoWithInvalidType.setType(null);
         when(this.createOnePayment.execute(paymentDtoWithInvalidType)).thenReturn(paymentDtoWithInvalidType);
-
         RequestBuilder postRequest = post(V1_PAYMENT_API_BASE_PATH)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -98,22 +103,14 @@ public class PaymentsRestApiControllerShould {
         PaymentDTO paymentDTO = aValidPaymentDTO();
         paymentDTO.setId(ANY_VALID_PAYMENT_ID);
         when(this.fetchOnePayment.execute(paymentDTO.getId())).thenReturn(paymentDTO);
-
         RequestBuilder getRequest = get(V1_PAYMENT_API_BASE_PATH + "/" + paymentDTO.getId())
                                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                                 .contentType(MediaType.APPLICATION_JSON);
         OnePaymentResponse expectedContent = new OnePaymentResponse(paymentDTO);
+
         mockMvc.perform(getRequest)
                 .andExpect(status().isOk())
                 .andExpect(content().json(paymentConverter.convertObjectToJsonString(expectedContent)));
-    }
-
-    @Test
-    public void be_up_and_running() throws Exception {
-        mockMvc.perform(
-                get("/"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("The server is up and running!"));
     }
 
     @Test

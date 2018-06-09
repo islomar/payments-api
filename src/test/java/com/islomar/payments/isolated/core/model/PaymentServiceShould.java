@@ -74,8 +74,8 @@ public class PaymentServiceShould {
     public void persist_after_validating_the_payment_when_updating_an_existing_payment() {
         Payment existingPayment = aPaymentBuilder().id(ANY_VALID_PAYMENT_ID).build();
         given(paymentRepository.findById(ANY_VALID_PAYMENT_ID)).willReturn(Optional.of(existingPayment));
-
         existingPayment.setOrganisationId("another-organisation-id");
+
         this.paymentService.update(ANY_VALID_PAYMENT_ID, existingPayment);
 
         InOrder inOrder = inOrder(this.paymentValidator, this.paymentRepository);
@@ -103,8 +103,8 @@ public class PaymentServiceShould {
     @Test(expected = PaymentNotFoundException.class)
     public void throw_PaymentNotFoundException_when_updating_a_non_existing_payment() {
         given(paymentRepository.findById(ANY_NON_EXISTING_PAYMENT_ID)).willReturn(Optional.empty());
-
         Payment paymentToBeUpdated = aPaymentBuilder().id(ANY_NON_EXISTING_PAYMENT_ID).build();
+
         this.paymentService.update(ANY_NON_EXISTING_PAYMENT_ID, paymentToBeUpdated);
     }
 
