@@ -59,6 +59,7 @@ You can see the resulting tests executed in TravisCI: https://travis-ci.org/islo
 
 
 ## REST API documentation
+* Design diagrams created with Draw.io: https://drive.google.com/drive/folders/1LR-dpCOiYyQpro2T_5weGMEZNjJ9N0Ee?usp=sharing
 * https://documenter.getpostman.com/view/2082328/RWEauh9x#4a1f4612-7298-2a7c-b0a2-f5d57b92398c
 * Next: use Swagger or something similar.
 
@@ -67,7 +68,7 @@ You can see the resulting tests executed in TravisCI: https://travis-ci.org/islo
 * **Papertrail** addon of Heroku to read, search and monitor logs (private unfortunately).
     * Currently, an alert is configured to send to islomar@gmail.com an email in case an ERROR happens.
 * **Postman monitor** (private): https://is.gd/2L0TMw
-    * I would get an email if the server were down
+    * Not reliable, the requests used should be changed
 
 ### Basic Monitoring Services
 * Based in Micrometer (already included in Spring Boot).
@@ -82,74 +83,17 @@ You can see the resulting tests executed in TravisCI: https://travis-ci.org/islo
     * https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints-exposing-endpoints
 
 
-## New things tried:
-* Cucumber
-* Papertrail logging and basic alerts
-* Micrometer monitoring
-* Lombok
-* ModelMapper
-
-
 ## Maven checks
 * Find available plugin updates: `mvn versions:display-plugin-updates`
 * Find available dependency updates: `mvn versions:display-dependency-updates`
 * Generate several reports under target/site running `mvn site`
     * It generates pitest reports (mutation testing)
     * Identify dependencies with known vulnerabilities
-    *
 
-
-## References used
-
-### Spring Boot
-* https://dzone.com/articles/spring-boot-rest-api-projects-with-code-examples
-* https://medium.com/@salisuwy/building-a-spring-boot-rest-api-a-php-developers-view-part-i-6add2e794646
-* http://www.springboottutorial.com/spring-boot-rest-api-projects-with-code-examples
-* https://spring.io/guides/gs/actuator-service/
-* Publish info with actuator: http://www.baeldung.com/spring-boot-info-actuator-custom
-* Unit test for Spring MVC Controller: 
-    * https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#spring-mvc-test-server
-    * https://docs.spring.io/spring-security/site/docs/current/reference/html/test-mockmvc.html
-* Testing and use of MockMvc: 
-    * https://spring.io/guides/gs/testing-web/
-    * https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html#boot-features-testing-spring-boot-applications-testing-autoconfigured-mvc-tests
-
-### Cucumber
-* https://docs.cucumber.io/guides/anti-patterns/
-
-### Cucumber + Spring
-* http://www.baeldung.com/cucumber-spring-integration
-* REST API + Cucumber: https://www.blazemeter.com/blog/api-testing-with-cucumber-bdd-configuration-tips
-* Spring Boot + Cucumber: 
-    * https://dzone.com/articles/spring-boot-integration-test-with-cucumber-and-jen
-    * https://thepracticaldeveloper.com/2018/03/31/cucumber-tests-spring-boot-dependency-injection/
-* Code examples:
-    * https://github.com/Romeh/spring-boot-sample-app
-    * https://github.com/microservices-practical/microservices-v9
-    * https://github.com/spring-projects/spring-framework/tree/master/spring-test/src/test/java/org/springframework/test/web/servlet/samples
-        
-### REST API
-* https://hackernoon.com/restful-api-designing-guidelines-the-best-practices-60e1d954e7c9
-
-### Mapper
-* https://medium.com/@auth0/automatically-mapping-dto-to-entity-on-spring-boot-apis-c2aa8f67ec91
-* http://joshlynn.net/2016/02/28/building-a-restful-spring-boot-application-with-data-jpa-part-2/
-* https://auth0.com/blog/automatically-mapping-dto-to-entity-on-spring-boot-apis/
-* http://www.baeldung.com/entity-to-and-from-dto-for-a-java-spring-application
-
-### JSON
-* http://www.makeinjava.com/convert-list-objects-tofrom-json-java-jackson-objectmapper-example/
-* https://www.mkyong.com/java/jackson-tree-model-example/
-* https://www.mkyong.com/java/how-to-convert-java-object-to-from-json-jackson/
-* http://www.baeldung.com/jackson-object-mapper-tutorial
-* https://www.javatips.net/api/com.fasterxml.jackson.databind.jsonnode
-
-### Hypermedia
-* https://spring.io/guides/gs/rest-hateoas/
-
-### Exception handling
-* http://www.springboottutorial.com/spring-boot-exception-handling-for-rest-services
-* https://www.toptal.com/java/spring-boot-rest-api-error-handling
-
-### Persistence
-* https://github.com/codurance/light-access
+## New things tried:
+* Cucumber (from scratch)
+* Papertrail logging and basic alerts
+* Micrometer monitoring
+* Lombok
+* ModelMapper
+* draw.io
