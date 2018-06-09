@@ -34,8 +34,7 @@ public class PaymentService {
         raiseExceptionIfPaymentNotFound(foundPayment);
         paymentToBeUpdated.setId(paymentId);
         paymentToBeUpdated.validate(validator);
-        this.paymentRepository.update(paymentToBeUpdated);
-        return paymentToBeUpdated;
+        return this.paymentRepository.update(paymentToBeUpdated);
     }
 
     public Payment findById(String paymentId) {
