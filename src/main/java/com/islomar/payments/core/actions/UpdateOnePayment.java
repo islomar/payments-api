@@ -23,9 +23,13 @@ public class UpdateOnePayment {
     }
 
     public PaymentDTO execute(String paymentId, PaymentDTO paymentDTO) {
-        this.paymentExternalValidator.validate(paymentDTO);
-        Payment payment = this.paymentMapper.fromDTO(paymentDTO);
+        Payment payment = convertToPayment(paymentDTO);
         Payment updatedPayment = paymentService.update(paymentId, payment);
         return this.paymentMapper.toDTO(updatedPayment);
+    }
+
+    private Payment convertToPayment(PaymentDTO paymentDTO) {
+        this.paymentExternalValidator.validate(paymentDTO);
+        return this.paymentMapper.fromDTO(paymentDTO);
     }
 }
