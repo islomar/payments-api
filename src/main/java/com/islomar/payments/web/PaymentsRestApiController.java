@@ -55,9 +55,7 @@ public class PaymentsRestApiController {
         LOGGER.debug("GET request to {}", request.getRequestURL());
         List<PaymentDTO> allPayments = this.fetchAllPayments.execute();
 
-        FetchAllPaymentsResponse fetchAllPaymentsResponse = new FetchAllPaymentsResponse(allPayments);
-        fetchAllPaymentsResponse.addLink("self", currentUrl(request));
-        return fetchAllPaymentsResponse;
+        return buildFetchAllPaymentsResponse(request, allPayments);
     }
 
     @GetMapping(value = REST_API_V1_PATH +"/{paymentId}")
@@ -66,10 +64,7 @@ public class PaymentsRestApiController {
         LOGGER.debug("GET request to {} with paymentId {}", request.getRequestURL(), paymentId);
         PaymentDTO paymentDTO = this.fetchOnePayment.execute(paymentId);
 
-        URI paymentUri = URI.create(currentUrl(request).toString());
-        OnePaymentResponse response = new OnePaymentResponse(paymentDTO);
-        fillResponseWithLinks(response, paymentUri);
-        return response;
+        return buildOnePaymentResponse(request, paymentDTO);
     }
 
     @PostMapping(value = REST_API_V1_PATH)
@@ -99,24 +94,13 @@ public class PaymentsRestApiController {
 
     @PutMapping(value = REST_API_V1_PATH + "/{paymentId}")
     @ResponseBody
-    public ResponseEntity fullUpdateOnePayment(HttpServletRequest request, @PathVariable String paymentId, @Valid @RequestBody UpsertPaymentCommand updatePaymentCommand) {
+    public OnePaymentResponse fullUpdateOnePayment(HttpServletRequest request, @PathVariable String paymentId, @Valid @RequestBody UpsertPaymentCommand updatePaymentCommand) {
         LOGGER.debug("PUT request to {} with body {}", request.getRequestURL(), updatePaymentCommand);
         PaymentDTO inputPaymentDTO = modelMapper.map(updatePaymentCommand, PaymentDTO.class);
+
         PaymentDTO updatedPaymentDTO = this.updateOnePayment.execute(paymentId, inputPaymentDTO);
 
-        OnePaymentResponse response = new OnePaymentResponse(updatedPaymentDTO);
-        URI paymentURI = buildPaymentURI(request, updatedPaymentDTO);
-        HttpHeaders headers = generateHeadersWithLocation(paymentURI);
-
-        return new ResponseEntity<>(response, headers, OK);
-    }
-
-    private URI currentUrl(HttpServletRequest request) {
-        return URI.create(request.getRequestURL().toString());
-    }
-
-    private void fillResponseWithLinks(PaymentResponse response, URI paymentUri) {
-        response.addLink("self", paymentUri);
+        return buildOnePaymentResponse(request, updatedPaymentDTO);
     }
 
     private URI buildPaymentURI(HttpServletRequest request, PaymentDTO paymentDTO) {
@@ -127,5 +111,26 @@ public class PaymentsRestApiController {
         final HttpHeaders headers = new HttpHeaders();
         headers.setLocation(paymentUri);
         return headers;
+    }
+
+    private OnePaymentResponse buildOnePaymentResponse(HttpServletRequest request, PaymentDTO paymentDTO) {
+        URI paymentUri = URI.create(currentUrl(request).toString());
+        OnePaymentResponse response = new OnePaymentResponse(paymentDTO);
+        fillResponseWithLinks(response, paymentUri);
+        return response;
+    }
+
+    private FetchAllPaymentsResponse buildFetchAllPaymentsResponse(HttpServletRequest request, List<PaymentDTO> allPayments) {
+        FetchAllPaymentsResponse fetchAllPaymentsResponse = new FetchAllPaymentsResponse(allPayments);
+        fetchAllPaymentsResponse.addLink("self", currentUrl(request));
+        return fetchAllPaymentsResponse;
+    }
+
+    private URI currentUrl(HttpServletRequest request) {
+        return URI.create(request.getRequestURL().toString());
+    }
+
+    private void fillResponseWithLinks(PaymentResponse response, URI paymentUri) {
+        response.addLink("self", paymentUri);
     }
 }
