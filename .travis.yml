@@ -9,8 +9,7 @@ jdk:
 addons:
   sonarcloud:
     organization: islomar-github
-    token:
-      secure: $SONARCLOUD_TOKEN
+    token: $SONARCLOUD_TOKEN
 
 jobs:
   include:
