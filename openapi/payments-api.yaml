@@ -1,0 +1,100 @@
+openapi: 3.0.1
+info:
+  title: Payments API
+  description: REST API to manage payments
+  contact:
+    email: islomar@gmail.com
+  version: '1.0.0'
+servers:
+  - description: Heroku
+    url: 'http://payments-api-islomar.herokuapp.com'
+  - description: Local Mocking
+    url: http://127.0.0.1:8080
+paths:
+  /v1/payments:
+    post:
+      summary: create a service request
+      description: Create a Service Request
+      operationId: createServiceRequest
+      requestBody:
+        description: Service Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentRequest'
+      responses:
+        "201":
+          description: service request created
+    get:
+      description: Fetch all existing payments
+      responses:
+        '200':
+          description: Successfully returned all existing payments
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples:
+                foo:
+                  value: {
+                    "data": [],
+                    "links": {
+                      "self": "http://payments-api-islomar.herokuapp.com/v1/payments"
+                    }
+                  }
+components:
+  schemas:
+    PaymentRequest:
+      type: object
+      required:
+        - id
+        - version
+        - paymentType
+        - organisationId
+        - attributes
+      properties:
+        id:
+          type: string
+          example: 91aa2849-58a1-4896-809c-7cdf2fd3d13c
+        version:
+          type: number
+          example: 0
+        paymentType:
+          type: string
+          enum: [PAYMENT]
+          example: PAYMENT
+        organisationId:
+          type: string
+          example: 0d945003-362e-4807-90a2-bad4a962fd00
+        attributes:
+          $ref: '#/components/schemas/PaymentAttributes'
+    PaymentAttributes:
+      type: object
+      required:
+        - amount
+        - beneficiaryParty
+        - chargesInformation
+        - currency
+        - debtorParty
+      properties:
+        amount:
+          type: string
+          example: 600.00
+        beneficiaryParty:
+          type: string
+          example: Mr Sending Test
+        chargesInformation:
+          type: string
+          example: Charges information
+        currency:
+          type: string
+          example: EUR
+        debtorParty:
+          type: string
+          example: Mrs Receiving Test
+      example:
+        amount: 600.00
+        beneficiaryParty: Mr Sending Test
+        chargesInformation: Charges information
+        currency: EUR
+        debtorParty: Mrs Receiving Test
