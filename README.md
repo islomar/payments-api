@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/islomar/payments-api.svg)](https://travis-ci.org/islomar/payments-api)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.islomar.payments%3Apayments-api&metric=alert_status)](https://sonarcloud.io/dashboard/index/com.islomar.payments:payments-api)
 [![Coverage Status](https://coveralls.io/repos/islomar/payments-api/badge.svg?branch=master&service=github)](https://coveralls.io/github/islomar/payments-api?branch=master)
-
+<img src="http://validator.swagger.io/validator?url=https://raw.githubusercontent.com/islomar/payments-api/master/openapi/payments-api.yaml">
 
 # Payments REST API
 This repo is integrated with TravisCI, with a CD pipeline which executes the isolated and end to end tests, deploying in the end to Heroku and publishing several metrics to SonarCloud and Coveralls:
