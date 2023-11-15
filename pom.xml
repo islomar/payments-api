@@ -27,7 +27,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.boot.version>2.1.6.RELEASE</spring.boot.version>
+        <spring.boot.version>3.0.0</spring.boot.version>
         <cucumber.java.version>3.0.2</cucumber.java.version>
         <pitest.version>1.4.0</pitest.version>
     </properties>
@@ -152,7 +152,7 @@
         <dependency>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>versions-maven-plugin</artifactId>
-            <version>2.5</version>
+            <version>2.9.0</version>
         </dependency>
     </dependencies>
 
